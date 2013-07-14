@@ -45,65 +45,124 @@
     require(["fabric/fabric"], function(fab) {
         
         var canvas = new fabric.Canvas('myCanvas');
+        var tiles = [];
         
-        var rect1 = new fabric.Rect({
-          width: 200, height: 100, left: 100, top: 100, angle: 0,
+        tiles.push(new fabric.Rect({
+          width: 60, height: 60, left: 40, top: 40, angle: 0,
           fill: 'rgba(255,0,0,0.5)'
-        });
+        }));
         
-        var rect2 = new fabric.Rect({
-          width: 100, height: 100, left: 400, top: 300, angle: 0,
+        tiles.push(new fabric.Rect({
+          width: 60, height: 120, left: 300, top: 70, angle: 0,
           fill: 'rgba(0,200,0,0.5)'
-        });
+        }));
         
-        var rect3 = new fabric.Rect({
-          width: 50, height: 100, left: 300, top: 400, angle: 0,
-          stroke: '#eee', strokeWidth: 10,
+        tiles.push(new fabric.Rect({
+          width: 120, height: 60, left: 70, top: 100, angle: 0,
+          stroke: '#eee',
           fill: 'rgba(0,0,200,0.5)'
-        });
+        }));
         
-        var circle = new fabric.Circle({
-          radius: 50, left: 300, top: 100, fill: '#aac'
-        });
+        tiles.push(new fabric.Rect({
+          width: 120, height: 120, left: 300, top: 200, angle: 0,
+          stroke: '#eee',
+          fill: 'rgba(0,0,200,0.5)'
+        }));
         
-        var triangle = new fabric.Triangle({
-          width: 100, height: 100, left: 100, top: 350, fill: '#cca'
-        });
-        
-        canvas.add(rect1, rect2, rect3, circle, triangle);
-        canvas.on({
-          'object:moving': onChange,
-          'object:scaling': onChange,
-          'object:rotating': onChange,
-        });
-        
-        function onChange(options) {
-          options.target.setCoords();
-          canvas.forEachObject(function(obj) {
-            if (obj === options.target) return;
-            obj.setOpacity(options.target.intersectsWithObject(obj) ? 0.5 : 1);
-          });
+
+ 
+
+        //canvas.add(rect1, rect2, rect3);;
+        for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
+            canvas.add(tiles[tileIdx]);
         }
         
-        var lastPos;
-        canvas.on('object:moving', function(options) {
-
-            if (options.target) {
-               //console.log('an object was moved! ', options.target.type);
-                
-                canvas.forEachObject(function(obj) {
-                    if (obj === options.target) return;
-                    if (options.target.intersectsWithObject(obj)) {
-                        options.target.set(lastPos);
+        function moving() {
+            var lastFreePos  = null;
+            var colliding = false;
+            var mouse = undefined;
+            var onMoving = function(options) {
+               // console.log(".");
+                options.target.setCoords();
+          
+                colliding = false;
+                if (options.target) {
+                    canvas.forEachObject(function(obj) {
+                        if (obj === options.target) return;
+                        if (options.target.intersectsWithObject(obj)) {
+                            options.target.set(lastFreePos);
+                            colliding = true;
+                        } 
+                    });
+                            
+ 
+                            
+                    lastFreePos = { width: options.target.width, height: options.target.height, left: options.target.left, top: options.target.top,  angle: options.target.angle, fill: options.target.fill };
+                    if (colliding) {
+                        // try incremtal vertical step nearer to target
+                        var testRect = new fabric.Rect(lastFreePos);
+                        if ( options.target.top < mouse.y)
+                        {
+                            testRect.top = testRect.top + 1;
+                        }
+                        
+                        if ( options.target.top > mouse.y)
+                        {
+                            testRect.top = testRect.top - 1;
+                        }
+                        testRect.setCoords();
+                        var testColliding = false;
+                        canvas.forEachObject(function(obj) {
+                            if (obj === options.target) return;
+                            if (testRect.intersectsWithObject(obj)) {
+                                testColliding = true;
+                            } 
+                        });
+                        if (testColliding === false) {
+                            lastFreePos = { width: testRect.width, height: testRect.height, left: testRect.left, top: testRect.top,  angle: testRect.angle, fill: testRect.fill };                     
+                        }
+                        //testRect.top 
                     }
-                });
-                
-                lastPos = options.target.get();
-                console.log(lastPos);
-                
-                lastPos = { width: options.target.width, height: options.target.height, left: options.target.left, top: options.target.top,  angle: options.target.angle, fill: options.target.fill };
+                    
+                    if (colliding) {
+                        // try incremtal horizontal step nearer to target
+                    }
+                }
+            };
+                    
+        
+            canvas.on({
+              'object:moving': onMoving,
+              'object:scaling': onChange,
+              'object:rotating': onChange,
+            });
+            
+            
+            function onChange(options) {
+              //options.target.setCoords();
+              canvas.forEachObject(function(obj) {
+                if (obj === options.target) return;
+                obj.setOpacity(options.target.intersectsWithObject(obj) ? 0.5 : 1);
+              });
             }
-        });
+            
+            
+            /* Mousemove */
+            canvas.observe('mouse:move', function(e) { mousemove(e); });
+   
+            function mousemove(e) {
+                mouse = canvas.getPointer(e.e);
+                //console.log(mouse.x + " " + mouse.y);
+                document.getElementById('inner').innerHTML = mouse.x;
+            }
+
+       }
+        
+        moving();
+        
+        
+   
+        
         
     });
 
