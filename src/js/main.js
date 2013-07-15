@@ -3,43 +3,70 @@
 	
 
 
-    require(["sat-js/SAT"], function(util) {
-        //This function is called when scripts/helper/util.js is loaded.
-        //If util.js calls define(), then this function is not fired until
-        //util's dependencies have loaded, and the util argument will hold
-        //the module value for "helper/util".
-        
-        var V = SAT.Vector;
-        var C = SAT.Circle;
-        
-        var circle1 = new C(new V(0,0), 20);
-        var circle2 = new C(new V(30,0), 5);
-        var response = new SAT.Response();
-        var collided = SAT.testCircleCircle(circle1, circle2, response);
-    
-        console.log(collided);
+    require(["sat-js/SAT"], function(util) {   
+
+
         
         var myCanvas=document.getElementById("myCanvas");
-
         var ctx=myCanvas.getContext("2d");
-        //ctx.save();
-        //ctx.setTransform(1, 0, 0, 1, 0, 0);   // identity
-        ctx.translate(0, 0);
+        
+        
+  
+  
+        var tiles = [];       
+        tiles.push(new Tile(1, 1, 60, 60));
+        tiles.push(new Tile(61, 1, 60, 60));   
+        tiles.push(new Tile(121, 1, 60, 120));
+        tiles.push(new Tile(1, 121, 120, 60));        
+        tiles.push(new Tile(1, 201, 120, 120));
+        
+        var collisionDetection = new CollisionDetection();
+        var mouseEventHandler = new MouseEventHandler(myCanvas);
+ 
+           
+        var myVar=setInterval(function(){myTimer();},4);
 
+        function CollisionDetection() {
+           this.getCollisionTile = function (sat) {              
+                var response = new SAT.Response();
+                document.getElementById('collide').innerHTML = "---";
+                for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
+                    if (sat != tiles[tileIdx].box) {
+                        var collided = SAT.testPolygonCircle(tiles[tileIdx].box, sat, response);                    
+                        if (collided) {
+                            document.getElementById('collide').innerHTML = "Collide";
+                            return tiles[tileIdx];
+                        }          
+                    }
+                }
+                return undefined;
+            };  
+            
+            this.tileCollisionCheck = function (sat) {              
+                var response = new SAT.Response();
+                for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
+                    if (sat != tiles[tileIdx].box) {
+                        var collided = SAT.testPolygonPolygon(tiles[tileIdx].box, sat, response);                    
+                        if (collided) {
+                            return true;
+                        }    
+                    }      
+                }
+                return undefined;
+            };
+        }
         
-        //ctx.fillStyle = "rgb(255, 0, 0)";  
-        //ctx.fillRect(200, 50, 100, 100); 
-        
+           
         function MouseEventHandler( myCanvas ) {
             
             this.canvas = myCanvas;
             this.pos = {
                 x : 0, 
-                y : 0
-
-                
+                y : 0              
             };
+
             this.vol = new SAT.Circle(new SAT.Vector(0,0), 5);
+            this.selectedTile = undefined;
             
             this.setMousePos = function(event) {
                 var rect = this.canvas.getBoundingClientRect();
@@ -48,35 +75,27 @@
                 this.vol.pos.y =     this.pos.y; 
             };
             
-            this.collisionCheck = function () {
-                
-                var response = new SAT.Response();
-                document.getElementById('collide').innerHTML = "---";
-                for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
-                    var collided = SAT.testPolygonCircle(tiles[tileIdx].box, this.vol, response);
-                    
-                    if (collided) {
-                        document.getElementById('collide').innerHTML = "Collide";
-                    }
-                }
-            };
 
             this.canvas.addEventListener("mousedown", doMouseDown.bind(this), false);
             function doMouseDown (event) {
-                 this.setMousePos(event);
-                 
-  
+                 this.setMousePos(event); 
+                 this.selectedTile = collisionDetection.getCollisionTile(this.vol);
+                 if (this.selectedTile) {
+                    this.selectedTile.selectedTileOffset = { x: this.pos.x - this.selectedTile.box.pos.x,  y: this.pos.y - this.selectedTile.box.pos.y};
+                 }
             }
             
             this.canvas.addEventListener("mouseup", doMouseUp.bind(this), false);
             function doMouseUp (event) {
                  this.setMousePos(event);
+                 this.selectedTile = undefined;
             }
             
             this.canvas.addEventListener("mousemove", doMouseMove.bind(this), false);
             function doMouseMove (event) {
                 this.setMousePos(event);
-                this.collisionCheck();
+                collisionDetection.getCollisionTile(this.vol);
+
             }
             
             this.getPos = function () { 
@@ -85,31 +104,58 @@
            
         }
         
-        var mouseEventHandler = new MouseEventHandler(myCanvas);
-        
+       
         function Tile(x, y, w, h)
         {
             this.box = new SAT.Box(new SAT.Vector(x,y), w, h).toPolygon();
             this.w = w;
             this.h = h;
+            this.selectedTileOffset = {
+                x : 0, 
+                y : 0              
+            };
             
             this.draw = function () {
                 ctx.fillStyle = "rgb(255, 0, 0)";  
                 ctx.fillRect(this.box.pos.x, this.box.pos.y, this.w, this.h); 
                 //console.log( ">>>" + this.box.pos.x+ this.box.pos.y+ this.box.w+ this.box.h);
             };
-    
+            
+            this.setPos = function (pos) {
+                this.box.pos.x = pos.x;
+                this.box.pos.y = pos.y;
+            };
+
+            this.slideTo = function(targetPos) {
+                // slideHoriz
+                var preX = this.box.pos.x;
+                if (this.box.pos.x + this.selectedTileOffset.x < targetPos.x) {
+                    this.box.pos.x = this.box.pos.x + 1;
+                }
+                else if (this.box.pos.x + this.selectedTileOffset.x > targetPos.x) {
+                    this.box.pos.x = this.box.pos.x - 1;
+                }     
+                if (collisionDetection.tileCollisionCheck(this.box)) {
+                    this.box.pos.x = preX;
+                }
+                
+                //slideVert
+                var preY = this.box.pos.y;
+                if (this.box.pos.y + this.selectedTileOffset.y < targetPos.y) {
+                    this.box.pos.y = this.box.pos.y + 1;
+                }
+                else if (this.box.pos.y + this.selectedTileOffset.y > targetPos.y) {
+                    this.box.pos.y = this.box.pos.y - 1;
+                }
+                if (collisionDetection.tileCollisionCheck(this.box)) {
+                    this.box.pos.y = preY;
+                }           
+            };
+            
+ 
         }
         
-        var tiles = [];
-        
-
-        
-        tiles.push(new Tile(100, 12, 60, 60));
-        tiles.push(new Tile(200, 12, 60, 60));
-         
-        
-        var myVar=setInterval(function(){myTimer();},20);
+  
        
         function myTimer() {
             //ctx.fillStyle = "rgb(255, 255, 255)";  
@@ -119,15 +165,13 @@
                 //tiles[tileIdx].box.pos.x ++;
             }
    
-            //if ( mouse)
-                var mousePos = mouseEventHandler.pos;
-                document.getElementById('inner').innerHTML = "MOUSE: " + String(mousePos.x) + ", " + String(mousePos.y);
-      
+            var mousePos = mouseEventHandler.pos;
+            document.getElementById('inner').innerHTML = "MOUSE: " + String(mousePos.x) + ", " + String(mousePos.y);
+                
+            if (mouseEventHandler.selectedTile) {
+                mouseEventHandler.selectedTile.slideTo(mousePos);      
+            }
         }
-        
-  
-  
-        
 
     
     });
