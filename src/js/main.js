@@ -23,10 +23,11 @@
         var collisionDetection = new CollisionDetection();
         var mouseEventHandler = new MouseEventHandler(myCanvas);
  
-           
-        var myVar=setInterval(function(){myTimer();},4);
+        var timerMilliseconds = 20;
+        var myVar=setInterval(function(){myTimer(timerMilliseconds);}, timerMilliseconds);
 
         function CollisionDetection() {
+           // returns Tile instance which collides with sat
            this.getCollisionTile = function (sat) {              
                 var response = new SAT.Response();
                 document.getElementById('collide').innerHTML = "---";
@@ -41,7 +42,7 @@
                 }
                 return undefined;
             };  
-            
+            // true if sat collides with a Tile
             this.tileCollisionCheck = function (sat) {              
                 var response = new SAT.Response();
                 for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
@@ -125,39 +126,37 @@
                 this.box.pos.x = pos.x;
                 this.box.pos.y = pos.y;
             };
+            
+            this._slideToAxis = function(axisBox, axisVar, tileOffset, axisTargetPos) {
+                for (var slideIncrement = 4;  slideIncrement > 0; slideIncrement = slideIncrement - 1) {                      
+                    if (Math.abs(axisBox.pos[axisVar] + tileOffset - axisTargetPos) < slideIncrement) {
+                        continue; // within slideInrment of target, try smaller slideIncrement
+                    }
+                    var preIncrementPos = axisBox.pos[axisVar];
+                    if (axisBox.pos[axisVar] + tileOffset < axisTargetPos) {
+                        axisBox.pos[axisVar] += slideIncrement;
+                    }
+                    else if (axisBox.pos[axisVar] + tileOffset > axisTargetPos) {
+                        axisBox.pos[axisVar] -= slideIncrement;
+                    }     
+                    if (collisionDetection.tileCollisionCheck(this.box)) {
+                        axisBox.pos[axisVar] = preIncrementPos;
+                    } else {
+                        break;
+                    }
+                }
+            };
+  
 
             this.slideTo = function(targetPos) {
-                // slideHoriz
-                var preX = this.box.pos.x;
-                if (this.box.pos.x + this.selectedTileOffset.x < targetPos.x) {
-                    this.box.pos.x = this.box.pos.x + 1;
-                }
-                else if (this.box.pos.x + this.selectedTileOffset.x > targetPos.x) {
-                    this.box.pos.x = this.box.pos.x - 1;
-                }     
-                if (collisionDetection.tileCollisionCheck(this.box)) {
-                    this.box.pos.x = preX;
-                }
-                
-                //slideVert
-                var preY = this.box.pos.y;
-                if (this.box.pos.y + this.selectedTileOffset.y < targetPos.y) {
-                    this.box.pos.y = this.box.pos.y + 1;
-                }
-                else if (this.box.pos.y + this.selectedTileOffset.y > targetPos.y) {
-                    this.box.pos.y = this.box.pos.y - 1;
-                }
-                if (collisionDetection.tileCollisionCheck(this.box)) {
-                    this.box.pos.y = preY;
-                }           
+                this._slideToAxis(this.box, 'x', this.selectedTileOffset.x, targetPos.x);
+                this._slideToAxis(this.box, 'y', this.selectedTileOffset.y, targetPos.y);
             };
-            
- 
         }
         
   
        
-        function myTimer() {
+        function myTimer( timerIntervalMilliseconds ) {
             //ctx.fillStyle = "rgb(255, 255, 255)";  
             ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
             for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
