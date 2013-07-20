@@ -8,18 +8,57 @@
 
         
         var myCanvas=document.getElementById("myCanvas");
+        
+        myCanvas.width = document.body.clientWidth; //document.width is obsolete
+        myCanvas.height = document.body.clientHeight; //document.height is obsolete
+ 
         var ctx=myCanvas.getContext("2d");
         
         
   
   
+        var tileUnit = {x:60, y:60, w:60, h:60, b:2};
+
+
         var tiles = [];       
-        tiles.push(new Tile(1, 1, 60, 60));
-        tiles.push(new Tile(61, 1, 60, 60));   
-        tiles.push(new Tile(121, 1, 60, 120));
-        tiles.push(new Tile(1, 121, 120, 60));        
-        tiles.push(new Tile(1, 201, 120, 120));
+        tiles.push(new Tile(1, 1, 2, 2, "rgb(255, 0, 0)"));
+        tiles.push(new Tile(3, 1, 2, 1, "rgb(0, 255, 0)"));   
+        tiles.push(new Tile(3, 2, 2, 1, "rgb(0, 255, 0)"));
+   
+            
+        tiles.push(new Tile(1, 3, 1, 1, "rgb(255, 255, 0)"));
+        tiles.push(new Tile(2, 3, 1, 1, "rgb(0, 0, 0)"));
+        tiles[tiles.length-1].selectionLocked = 1;
+        tiles.push(new Tile(3, 3, 2, 1, "rgb(0, 255, 0)"));
+
         
+        tiles.push(new Tile(1, 4, 1, 1, "rgb(255, 255, 0)"));
+        tiles.push(new Tile(2, 4, 1, 1, "rgb(255, 255, 0)"));
+        tiles.push(new Tile(3, 4, 2, 1, "rgb(0, 255, 0)"));
+  
+        tiles.push(new Tile(1, 5, 2, 1, "rgb(0, 255, 0)"));
+        tiles.push(new Tile(3, 5, 2, 1, "rgb(0, 255, 0)"));
+        
+        tiles.push(new Tile(1, 6, 1, 2, "rgb(0, 0, 255)"));
+        tiles.push(new Tile(2, 6, 1, 2, "rgb(0, 0, 255)"));
+        tiles.push(new Tile(3, 6, 2, 1, "rgb(0, 255, 0)"));
+        tiles.push(new Tile(3, 7, 1, 1, "rgb(0, 0, 0)"));
+        tiles[tiles.length-1].selectionLocked = 1;
+        tiles.push(new Tile(4, 7, 1, 1, "rgb(255, 255, 0)"));
+
+        tiles.push(new Tile(1, 8, 1, 2, "rgb(0, 0, 255)"));
+        tiles.push(new Tile(2, 8, 1, 2, "rgb(0, 0, 255)"));
+ 
+       tiles.push(new Tile(0, 0, 6, 1, "rgb(0, 0, 0)"));
+       tiles[tiles.length-1].selectionLocked = 1;
+       tiles.push(new Tile(0, 0, 1, 11, "rgb(0, 0, 0)"));
+       tiles[tiles.length-1].selectionLocked = 1;
+       tiles.push(new Tile(0, 10, 6, 1, "rgb(0, 0, 0)"));
+       tiles[tiles.length-1].selectionLocked = 1;
+       tiles.push(new Tile(5, 0, 1, 11, "rgb(0, 0, 0)"));
+       tiles[tiles.length-1].selectionLocked = 1;
+ 
+       
         var collisionDetection = new CollisionDetection();
         var mouseEventHandler = new MouseEventHandler(myCanvas);
  
@@ -80,23 +119,30 @@
             this.canvas.addEventListener("mousedown", doMouseDown.bind(this), false);
             function doMouseDown (event) {
                  this.setMousePos(event); 
-                 this.selectedTile = collisionDetection.getCollisionTile(this.vol);
-                 if (this.selectedTile) {
-                    this.selectedTile.selectedTileOffset = { x: this.pos.x - this.selectedTile.box.pos.x,  y: this.pos.y - this.selectedTile.box.pos.y};
+                 var collisionTile = collisionDetection.getCollisionTile(this.vol);
+                 if (!collisionTile.selectionLocked) {
+                    this.selectedTile = collisionTile;
+                    if (this.selectedTile) {
+                       this.selectedTile.selectedTileOffset = { x: this.pos.x - this.selectedTile.box.pos.x,  y: this.pos.y - this.selectedTile.box.pos.y};
+                     }
                  }
             }
             
             this.canvas.addEventListener("mouseup", doMouseUp.bind(this), false);
             function doMouseUp (event) {
                  this.setMousePos(event);
-                 this.selectedTile = undefined;
+                 
+                 if (this.selectedTile) {
+                    this.selectedTile.snapToGrid();
+                    this.selectedTile = undefined;
+                 }
             }
             
             this.canvas.addEventListener("mousemove", doMouseMove.bind(this), false);
             function doMouseMove (event) {
                 this.setMousePos(event);
                 collisionDetection.getCollisionTile(this.vol);
-
+                document.getElementById('mouseMoveEvent').innerHTML = event.which;
             }
             
             this.getPos = function () { 
@@ -106,18 +152,21 @@
         }
         
        
-        function Tile(x, y, w, h)
-        {
-            this.box = new SAT.Box(new SAT.Vector(x,y), w, h).toPolygon();
-            this.w = w;
-            this.h = h;
+        function Tile(xUnit, yUnit, wUnit, hUnit, rgb)
+        {      
+            this.box = new SAT.Box(new SAT.Vector(60*xUnit,60*yUnit), 60*wUnit-2, 60*hUnit-2).toPolygon();
+            this.w = 60*wUnit-2;
+            this.h = 60*hUnit-2;
             this.selectedTileOffset = {
                 x : 0, 
                 y : 0              
             };
+            this.rgb = rgb;
+            this.selectionLocked = 0;
+
             
             this.draw = function () {
-                ctx.fillStyle = "rgb(255, 0, 0)";  
+                ctx.fillStyle = this.rgb;  
                 ctx.fillRect(this.box.pos.x, this.box.pos.y, this.w, this.h); 
                 //console.log( ">>>" + this.box.pos.x+ this.box.pos.y+ this.box.w+ this.box.h);
             };
@@ -151,6 +200,19 @@
             this.slideTo = function(targetPos) {
                 this._slideToAxis(this.box, 'x', this.selectedTileOffset.x, targetPos.x);
                 this._slideToAxis(this.box, 'y', this.selectedTileOffset.y, targetPos.y);
+            };
+            
+            this.snapToGrid = function() {
+                if ( this.box.pos.x % 60 < 60 / 2) {
+                    this.box.pos.x = 60 * Math.floor(this.box.pos.x / 60);
+                } else {
+                    this.box.pos.x = 60 * Math.floor(this.box.pos.x / 60) + 60;
+                }
+                if ( this.box.pos.y % 60 < 60 / 2) {
+                    this.box.pos.y = 60 * Math.floor(this.box.pos.y / 60);
+                } else {
+                    this.box.pos.y = 60 * Math.floor(this.box.pos.y / 60) + 60;
+                }
             };
         }
         
