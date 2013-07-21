@@ -8,9 +8,9 @@
 
         
         var myCanvas=document.getElementById("myCanvas");
-        
-        myCanvas.width = document.body.clientWidth; //document.width is obsolete
-        myCanvas.height = document.body.clientHeight; //document.height is obsolete
+       
+        //myCanvas.width = document.body.clientWidth; //document.width is obsolete
+        //myCanvas.height = document.body.clientHeight; //document.height is obsolete
  
         var ctx=myCanvas.getContext("2d");
         
@@ -21,7 +21,7 @@
 
 
         var tiles = [];       
-        tiles.push(new Tile(1, 1, 2, 2, "rgb(255, 0, 0)"));
+        tiles.push(new Tile(1, 1, 2, 2, "rgb(255, 255, 255)"));
         tiles.push(new Tile(3, 1, 2, 1, "rgb(0, 255, 0)"));   
         tiles.push(new Tile(3, 2, 2, 1, "rgb(0, 255, 0)"));
    
@@ -60,10 +60,28 @@
  
        
         var collisionDetection = new CollisionDetection();
-        var mouseEventHandler = new MouseEventHandler(myCanvas);
+        
+        function isTouchDevice(){
+          return (typeof(window.ontouchstart) != 'undefined') ? true : false;
+        }
+        
+
+        if (isTouchDevice()) {
+            console.log("touch");
+            var touchEventHandler = new TouchEventHandler(myCanvas);
+            
+           document.body.addEventListener('touchmove', function(event) { event.preventDefault();}, false); // prevent scrolling
+        } else {
+            console.log("mouse");
+            var mouseEventHandler = new MouseEventHandler(myCanvas);
+        }
+        
  
         var timerMilliseconds = 20;
-        var myVar=setInterval(function(){myTimer(timerMilliseconds);}, timerMilliseconds);
+        var timerCallback = function() { 
+            myTimer(timerMilliseconds); 
+        };
+        var myVar=setInterval(timerCallback, timerMilliseconds);
 
         function CollisionDetection() {
            // returns Tile instance which collides with sat
@@ -122,7 +140,7 @@
                  var collisionTile = collisionDetection.getCollisionTile(this.vol);
                  if (!collisionTile.selectionLocked) {
                     this.selectedTile = collisionTile;
-                    if (this.selectedTile) {
+                    if (this.selectedTile !== undefined) {
                        this.selectedTile.selectedTileOffset = { x: this.pos.x - this.selectedTile.box.pos.x,  y: this.pos.y - this.selectedTile.box.pos.y};
                      }
                  }
@@ -132,7 +150,7 @@
             function doMouseUp (event) {
                  this.setMousePos(event);
                  
-                 if (this.selectedTile) {
+                 if (this.selectedTile !== undefined) {
                     this.selectedTile.snapToGrid();
                     this.selectedTile = undefined;
                  }
@@ -142,8 +160,79 @@
             function doMouseMove (event) {
                 this.setMousePos(event);
                 collisionDetection.getCollisionTile(this.vol);
-                document.getElementById('mouseMoveEvent').innerHTML = event.which;
+                //document.getElementById('mouseMoveEvent').innerHTML = event.which;
             }
+            
+            this.getPos = function () { 
+                return this.pos;
+            };
+           
+        }
+        
+        
+        function TouchEventHandler( myCanvas ) {
+            
+            var _this = this;
+            this.canvas = myCanvas;
+            this.pos = {
+                x : 0, 
+                y : 0              
+            };
+
+            this.vol = new SAT.Circle(new SAT.Vector(0,0), 5);
+            this.selectedTile = undefined;
+            
+            this.setTouchPos = function(event) {
+                var rect = this.canvas.getBoundingClientRect();
+                this.pos = { x: event.pageX - rect.left, y: event.pageY - rect.top};      
+                this.vol.pos.x =     this.pos.x;    
+                this.vol.pos.y =     this.pos.y; 
+            };
+            
+ 
+            this.onTouchStarted = function (event) {
+                 if (event.targetTouches.length == 1) {
+                    var touch = event.targetTouches[0];                  
+                    _this.setTouchPos(event); 
+
+                    if (typeof collisionDetection !== "undefined") {  
+                        var collisionTile = collisionDetection.getCollisionTile(_this.vol);
+                        if (typeof collisionTile !== "undefined") { 
+                            if (!collisionTile.selectionLocked) {
+                                _this.selectedTile = collisionTile;
+                                if (typeof _this.selectedTile !== "undefined") {
+                                    _this.selectedTile.selectedTileOffset = { x: _this.pos.x - _this.selectedTile.box.pos.x,  y: _this.pos.y - _this.selectedTile.box.pos.y};
+                                }
+                            }
+                        }
+                    }
+                 }
+            };          
+            this.canvas.addEventListener("touchstart", this.onTouchStarted, false);
+
+       
+            this.onTouchEnd =  function (event) {
+                 //this.setTouchPos(event);
+                    if (typeof _this.selectedTile !== "undefined") {
+                        _this.selectedTile.snapToGrid();
+                        _this.selectedTile = undefined;
+                    }
+            };
+            this.canvas.addEventListener("touchend", this.onTouchEnd, false);
+ 
+            
+            this.onTouchMove = function(event) {
+                 if (event.targetTouches.length == 1) {
+                    var touch = event.targetTouches[0];
+ 
+                    if (typeof _this.selectedTile !== "undefined") {
+                        _this.setTouchPos(event);
+                        collisionDetection.getCollisionTile(_this.vol);
+                    }
+                 }
+            };
+            this.canvas.addEventListener("touchmove", this.onTouchMove, true);
+ 
             
             this.getPos = function () { 
                 return this.pos;
@@ -176,8 +265,9 @@
                 this.box.pos.y = pos.y;
             };
             
+            this.slideIncrement = 8;
             this._slideToAxis = function(axisBox, axisVar, tileOffset, axisTargetPos) {
-                for (var slideIncrement = 4;  slideIncrement > 0; slideIncrement = slideIncrement - 1) {                      
+                for (var slideIncrement = this.slideIncrement;  slideIncrement > 0; slideIncrement = slideIncrement - 1) {                      
                     if (Math.abs(axisBox.pos[axisVar] + tileOffset - axisTargetPos) < slideIncrement) {
                         continue; // within slideInrment of target, try smaller slideIncrement
                     }
@@ -222,15 +312,28 @@
             //ctx.fillStyle = "rgb(255, 255, 255)";  
             ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
             for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
-                tiles[tileIdx].draw();
-                //tiles[tileIdx].box.pos.x ++;
+               tiles[tileIdx].draw();
             }
    
-            var mousePos = mouseEventHandler.pos;
-            document.getElementById('inner').innerHTML = "MOUSE: " + String(mousePos.x) + ", " + String(mousePos.y);
+             
+            if (typeof mouseEventHandler !== "undefined") {   
+                console.log("meh");  
+                var mousePos = mouseEventHandler.pos;
+                document.getElementById('inner').innerHTML = "MOUSE: " + String(mousePos.x) + ", " + String(mousePos.y);
+               
+                if (typeof mouseEventHandler.selectedTile !== "undefined") {
+                    mouseEventHandler.selectedTile.slideTo(mousePos);      
+                }
+            }
+            
+            if (typeof touchEventHandler !== "undefined") {   
                 
-            if (mouseEventHandler.selectedTile) {
-                mouseEventHandler.selectedTile.slideTo(mousePos);      
+                var touchPos = touchEventHandler.pos;
+                document.getElementById('inner').innerHTML = "TOUCH: " + String(touchPos.x) + ", " + String(touchPos.y);
+               
+                if (typeof touchEventHandler.selectedTile !== "undefined") {
+                    touchEventHandler.selectedTile.slideTo(touchPos);      
+                }
             }
         }
 
@@ -238,233 +341,6 @@
     });
 
    
-   /*
-    require(["fabric/fabric"], function(fab) {
-        
-        var canvas = new fabric.Canvas('myCanvas');
-        var tiles = [];
-        
-        tiles.push(new fabric.Rect({
-          width: 60, height: 60, left: 40, top: 40, angle: 0,
-          fill: 'rgba(255,0,0,0.5)'
-        }));
-        
-        tiles.push(new fabric.Rect({
-          width: 60, height: 60, left: 300, top: 70, angle: 0,
-          fill: 'rgba(0,200,0,0.5)'
-        }));
-        
-
-        
-
-        //canvas.add(rect1, rect2, rect3);;
-        for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
-            canvas.add(tiles[tileIdx]);
-        }
-        
-        var mouse = undefined;
-        
-        var tilePointerOffset = {
-            x: 0,
-            y: 0
-        };
-        
-        var selTarget = undefined;
-        var lastFreePos  = undefined;
-        var colliding = false;
-  
-        var myVar=setInterval(function(){myTimer();},200);
-
-        function myTimer() {
-            
-                if ( mouse)
-                {
-                    document.getElementById('inner').innerHTML = "MOUSE: " + mouse.x + ", " + mouse.y;
-                }
-          
-                if (selTarget) {
-                    document.getElementById('target').innerHTML = selTarget.left + ", " + selTarget.top;
-                    document.getElementById('offset').innerHTML =  "OFFSET:" + String(tilePointerOffset.x) + "," + String(tilePointerOffset.y);
-   
-                    
-                    canvas.forEachObject(function(obj) {
-                        if (obj === selTarget) return;
-                        if (selTarget.intersectsWithObject(obj)) {
-                            //options.target.set(lastFreePos);
-                            //colliding = true;
-                        } 
-                    });
-                            
  
-                            
-      
-                        // try incremtal vertical step nearer to target
-                        var testRect = new fabric.Rect(lastFreePos);
-                       if ( selTarget.top + tilePointerOffset.y  < mouse.y)
-                        {
-                            testRect.top = testRect.top + 1;
- 
-                        }
-                        
-                        if ( selTarget.top + tilePointerOffset.y  > mouse.y)
-                        {
-                            testRect.top = testRect.top - 1;
-                            
-                        }
-                        testRect.setCoords();
-                        console.log(testRect.top);
-                        
-                        //var freeTestRect = new fabric.Rect(lastFreePos);
-                        //freeTestRect.setCoords();
-  
-                        var testColliding = false;
-                        canvas.forEachObject(function(obj) {
-                            if (obj === selTarget) return;
-                            if (testRect.intersectsWithObject(obj)) {
-                                testColliding = true;
-                                 document.getElementById('collide').innerHTML = "Collide";
-                            } 
-                        });
-                        
-  
-   
-                        if (testColliding) {
-                            //lastFreePos = { width: freeTestRect.width, height: freeTestRect.height, left: freeTestRect.left, top: freeTestRect.top,  angle: freeTestRect.angle, fill: freeTestRect.fill };
- 
-                        } else{
-                             
-                            lastFreePos = { width: testRect.width, height: testRect.height, left: testRect.left, top: testRect.top,  angle: testRect.angle, fill: testRect.fill };
-                           
-                        }
-                        
-                        target.set(lastFreePos);    
-                        target.setCoords();                 
 
-                    
-
-                        // try incremtal horizontal step nearer to target
-
-                }
-       
-        }
-
-        function moving() {
-            //var lastFreePos  = null;
-            var colliding = false;
-            var onMoving = function(options) {
-               // console.log(".");
-                //options.target.setCoords();
-                
-          
-                if (options.target) {
-    
-                   
-                        options.target.set(lastFreePos);    
-                        options.target.setCoords();        
-                        
-                        selTarget = options.target;         
-
-                    
-
-                        // try incremtal horizontal step nearer to target
-
-                }
-            };
-                    
-        
-            canvas.on({
-              'object:moving': onMoving,
-              'object:scaling': onChange,
-              'object:rotating': onChange,
-            });
-            
-            
-            function onChange(options) {
-              //options.target.setCoords();
-              canvas.forEachObject(function(obj) {
-                if (obj === options.target) return;
-                obj.setOpacity(options.target.intersectsWithObject(obj) ? 0.5 : 1);
-              });
-            }
-            
-            
-            // Mousemove 
-            canvas.observe('mouse:move', function(e) { mousemove(e); });
-   
-            function mousemove(e) {
-                mouse = canvas.getPointer(e.e);
-                //console.log(mouse.x + " " + mouse.y);
-                
-            }
-            
-            // Mouseup
-            canvas.observe('mouse:up', function(e) { mouseup(e); });
-   
-            function mouseup(e) {
-                selTarget = undefined;
-            }
-   
-   
-            // Mousedown 
-            canvas.observe('mouse:down', function(e) { mousedown(e); });
-   
-            function mousedown(e) {
-                //mouse = canvas.getPointer(e.e);
-                //console.log(mouse.x + " " + mouse.y);
-                //document.getElementById('inner').innerHTML = mouse.x + ", " + mouse.y;
-                mouse = canvas.getPointer(e.e);
-                
-                canvas.forEachObject(function(obj) {
-                    if (mouse.x > obj.left - obj.width  / 2 ) {
-                        if ( mouse.x < obj.left + obj.width  / 2 ) {
- 
-                            
-                            if (mouse.y > obj.top - obj.height  / 2 ) {
-                                if ( mouse.y < obj.top + obj.height  / 2 ) {
-                                    tilePointerOffset.x = mouse.x - obj.left;
-                                    tilePointerOffset.y = mouse.y - obj.top;
-                                    selTarget = obj;
-                                    lastFreePos = { width: selTarget.width, height: selTarget.height, left: selTarget.left, top: selTarget.top,  angle: selTarget.angle, fill: selTarget.fill };
- 
-                                    console.log("mousedown");
-                                    console.log(lastFreePos.left);
-                                    return;
-                                    
-                                }
-                            } 
-                        }
-                    } 
-                    
- 
-                });
-            }
-
-       }
-        
-        moving();
-        
-        
-   
-        
-        
-    });
-    */
-
-	function f1 () {
-		
-		document.getElementById('inner').innerHTML = "Hello World!";
-		document.getElementById('inner').innerHTML = (8).toString(2);
-		
-		//var V = SAT.Vector;
-        //var C = SAT.Circle;
-    
-        //var circle1 = new C(new V(0,0), 20);
-        //var circle2 = new C(new V(30,0), 20);
-        //var response = new SAT.Response();
-        //var collided = SAT.testCircleCircle(circle1, circle2, response);
-    
-
-	}
-	
-	f1();
 }());
