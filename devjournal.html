@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>dev journal</title>
+        <link rel="stylesheet" href="./src/css/bootstrap.css">
+        <link rel="stylesheet" href="./src/css/docs.css">
+     
+    </head>
+    <body>
+        <div>
+
+        </div>
+        <p>whiffenspoof arose from a task set for me by professor Pittaway at Brunel university. I've used this previously as hello-world type app for 
+           learning new platforms, in this case javascript. Its a simple slider puzzle which requires the basic I/O and rendering with some state storage 
+           and box collsion handling. I had used javascript previously but had never taken the time to <em>learn</em> it, 
+           I had been able to patch together simple programs but it seemed too foriegn for use in anything larger scale. 
+           As a starting point I read <a href="http://effectivejs.com/">http://effectivejs.com/</a> and listened to <a href="http://javascriptjabber.com/">http://javascriptjabber.com/</a>.
+           
+           I wanted to include some shared libraries in this project as a learning exercise. The collision detection for whiffenspoof is straight forward
+           aligned box collision and is a good candidate for using shared libraries. I selected <a href="https://github.com/jriecken/sat-js">https://github.com/jriecken/sat-js</a> for this.
+           The rendering component is also simple but I wanted to see if I could use a shared library here to. For this I found <a href="http://fabricjs.com/">http://fabricjs.com/</a>, the 
+           many examples on this site show that it can combine canvas support with mouse handling and some collision detection. At this point I 
+           decided I could switch to fabricjs for providing these components in whiffenspoof. I tried to mock up a test case doing this but found 
+           that I could not get control of the collision detection without fully understanding the libraries implmentation, which wasn't an 
+           original objective of the project. So I switched back to sat-js and proceeded to implement the canvas and input handling from basics.
+           
+           I intentionally avoided JQuery so as to get a better understanding of the core javascript API. 
+           Effective JS mentoned <a href="http://www.jslint.com/">http://www.jslint.com/</a> gor code analysisi. Looking for a command line alternative  
+           I installed <a href="http://www.jshint.com">http://www.jshint.com</a> and set it up for use in my editors console window.
+           
+           Starting with a single JS file I wrapped this in a an <a href="http://en.wikipedia.org/wiki/Immediately-invoked_function_expression">IFFY</a>. 
+           Not until I have the core functionality in place did I adopt <a href="http://requirejs.org/">http://requirejs.org/</a> to modularize and refactor it out. 
+           This made it clear how a javascript project could pratically be extended to a larger scale and using object orientation.
+        </p>
+
+    </body>
+</html>
