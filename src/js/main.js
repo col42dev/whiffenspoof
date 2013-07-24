@@ -2,22 +2,24 @@
 	"use strict";
 	
 
-    require(["src/js/tile", "src/js/touchEventHandler", "src/js/mouseEventHandler"], function(Tile, TouchEventHandler, MouseEventHandler) {   
+    require(["src/js/tile", "src/js/touchEventHandler", "src/js/mouseEventHandler", "src/js/gameState"], function(Tile, TouchEventHandler, MouseEventHandler, GameState) {   
 
 
         
         var myCanvas=document.getElementById("myCanvas");
        
-        //myCanvas.width = document.body.clientWidth; //document.width is obsolete
-        //myCanvas.height = document.body.clientHeight; //document.height is obsolete
+        myCanvas.width = document.body.clientWidth; //document.width is obsolete
+        myCanvas.height = document.body.clientHeight; //document.height is obsolete
+ 
+        myCanvas.width =  80 * 6; //document.width is obsolete
+        myCanvas.height =  80 * 11; //document.height is obsolete
+ 
+
  
         var ctx=myCanvas.getContext("2d");
         
         
   
-  
-        var tileUnit = {x:60, y:60, w:60, h:60, b:2};
-
 
         var tiles = [];       
         tiles.push(new Tile(1, 1, 2, 2, "rgb(255, 0, 0)"));
@@ -48,17 +50,18 @@
         tiles.push(new Tile(1, 8, 1, 2, "rgb(0, 0, 255)"));
         tiles.push(new Tile(2, 8, 1, 2, "rgb(0, 0, 255)"));
  
-       tiles.push(new Tile(0, 0, 6, 1, "rgb(0, 0, 0)"));
-       tiles[tiles.length-1].selectionLocked = 1;
-       tiles.push(new Tile(0, 0, 1, 11, "rgb(0, 0, 0)"));
-       tiles[tiles.length-1].selectionLocked = 1;
-       tiles.push(new Tile(0, 10, 6, 1, "rgb(0, 0, 0)"));
-       tiles[tiles.length-1].selectionLocked = 1;
-       tiles.push(new Tile(5, 0, 1, 11, "rgb(0, 0, 0)"));
-       tiles[tiles.length-1].selectionLocked = 1;
+        tiles.push(new Tile(0, 0, 6, 1, "rgb(0, 0, 0)"));
+        tiles[tiles.length-1].selectionLocked = 1;
+        tiles.push(new Tile(0, 0, 1, 11, "rgb(0, 0, 0)"));
+        tiles[tiles.length-1].selectionLocked = 1;
+        tiles.push(new Tile(0, 10, 6, 1, "rgb(0, 0, 0)"));
+        tiles[tiles.length-1].selectionLocked = 1;
+        tiles.push(new Tile(5, 0, 1, 11, "rgb(0, 0, 0)"));
+        tiles[tiles.length-1].selectionLocked = 1;
  
        
 
+        var gameState = new GameState();
         
         function isTouchDevice(){
           return (typeof(window.ontouchstart) != 'undefined') ? true : false;
@@ -72,7 +75,7 @@
            document.body.addEventListener('touchmove', function(event) { event.preventDefault();}, false); // prevent scrolling
         } else {
             console.log("mouse");
-            var mouseEventHandler = new MouseEventHandler(myCanvas, tiles);
+            var mouseEventHandler = new MouseEventHandler(myCanvas, tiles, gameState);
         }
         
  
@@ -96,7 +99,7 @@
             if (typeof mouseEventHandler !== "undefined") {   
 
                 var mousePos = mouseEventHandler.pos;
-                document.getElementById('inner').innerHTML = "MOUSE: " + String(mousePos.x) + ", " + String(mousePos.y);
+                //document.getElementById('inner').innerHTML = "MOUSE: " + String(mousePos.x) + ", " + String(mousePos.y);
                
                 if (typeof mouseEventHandler.selectedTile !== "undefined") {
                     mouseEventHandler.selectedTile.slideTo(mousePos, tiles);      
@@ -106,12 +109,14 @@
             if (typeof touchEventHandler !== "undefined") {   
                 
                 var touchPos = touchEventHandler.pos;
-                document.getElementById('inner').innerHTML = "TOUCH: " + String(touchPos.x) + ", " + String(touchPos.y);
+                //document.getElementById('inner').innerHTML = "TOUCH: " + String(touchPos.x) + ", " + String(touchPos.y);
                
                 if (typeof touchEventHandler.selectedTile !== "undefined") {
                     touchEventHandler.selectedTile.slideTo(touchPos, tiles);      
                 }
             }
+            
+            document.getElementById('moveCounter').innerHTML = gameState.moveCounter;
         }
 
     

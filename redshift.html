@@ -16,39 +16,26 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <link rel="stylesheet" type="text/css" href="./src/css/ipad.css" media="screen" />
-        <link rel="stylesheet" type="text/css" href="./src/css/menu.css" />
+        <link rel="stylesheet" type="text/css" href="./src/css/base.css" />
         
     </head>
     <body>
         <div>
-        <table width="100%">
+        <table>
             <tr>
-               <td>
-                    <h1 class="red">Red&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1> <h1 class="shift">&nbsp;Shift</h1>
+                <td>
+                    <canvas id="myCanvas" width="360" height="660" style="border:1px solid #d3d3d3;">Your browser does not support the HTML5 canvas tag.</canvas>
+                </td>
+                <td>
+                    <h4 id="moveCounter">---</h4>
                </td>
-           </tr>
+           <tr>
         </table>
         </div>
-       <div>
-        <table width="100%">
-            <tr>
-               <td>
-                    <h2><a href="redshift.html">start</a></h2>
-               </td>
-            </tr>
-            <tr>
-               <td>
-                    <h2>scores</h2>
-               </td>
-            </tr>
-            <tr>
-               <td>
-                    <h2>about</h2>
-               </td>
-            </tr>
-        </table>
-        </div>
-
+        
+        <script type="text/javascript" src="src/js/sat-js/SAT.js"></script>
+        <script type="text/javascript" src="src/js/require.js"></script>
+        <script type="text/javascript" src="src/js/main.js"></script>
 
 
         <!--script data-main="src/js/main" src="src/js/require.js"></script-->

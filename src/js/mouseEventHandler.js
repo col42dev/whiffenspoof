@@ -1,15 +1,17 @@
 (function() {
     "use strict";
     
-    define( ["src/js/tile", "src/js/collisionTile"], function (Tile, getCollisionTile) {   
+    define( ["src/js/tile", "src/js/collisionTile", "src/js/gameState"], function (Tile, getCollisionTile) {   
     
-        var mEH = function ( myCanvas, myTiles ) {
+        var mEH = function ( myCanvas, myTiles, gameState) {
                 this.canvas = myCanvas;
                 this.myTiles = myTiles;
+                this.gameState = gameState;
                 this.pos = {
                     x : 0, 
                     y : 0              
                 };
+
     
                 this.vol = new SAT.Circle(new SAT.Vector(0,0), 5);
                 this.selectedTile = undefined;
@@ -20,6 +22,11 @@
             
             mEH.prototype.getPos = function () { 
                  return this.pos;
+            };
+            
+            mEH.prototype.startMovePos = {
+                    x : 0, 
+                    y : 0              
             };
                 
             mEH.prototype.setMousePos = function(event) {
@@ -32,18 +39,29 @@
             mEH.prototype.doMouseDown = function (event) {
                 this.setMousePos(event); 
                 var collisionTile = getCollisionTile(this.vol, this.myTiles);
-                if (!collisionTile.selectionLocked) {
-                    this.selectedTile = collisionTile;
-                    if (this.selectedTile !== undefined) {
-                        this.selectedTile.selectedTileOffset = { x: this.pos.x - this.selectedTile.box.pos.x,  y: this.pos.y - this.selectedTile.box.pos.y};
-                    }
+                if (typeof collisionTile !== "undefined") {
+                    if (!collisionTile.selectionLocked) {
+                        this.selectedTile = collisionTile;
+                        if (this.selectedTile !== undefined) {
+                            this.selectedTile.selectedTileOffset = { x: this.pos.x - this.selectedTile.box.pos.x,  y: this.pos.y - this.selectedTile.box.pos.y};
+                            this.startMovePos.x = this.selectedTile.box.pos.x;
+                            this.startMovePos.y = this.selectedTile.box.pos.y;
+                        }
+                    }                 
                 }
             };
             
             mEH.prototype.doMouseUp = function (event) {
                 this.setMousePos(event);   
-                if (this.selectedTile !== undefined) {
+                if (typeof this.selectedTile !== "undefined") {
                     this.selectedTile.snapToGrid();
+
+                    
+                    // increment move counter
+                    if (( this.startMovePos.x !== this.selectedTile.box.pos.x) || ( this.startMovePos.y !== this.selectedTile.box.pos.y)) {
+                        this.gameState.moveCounter += 1;
+                    }
+                    
                     this.selectedTile = undefined;
                 }
             };

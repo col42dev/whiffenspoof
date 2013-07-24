@@ -4,9 +4,9 @@
     define( function () {     
            
         var tile = function(xUnit, yUnit, wUnit, hUnit, rgb) {
-            this.box = new SAT.Box(new SAT.Vector(60*xUnit,60*yUnit), 60*wUnit-2, 60*hUnit-2).toPolygon();
-            this.w = 60*wUnit-2;
-            this.h = 60*hUnit-2;
+            this.box = new SAT.Box(new SAT.Vector(this.tileUnitSize*xUnit, this.tileUnitSize*yUnit), this.tileUnitSize*wUnit-2, this.tileUnitSize*hUnit-2).toPolygon();
+            this.w = this.tileUnitSize*wUnit-2;
+            this.h = this.tileUnitSize*hUnit-2;
             this.selectedTileOffset = {
                 x : 0, 
                 y : 0              
@@ -17,6 +17,15 @@
         
         tile.prototype.draw = function (ctx) {
             ctx.fillStyle = this.rgb;  
+            
+
+            if (!this.selectionLocked) {
+                ctx.shadowColor = "rgb(0, 0, 0)";
+                ctx.shadowOffsetX = 5;
+                ctx.shadowOffsetY = 0;
+                ctx.shadowBlur = 10;
+            }
+
             ctx.fillRect(this.box.pos.x, this.box.pos.y, this.w, this.h); 
             //console.log( ">>>" + this.box.pos.x+ this.box.pos.y+ this.box.w+ this.box.h);
         };
@@ -26,6 +35,7 @@
             this.box.pos.y = pos.y;
         };
         
+        tile.prototype.tileUnitSize = 80;
         tile.prototype.slideIncrement = 16;
         tile.prototype._slideToAxis = function(axisBox, axisVar, tileOffset, axisTargetPos, tiles) {
             for (var slideIncrement = this.slideIncrement;  slideIncrement > 0; slideIncrement = slideIncrement - 1) {                      
@@ -53,19 +63,19 @@
         };
         
         tile.prototype.snapToGrid = function() {
-            if ( this.box.pos.x % 60 < 60 / 2) {
-                this.box.pos.x = 60 * Math.floor(this.box.pos.x / 60);
+            if ( this.box.pos.x % this.tileUnitSize < this.tileUnitSize / 2) {
+                this.box.pos.x = this.tileUnitSize * Math.floor(this.box.pos.x / this.tileUnitSize);
             } else {
-                this.box.pos.x = 60 * Math.floor(this.box.pos.x / 60) + 60;
+                this.box.pos.x = this.tileUnitSize * Math.floor(this.box.pos.x / this.tileUnitSize) + this.tileUnitSize;
             }
-            if ( this.box.pos.y % 60 < 60 / 2) {
-                this.box.pos.y = 60 * Math.floor(this.box.pos.y / 60);
+            if ( this.box.pos.y % this.tileUnitSize < this.tileUnitSize / 2) {
+                this.box.pos.y = this.tileUnitSize * Math.floor(this.box.pos.y / this.tileUnitSize);
             } else {
-                this.box.pos.y = 60 * Math.floor(this.box.pos.y / 60) + 60;
+                this.box.pos.y = this.tileUnitSize * Math.floor(this.box.pos.y / this.tileUnitSize) + this.tileUnitSize;
             }
         };
       
-                     // true if sat collides with a Tile
+        // true if sat collides with a Tile
         tile.prototype.collisionCheck = function (sat, tiles) {              
             var response = new SAT.Response();
             for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
@@ -93,7 +103,6 @@
             }
             return undefined;
         }; 
-        
         
         return tile;
         

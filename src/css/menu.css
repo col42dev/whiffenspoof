@@ -1,0 +1,12 @@
+h1.red {
+    font-size:40px;
+    color:red;
+    font-family:verdana;
+    font-weight:bold;
+}
+
+h1.shift {
+    font-size:50px;
+    color:black;
+    font-style:italic
+}
