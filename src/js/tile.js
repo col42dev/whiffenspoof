@@ -18,15 +18,14 @@
         tile.prototype.draw = function (ctx) {
             ctx.fillStyle = this.rgb;  
             
-
             if (!this.selectionLocked) {
-                ctx.shadowColor = "rgb(0, 0, 0)";
-                ctx.shadowOffsetX = 5;
-                ctx.shadowOffsetY = 0;
-                ctx.shadowBlur = 10;
+                //ctx.shadowColor = "rgb(0, 0, 0)";
+                //ctx.shadowOffsetX = 5;
+                //ctx.shadowOffsetY = 5;
+                //ctx.shadowBlur = 10;
             }
 
-            ctx.fillRect(this.box.pos.x, this.box.pos.y, this.w, this.h); 
+            ctx.fillRect(this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2); 
             //console.log( ">>>" + this.box.pos.x+ this.box.pos.y+ this.box.w+ this.box.h);
         };
             
@@ -35,7 +34,7 @@
             this.box.pos.y = pos.y;
         };
         
-        tile.prototype.tileUnitSize = 80;
+       
         tile.prototype.slideIncrement = 16;
         tile.prototype._slideToAxis = function(axisBox, axisVar, tileOffset, axisTargetPos, tiles) {
             for (var slideIncrement = this.slideIncrement;  slideIncrement > 0; slideIncrement = slideIncrement - 1) {                      

@@ -8,17 +8,18 @@
         
         var myCanvas=document.getElementById("myCanvas");
        
-        myCanvas.width = document.body.clientWidth; //document.width is obsolete
-        myCanvas.height = document.body.clientHeight; //document.height is obsolete
+       myCanvas.height = document.body.clientHeight ; //document.height is obsolete
+       myCanvas.width = (myCanvas.height / 11)  * 6; //document.width is obsolete
  
-        myCanvas.width =  80 * 6; //document.width is obsolete
-        myCanvas.height =  80 * 11; //document.height is obsolete
+        //myCanvas.width =  80 * 6; //document.width is obsolete
+        //myCanvas.height =  80 * 11; //document.height is obsolete
  
 
  
         var ctx=myCanvas.getContext("2d");
         
         
+        Tile.prototype.tileUnitSize = myCanvas.height / 11;
   
 
         var tiles = [];       
@@ -70,7 +71,7 @@
 
         if (isTouchDevice()) {
             console.log("touch");
-            var touchEventHandler = new TouchEventHandler(myCanvas, tiles);
+            var touchEventHandler = new TouchEventHandler(myCanvas, tiles, gameState);
             
            document.body.addEventListener('touchmove', function(event) { event.preventDefault();}, false); // prevent scrolling
         } else {
@@ -85,15 +86,27 @@
         };
         var myVar=setInterval(timerCallback, timerMilliseconds);
 
+        function drawAll() {
+             ctx.fillStyle = "rgb(255, 255, 255)";  
+            ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+            for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
+               tiles[tileIdx].draw(ctx);
+            }       
+        }
+        
+        drawAll();
         
 
        
         function myTimer( timerIntervalMilliseconds ) {
-            //ctx.fillStyle = "rgb(255, 255, 255)";  
-            ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+            ctx.fillStyle = "rgb(255, 255, 255)";  
+            //ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
             for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
-               tiles[tileIdx].draw(ctx);
+               //tiles[tileIdx].draw(ctx);
             }
+             //if (typeof mouseEventHandler.selectedTile !== "undefined") {
+                //mouseEventHandler.selectedTile.draw(ctx);
+            // }
    
              
             if (typeof mouseEventHandler !== "undefined") {   
@@ -116,7 +129,7 @@
                 }
             }
             
-            document.getElementById('moveCounter').innerHTML = gameState.moveCounter;
+            //document.getElementById('moveCounter').innerHTML = gameState.moveCounter;
         }
 
     
