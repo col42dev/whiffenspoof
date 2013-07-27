@@ -32,10 +32,11 @@
         
         tile.prototype.draw = function (ctx) {
             ctx.fillStyle = this.rgb;  
-            
-
             ctx.fillRect(this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2); 
             //console.log( ">>>" + this.box.pos.x+ this.box.pos.y+ this.box.w+ this.box.h);
+            //ctx.fillStyle = "grey";
+            //ctx.font = "bold 16px Arial";
+            //ctx.fillText(Math.ceil(this.box.pos.y).toString(), this.box.pos.x, this.box.pos.y);
         };
             
         tile.prototype.setPos = function (pos) {
@@ -44,7 +45,8 @@
         };
         
        
-        tile.prototype.slideIncrement = 16;
+        tile.prototype.tileUnitSize = undefined;
+        tile.prototype.slideIncrement = undefined;
         tile.prototype._slideToAxis = function(axisBox, axisVar, tileOffset, axisTargetPos, tiles) {
             for (var slideIncrement = this.slideIncrement;  slideIncrement > 0; slideIncrement = slideIncrement - 1) {                      
                 if (Math.abs(axisBox.pos[axisVar] + tileOffset - axisTargetPos) < slideIncrement) {
@@ -71,16 +73,38 @@
         };
         
         tile.prototype.snapToGrid = function () {
-            if ( this.box.pos.x % this.tileUnitSize < this.tileUnitSize / 2) {
-                this.box.pos.x = this.tileUnitSize * Math.floor(this.box.pos.x / this.tileUnitSize);
-            } else {
-                this.box.pos.x = this.tileUnitSize * Math.floor(this.box.pos.x / this.tileUnitSize) + this.tileUnitSize;
-            }
-            if ( this.box.pos.y % this.tileUnitSize < this.tileUnitSize / 2) {
-                this.box.pos.y = this.tileUnitSize * Math.floor(this.box.pos.y / this.tileUnitSize);
-            } else {
-                this.box.pos.y = this.tileUnitSize * Math.floor(this.box.pos.y / this.tileUnitSize) + this.tileUnitSize;
-            }
+
+            var xUnit = 0;
+            var xSnapped = 0;
+            while (!xSnapped) {
+                if( this.box.pos.x >= this.tileUnitSize*xUnit && this.box.pos.x <= this.tileUnitSize*(xUnit+1) ) {
+                    if (Math.abs(this.box.pos.x - this.tileUnitSize*xUnit) < Math.abs(this.box.pos.x - this.tileUnitSize*(xUnit+1))) {
+                        this.box.pos.x = this.tileUnitSize*xUnit;
+                    } else {
+                        this.box.pos.x = this.tileUnitSize*(xUnit+1);
+                    } 
+                    xSnapped = 1;
+                }
+                xUnit += 1;
+            };       
+            
+            var yUnit = 0;
+            var ySnapped = 0;
+            while (!ySnapped) {
+                if( this.box.pos.y >= this.tileUnitSize*yUnit && this.box.pos.y <= this.tileUnitSize*(yUnit+1) ) {
+                    if (Math.abs(this.box.pos.y - this.tileUnitSize*yUnit) < Math.abs(this.box.pos.y - this.tileUnitSize*(yUnit+1))) {
+                        this.box.pos.y = this.tileUnitSize*yUnit;
+                    } else {
+                        this.box.pos.y = this.tileUnitSize*(yUnit+1);
+                    } 
+                    ySnapped = 1;
+                }
+                yUnit += 1;
+            };
+
+ 
+            //document.getElementById("moveCounter").innerHTML = "< " + Math.floor(this.box.pos.y).toString() + " % " + Math.floor(this.tileUnitSize).toString() + " = " + Math.floor(this.box.pos.y % this.tileUnitSize).toString();
+ 
         };
       
         // true if sat collides with a Tile
