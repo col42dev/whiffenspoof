@@ -14,12 +14,7 @@
                     x : 0, 
                     y : 0              
                 };   
-                 this.dirtyRect = {
-                    x : 0,
-                    y : 0,
-                    w : 0,
-                    h : 0
-                };
+                this.flagSnapToGrid = 0;
     
                 this.vol = new SAT.Circle(new SAT.Vector(0,0), 5);
                 this.selectedTile = undefined;
@@ -57,6 +52,9 @@
             };
             
             tEH.prototype.onTouchStart = function(event) {
+                if (typeof this.selectedTile !== "undefined") {
+                    return;
+                }
                 if (event.targetTouches.length == 1) {
                     var touch = event.targetTouches[0];                  
                     this.setTouchPos(event); 
@@ -68,7 +66,6 @@
                                 this.selectedTile.selectedTileOffset = { x: this.pos.x - this.selectedTile.box.pos.x,  y: this.pos.y - this.selectedTile.box.pos.y};
                                 this.startMovePos.x = this.selectedTile.box.pos.x;
                                 this.startMovePos.y = this.selectedTile.box.pos.y;
-                                this.dirtyRect = { x : this.selectedTile.box.pos.x, y: this.selectedTile.box.pos.y, w : this.selectedTile.w, h: this.selectedTile.h };
                             }
                         }
                     }
@@ -80,29 +77,18 @@
                     var touch = event.targetTouches[0];                  
                     if (typeof this.selectedTile !== "undefined") {
                         this.setTouchPos(event);
-
-                        var ctx=this.canvas.getContext("2d");
-                        ctx.clearRect(this.dirtyRect.x, this.dirtyRect.y, this.dirtyRect.w, this.dirtyRect.h);
-                        this.selectedTile.draw(ctx);      
-                        this.dirtyRect = { x : this.selectedTile.box.pos.x, y: this.selectedTile.box.pos.y, w : this.selectedTile.w, h: this.selectedTile.h };
                     }  
                 }           
             };
             
             tEH.prototype.onTouchEnd = function(event) {
                 if (typeof this.selectedTile !== "undefined") {
-                    this.selectedTile.snapToGrid();
+                    this.flagSnapToGrid = 1;
                     
                     // increment move counter
                     if (( this.startMovePos.x !== this.selectedTile.box.pos.x) || ( this.startMovePos.y !== this.selectedTile.box.pos.y)) {
                         this.gameState.moveCounter += 1;
                     }
-                    
-                    var ctx=this.canvas.getContext("2d");
-                    ctx.clearRect(this.dirtyRect.x, this.dirtyRect.y, this.dirtyRect.w, this.dirtyRect.h);
-                    this.selectedTile.draw(ctx);   
-                    
-                    this.selectedTile = undefined;
                 }
             };
             

@@ -38,6 +38,9 @@
             };
             
             mEH.prototype.doMouseDown = function (event) {
+                if (typeof this.selectedTile !== "undefined") {
+                    return;
+                }
                 this.setMousePos(event); 
                 var collisionTile = getCollisionTile(this.vol, this.myTiles);
                 if (typeof collisionTile !== "undefined") {
@@ -52,21 +55,23 @@
                 }
             };
             
+            mEH.prototype.doMouseMove = function  (event) {
+                this.setMousePos(event);
+            };
+            
             mEH.prototype.doMouseUp = function (event) {
                 this.setMousePos(event);   
                 if (typeof this.selectedTile !== "undefined") {
                     this.flagSnapToGrid = 1;
                         
                     // increment move counter
-                    if (( this.startMovePos.x !== this.selectedTile.box.pos.x) || ( this.startMovePos.y !== this.selectedTile.box.pos.y)) {
+                    if ((this.startMovePos.x !== this.selectedTile.box.pos.x) || (this.startMovePos.y !== this.selectedTile.box.pos.y)) {
                         this.gameState.moveCounter += 1;
                     }
                 }
             };
                 
-            mEH.prototype.doMouseMove = function  (event) {
-                this.setMousePos(event);
-            };
+
             
             return mEH;
         

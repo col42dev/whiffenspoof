@@ -149,9 +149,35 @@
                 
                 var touchPos = touchEventHandler.pos;
                 //document.getElementById('inner').innerHTML = "TOUCH: " + String(touchPos.x) + ", " + String(touchPos.y);
-               
+                
                 if (typeof touchEventHandler.selectedTile !== "undefined") {
-                    touchEventHandler.selectedTile.slideTo(touchPos, tiles);      
+                    if (!wasTileSelectedOnLastUpdate) {  // set dirtyRect to tile inital selection 
+                        dirtyRect = touchEventHandler.selectedTile.getDirtyRect(); 
+                    }
+                    // clear old tile render
+                    ctx.clearRect(dirtyRect.x, dirtyRect.y, dirtyRect.w, dirtyRect.h);
+    
+                    // move tile positon
+                    if ( touchEventHandler.flagSnapToGrid ) {
+                        touchEventHandler.selectedTile.snapToGrid();               
+                    } else {
+                        touchEventHandler.selectedTile.slideTo(touchPos, tiles); 
+                    }
+                    
+                    // draw tile in new position
+                    touchEventHandler.selectedTile.draw(ctx);  
+                    
+                    // set dirty rect ready for next update
+                    dirtyRect = touchEventHandler.selectedTile.getDirtyRect();   
+                    
+                    // handle deselected tile state
+                    if ( touchEventHandler.flagSnapToGrid ) {
+                         touchEventHandler.flagSnapToGrid = 0;
+                         touchEventHandler.selectedTile = undefined;
+                    } 
+                    wasTileSelectedOnLastUpdate = 1;
+                } else {
+                    wasTileSelectedOnLastUpdate = 0;
                 }
             }
             
