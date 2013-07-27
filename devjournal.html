@@ -31,8 +31,18 @@
            I installed <a href="http://www.jshint.com">http://www.jshint.com</a> and set it up for use in my editors console window.
            
            Starting with a single JS file I wrapped this in a an <a href="http://en.wikipedia.org/wiki/Immediately-invoked_function_expression">IFFY</a>. 
-           Not until I have the core functionality in place did I adopt <a href="http://requirejs.org/">http://requirejs.org/</a> to modularize and refactor it out. 
+           Once I had some core game functionality in place I adopted <a href="http://requirejs.org/">http://requirejs.org/</a> to modularize and refactor it out. 
            This made it clear how a javascript project could pratically be extended to a larger scale and using object orientation.
+           
+           The canvas render size was initially fixed, I generalized this to fit to the device view size to make the most of the available screen space.
+           At this point the performance differences between iPad and desktop browsers became more apparrent, iPad Safari has low framerate when sliding the tiles.
+           I didn't have any system support for profiling or any of my own profiling so I took a guess that this must be due to the canvas redrawing. Now that the 
+           canvas resized on device specs it was apparent that the landscape mode which used a smaller canvas was faster than portrait. The initial implementation 
+           of the canvas render was to clear the full canvas on every update loop and redraw it. So i looked at implemenating a dirty rectangle refresh in place of this.
+           The rectangular layout of the tiles made this straight forward. Initially i tried moving the render and refresh calls in to the IO event handler callbacks.
+           This almost worked but it tied the rendering to these callbacks which broke the model-view pattern. So i moved render back in to a cebtralized update loop
+           and implemented the dirty rectangle refresh here. This made a very noticeable improvement to the framerate on iOS. 
+          
         </p>
 
     </body>
