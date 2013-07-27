@@ -15,6 +15,10 @@
             this.selectionLocked = 0; 
         };
         
+        tile.prototype.getDirtyRect = function() { 
+            return { x : this.box.pos.x+1, y: this.box.pos.y+1, w : this.w-0, h: this.h-0 };
+        };
+        
         tile.prototype.draw = function (ctx) {
             ctx.fillStyle = this.rgb;  
             

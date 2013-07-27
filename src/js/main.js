@@ -97,16 +97,16 @@
         drawAll();
         
 
-       
+         var dirtyRect = {
+                    x : 0,
+                    y : 0,
+                    w : 0,
+                    h : 0
+                };
+        var wasTileSelectedOnLastUpdate = 0;
+                
         function myTimer( timerIntervalMilliseconds ) {
-            ctx.fillStyle = "rgb(255, 255, 255)";  
-            //ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-            for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
-               //tiles[tileIdx].draw(ctx);
-            }
-             //if (typeof mouseEventHandler.selectedTile !== "undefined") {
-                //mouseEventHandler.selectedTile.draw(ctx);
-            // }
+
    
              
             if (typeof mouseEventHandler !== "undefined") {   
@@ -115,7 +115,33 @@
                 //document.getElementById('inner').innerHTML = "MOUSE: " + String(mousePos.x) + ", " + String(mousePos.y);
                
                 if (typeof mouseEventHandler.selectedTile !== "undefined") {
-                    mouseEventHandler.selectedTile.slideTo(mousePos, tiles);      
+                    if (!wasTileSelectedOnLastUpdate) {  // set dirtyRect to tile inital selection 
+                        dirtyRect = mouseEventHandler.selectedTile.getDirtyRect(); 
+                    }
+                    // clear old tile render
+                    ctx.clearRect(dirtyRect.x, dirtyRect.y, dirtyRect.w, dirtyRect.h);
+    
+                    // move tile positon
+                    if ( mouseEventHandler.flagSnapToGrid ) {
+                        mouseEventHandler.selectedTile.snapToGrid();               
+                    } else {
+                        mouseEventHandler.selectedTile.slideTo(mousePos, tiles); 
+                    }
+                    
+                    // draw tile in new position
+                    mouseEventHandler.selectedTile.draw(ctx);  
+                    
+                    // set dirty rect ready for next update
+                    dirtyRect = mouseEventHandler.selectedTile.getDirtyRect();   
+                    
+                    // handle deselected tile state
+                    if ( mouseEventHandler.flagSnapToGrid ) {
+                         mouseEventHandler.flagSnapToGrid = 0;
+                         mouseEventHandler.selectedTile = undefined;
+                    } 
+                    wasTileSelectedOnLastUpdate = 1;
+                } else {
+                    wasTileSelectedOnLastUpdate = 0;
                 }
             }
             

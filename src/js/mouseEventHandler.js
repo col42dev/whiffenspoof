@@ -11,12 +11,8 @@
                     x : 0, 
                     y : 0              
                 };
-                this.dirtyRect = {
-                    x : 0,
-                    y : 0,
-                    w : 0,
-                    h : 0
-                };
+                this.flagSnapToGrid = 0;
+
     
                 this.vol = new SAT.Circle(new SAT.Vector(0,0), 5);
                 this.selectedTile = undefined;
@@ -51,7 +47,6 @@
                             this.selectedTile.selectedTileOffset = { x: this.pos.x - this.selectedTile.box.pos.x,  y: this.pos.y - this.selectedTile.box.pos.y};
                             this.startMovePos.x = this.selectedTile.box.pos.x;
                             this.startMovePos.y = this.selectedTile.box.pos.y;
-                            this.dirtyRect = { x : this.selectedTile.box.pos.x, y: this.selectedTile.box.pos.y, w : this.selectedTile.w, h: this.selectedTile.h };
                         }
                     }                 
                 }
@@ -60,35 +55,17 @@
             mEH.prototype.doMouseUp = function (event) {
                 this.setMousePos(event);   
                 if (typeof this.selectedTile !== "undefined") {
-                    this.selectedTile.snapToGrid();
-                 
+                    this.flagSnapToGrid = 1;
+                        
                     // increment move counter
                     if (( this.startMovePos.x !== this.selectedTile.box.pos.x) || ( this.startMovePos.y !== this.selectedTile.box.pos.y)) {
                         this.gameState.moveCounter += 1;
                     }
-                    
-                    var ctx=this.canvas.getContext("2d");
-                    ctx.clearRect(this.dirtyRect.x, this.dirtyRect.y, this.dirtyRect.w, this.dirtyRect.h);
-                    this.selectedTile.draw(ctx);      
-     
-                    
-                    this.selectedTile = undefined;
-                    this.dirtyRect = {x:0, y:0, w:0, h:0};
                 }
             };
                 
             mEH.prototype.doMouseMove = function  (event) {
                 this.setMousePos(event);
-                
-                 if (typeof this.selectedTile !== "undefined") {
-                     var ctx=this.canvas.getContext("2d");
-                     ctx.clearRect(this.dirtyRect.x, this.dirtyRect.y, this.dirtyRect.w, this.dirtyRect.h);
-                     this.selectedTile.draw(ctx);      
-                     this.dirtyRect = { x : this.selectedTile.box.pos.x, y: this.selectedTile.box.pos.y, w : this.selectedTile.w, h: this.selectedTile.h };
-                 }
- 
-                //getCollisionTile(this.vol, this.myTiles);
-                //document.getElementById('mouseMoveEvent').innerHTML = event.which;
             };
             
             return mEH;
