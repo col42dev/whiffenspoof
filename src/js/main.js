@@ -16,42 +16,47 @@
         Tile.prototype.tileUnitSize = myCanvas.height / 11;
   
 
+        var rgbRed = "rgb(200, 0, 0)";
+        var rgbGre = "rgb(0, 200, 0)";
+        var rgbBlu = "rgb(0, 0, 200)";
+        var rgbYel = "rgb(220, 220, 0)";
+        var rgbBlk = "rgb(30, 30, 30)";
         var tiles = [];       
-        tiles.push(new Tile(1, 1, 2, 2, "rgb(255, 0, 0)"));
-        tiles.push(new Tile(3, 1, 2, 1, "rgb(0, 255, 0)"));   
-        tiles.push(new Tile(3, 2, 2, 1, "rgb(0, 255, 0)"));
+        tiles.push(new Tile(1, 1, 2, 2, rgbRed));
+        tiles.push(new Tile(3, 1, 2, 1, rgbGre));   
+        tiles.push(new Tile(3, 2, 2, 1, rgbGre));
    
             
-        tiles.push(new Tile(1, 3, 1, 1, "rgb(255, 255, 0)"));
-        tiles.push(new Tile(2, 3, 1, 1, "rgb(0, 0, 0)"));
+        tiles.push(new Tile(1, 3, 1, 1, rgbYel));
+        tiles.push(new Tile(2, 3, 1, 1, rgbBlk));
         tiles[tiles.length-1].selectionLocked = 1;
-        tiles.push(new Tile(3, 3, 2, 1, "rgb(0, 255, 0)"));
+        tiles.push(new Tile(3, 3, 2, 1, rgbGre));
 
         
-        tiles.push(new Tile(1, 4, 1, 1, "rgb(255, 255, 0)"));
-        tiles.push(new Tile(2, 4, 1, 1, "rgb(255, 255, 0)"));
-        tiles.push(new Tile(3, 4, 2, 1, "rgb(0, 255, 0)"));
+        tiles.push(new Tile(1, 4, 1, 1, rgbYel));
+        tiles.push(new Tile(2, 4, 1, 1, rgbYel));
+        tiles.push(new Tile(3, 4, 2, 1, rgbGre));
   
-        tiles.push(new Tile(1, 5, 2, 1, "rgb(0, 255, 0)"));
-        tiles.push(new Tile(3, 5, 2, 1, "rgb(0, 255, 0)"));
+        tiles.push(new Tile(1, 5, 2, 1, rgbGre));
+        tiles.push(new Tile(3, 5, 2, 1, rgbGre));
         
-        tiles.push(new Tile(1, 6, 1, 2, "rgb(0, 0, 255)"));
-        tiles.push(new Tile(2, 6, 1, 2, "rgb(0, 0, 255)"));
-        tiles.push(new Tile(3, 6, 2, 1, "rgb(0, 255, 0)"));
-        tiles.push(new Tile(3, 7, 1, 1, "rgb(0, 0, 0)"));
+        tiles.push(new Tile(1, 6, 1, 2, rgbBlu));
+        tiles.push(new Tile(2, 6, 1, 2, rgbBlu));
+        tiles.push(new Tile(3, 6, 2, 1, rgbGre));
+        tiles.push(new Tile(3, 7, 1, 1, rgbBlk));
         tiles[tiles.length-1].selectionLocked = 1;
-        tiles.push(new Tile(4, 7, 1, 1, "rgb(255, 255, 0)"));
+        tiles.push(new Tile(4, 7, 1, 1, rgbYel));
 
-        tiles.push(new Tile(1, 8, 1, 2, "rgb(0, 0, 255)"));
-        tiles.push(new Tile(2, 8, 1, 2, "rgb(0, 0, 255)"));
+        tiles.push(new Tile(1, 8, 1, 2, rgbBlu));
+        tiles.push(new Tile(2, 8, 1, 2, rgbBlu));
  
-        tiles.push(new Tile(0, 0, 6, 1, "rgb(0, 0, 0)"));
+        tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
         tiles[tiles.length-1].selectionLocked = 1;
-        tiles.push(new Tile(0, 0, 1, 11, "rgb(0, 0, 0)"));
+        tiles.push(new Tile(0, 0, 1, 11, rgbBlk));
         tiles[tiles.length-1].selectionLocked = 1;
-        tiles.push(new Tile(0, 10, 6, 1, "rgb(0, 0, 0)"));
+        tiles.push(new Tile(0, 10, 6, 1, rgbBlk));
         tiles[tiles.length-1].selectionLocked = 1;
-        tiles.push(new Tile(5, 0, 1, 11, "rgb(0, 0, 0)"));
+        tiles.push(new Tile(5, 0, 1, 11, rgbBlk));
         tiles[tiles.length-1].selectionLocked = 1;
  
         var gameState = new GameState();

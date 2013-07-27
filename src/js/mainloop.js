@@ -17,6 +17,7 @@
               this.mainTimerCallback = function() { 
                    _this.mainTimer(); 
               };
+              this.clearStyle = "rgb(200, 200, 200)";
               
               setInterval(this.mainTimerCallback, 20);              
               window.addEventListener("resize", function() {
@@ -25,8 +26,8 @@
         };
         
         mainloop.prototype.redraw = function () {
-             this.ctx.fillStyle = "rgb(255, 255, 255)";  
-             this.ctx.clearRect(0, 0, this.myCanvas.width, this.myCanvas.height);
+             this.ctx.fillStyle = this.clearStyle;  
+             this.ctx.fillRect(0, 0, this.myCanvas.width, this.myCanvas.height);
              for (var tileIdx = 0;  tileIdx < this.tiles.length; tileIdx = tileIdx + 1) {
                  this.tiles[tileIdx].draw(this.ctx);
              }         
@@ -63,7 +64,8 @@
                            this.dirtyRect = this.ioEventHandlers[ioHandlerIndex].selectedTile.getDirtyRect(); 
                        }
                        // clear old tile render
-                       this.ctx.clearRect(this.dirtyRect.x, this.dirtyRect.y, this.dirtyRect.w, this.dirtyRect.h);
+                       this.ctx.fillStyle = this.clearStyle;
+                       this.ctx.fillRect(this.dirtyRect.x, this.dirtyRect.y, this.dirtyRect.w, this.dirtyRect.h);
              
                        // move tile positon
                        if ( this.ioEventHandlers[ioHandlerIndex].flagSnapToGrid ) {
