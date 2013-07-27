@@ -1,8 +1,6 @@
 (function() {
     "use strict";
     
-
-    
     define( ["src/js/tile", "src/js/collisionTile"], function (Tile, getCollisionTile) {   
     
         var tEH = function ( myCanvas, myTiles, gameState ) {         
@@ -15,8 +13,6 @@
                     y : 0              
                 };   
                 this.flagSnapToGrid = 0;
-                this.flagReorientate = 0;
-    
                 this.vol = new SAT.Circle(new SAT.Vector(0,0), 5);
                 this.selectedTile = undefined;
                           
@@ -32,7 +28,8 @@
                     _this.onTouchMove(event);
                 }, true);
                 
-     
+                // prevent scrolling
+                document.body.addEventListener('touchmove', function(event) { event.preventDefault();}, false); 
             };
             
             
