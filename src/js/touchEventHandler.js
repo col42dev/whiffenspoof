@@ -15,6 +15,7 @@
                     y : 0              
                 };   
                 this.flagSnapToGrid = 0;
+                this.flagReorientate = 0;
     
                 this.vol = new SAT.Circle(new SAT.Vector(0,0), 5);
                 this.selectedTile = undefined;
@@ -30,6 +31,7 @@
                 this.canvas.addEventListener("touchmove", function (event) {
                     _this.onTouchMove(event);
                 }, true);
+                
      
             };
             
@@ -91,6 +93,8 @@
                     }
                 }
             };
+            
+
             
             return tEH;
         

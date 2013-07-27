@@ -82,15 +82,7 @@
         
  
  
-        function drawAll() {
-            ctx.fillStyle = "rgb(255, 255, 255)";  
-            ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-            for (var tileIdx = 0;  tileIdx < tiles.length; tileIdx = tileIdx + 1) {
-               tiles[tileIdx].draw(ctx);
-            }       
-        }
-        
-        drawAll();
+
         
         var mainloop = new MainLoop(mouseEventHandler, touchEventHandler, tiles);
 

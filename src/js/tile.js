@@ -4,6 +4,8 @@
     define( function () {     
            
         var tile = function(xUnit, yUnit, wUnit, hUnit, rgb) {
+            this.wUnit = wUnit;
+            this.hUnit = hUnit;
             this.box = new SAT.Box(new SAT.Vector(this.tileUnitSize*xUnit, this.tileUnitSize*yUnit), this.tileUnitSize*wUnit-2, this.tileUnitSize*hUnit-2).toPolygon();
             this.w = this.tileUnitSize*wUnit-2;
             this.h = this.tileUnitSize*hUnit-2;
@@ -15,6 +17,15 @@
             this.selectionLocked = 0; 
         };
         
+        tile.prototype.resize = function( oldTileUnitSize ) { 
+            var xUnit = Math.floor((this.box.pos.x + oldTileUnitSize / 2) / oldTileUnitSize);
+            var yUnit = Math.floor((this.box.pos.y + oldTileUnitSize / 2) / oldTileUnitSize);
+            this.box = new SAT.Box(new SAT.Vector(this.tileUnitSize*xUnit, this.tileUnitSize*yUnit), this.tileUnitSize*this.wUnit-2, this.tileUnitSize*this.hUnit-2).toPolygon();
+            this.w = this.tileUnitSize*this.wUnit-2;
+            this.h = this.tileUnitSize*this.hUnit-2;
+        };
+        
+        
         tile.prototype.getDirtyRect = function() { 
             return { x : this.box.pos.x+1, y: this.box.pos.y+1, w : this.w-0, h: this.h-0 };
         };
@@ -22,12 +33,6 @@
         tile.prototype.draw = function (ctx) {
             ctx.fillStyle = this.rgb;  
             
-            if (!this.selectionLocked) {
-                //ctx.shadowColor = "rgb(0, 0, 0)";
-                //ctx.shadowOffsetX = 5;
-                //ctx.shadowOffsetY = 5;
-                //ctx.shadowBlur = 10;
-            }
 
             ctx.fillRect(this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2); 
             //console.log( ">>>" + this.box.pos.x+ this.box.pos.y+ this.box.w+ this.box.h);
@@ -65,7 +70,7 @@
             this._slideToAxis(this.box, 'y', this.selectedTileOffset.y, targetPos.y, tiles);
         };
         
-        tile.prototype.snapToGrid = function() {
+        tile.prototype.snapToGrid = function () {
             if ( this.box.pos.x % this.tileUnitSize < this.tileUnitSize / 2) {
                 this.box.pos.x = this.tileUnitSize * Math.floor(this.box.pos.x / this.tileUnitSize);
             } else {

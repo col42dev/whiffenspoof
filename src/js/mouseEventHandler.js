@@ -12,6 +12,7 @@
                     y : 0              
                 };
                 this.flagSnapToGrid = 0;
+                this.flagReorientate = 0;
 
     
                 this.vol = new SAT.Circle(new SAT.Vector(0,0), 5);
@@ -19,6 +20,7 @@
                 this.canvas.addEventListener("mousedown", this.doMouseDown.bind(this), false);   
                 this.canvas.addEventListener("mouseup", this.doMouseUp.bind(this), false); 
                 this.canvas.addEventListener("mousemove", this.doMouseMove.bind(this), false);
+   
             };
             
             mEH.prototype.getPos = function () { 
@@ -72,7 +74,6 @@
             };
                 
 
-            
             return mEH;
         
         }); //define
