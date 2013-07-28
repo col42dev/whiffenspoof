@@ -4,6 +4,8 @@
     define( function () {     
            
         var tile = function(xUnit, yUnit, wUnit, hUnit, rgb) {
+            
+  
             this.wUnit = wUnit;
             this.hUnit = hUnit;
             this.box = new SAT.Box(new SAT.Vector(this.tileUnitSize*xUnit, this.tileUnitSize*yUnit), this.tileUnitSize*wUnit-2, this.tileUnitSize*hUnit-2).toPolygon();
