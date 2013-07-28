@@ -13,6 +13,14 @@
         var ctx=myCanvas.getContext("2d");
         
         
+        // user-select: none; -webkit-user-select: none; -moz-user-select: none
+        var s = myCanvas.style;
+        s.userSelect = "none";
+        s.webkitUserSelect = "none";
+        s.MozUserSelect = "none";
+        myCanvas.setAttribute("unselectable", "on"); // For IE and Opera
+        
+        // fit 11 tiles to device height
         Tile.prototype.tileUnitSize = myCanvas.height / 11;
   
 
@@ -63,10 +71,10 @@
         
 
         if (typeof(window.ontouchstart) != 'undefined') {
-            console.log("touch");
+            //console.log("touch");
             touchEventHandler = new TouchEventHandler(myCanvas, tiles, gameState);           
         } else {
-            console.log("mouse");
+            //console.log("mouse");
             mouseEventHandler = new MouseEventHandler(myCanvas, tiles, gameState);
         }
         

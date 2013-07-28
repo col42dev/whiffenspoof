@@ -18,11 +18,11 @@
                           
                 this.canvas.addEventListener("touchstart", function (event) {
                     _this.onTouchStart(event);
-                }, false);
+                }, true);
  
                 this.canvas.addEventListener("touchend", function (event) {
                     _this.onTouchEnd(event);
-                }, false);         
+                }, true);         
 
                 this.canvas.addEventListener("touchmove", function (event) {
                     _this.onTouchMove(event);
