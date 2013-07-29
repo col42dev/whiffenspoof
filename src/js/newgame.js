@@ -30,7 +30,7 @@
             canvasTable  += "       <td>";
             canvasTable  += "           <canvas id='myCanvas' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>";
             canvasTable  += "       </td>";
-            canvasTable  += "       <td>";
+            canvasTable  += "       <td align='top'>";
             canvasTable  += "           <h4 id='moveCounter'>---</h4>";
             canvasTable  += "       </td>";
             canvasTable  += "   </tr>";

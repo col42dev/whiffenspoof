@@ -11,7 +11,7 @@
             this.myCanvas = document.getElementById("myCanvas");
             
             this.myCanvas.height = window.innerHeight; //document.body.clientHeight ; 
-            this.myCanvas.width = (this.myCanvas.height / 11)  * 6; //document.width is obsolete
+            this.myCanvas.width = (this.myCanvas.height / 11)  * (6 + 2); //document.width is obsolete
             this.ctx = this.myCanvas.getContext("2d");
              
             // user-select: none; -webkit-user-select: none; -moz-user-select: none
@@ -101,7 +101,7 @@
         mainloop.prototype.onResize = function () {
             this.myCanvas = document.getElementById("myCanvas");
             this.myCanvas.height = window.innerHeight; //document.body.clientHeight ; 
-            this.myCanvas.width = (this.myCanvas.height / 11)  * 6; 
+            this.myCanvas.width = (this.myCanvas.height / 11)  * (6 + 2); 
             var oldTileUnitSize = Tile.prototype.tileUnitSize;
 
             Tile.prototype.tileUnitSize = this.myCanvas.height / 11;
@@ -117,6 +117,7 @@
             var fontStr = "bold PSpx Verdana";
             var fontPointSizeStr = Tile.prototype.tileUnitSize.toString();
             
+            this.ctx.textAlign = 'left';
             this.ctx.font = fontStr.replace(/PS/g, fontPointSizeStr);
             this.ctx.fillText("Red", 2,  Tile.prototype.tileUnitSize * 0.86);
             
@@ -142,6 +143,24 @@
              if ( this.flagResize) {
                  this.onResize();
                  this.flagResize = 0; 
+                 this.gameState.flagMoveCounterRefresh = 1;
+             }
+             
+             if ( this.gameState.flagMoveCounterRefresh ) {
+                 
+                this.ctx.fillStyle = this.clearStyle;
+                this.ctx.fillRect(Tile.prototype.tileUnitSize * 6, 0, Tile.prototype.tileUnitSize * 2, Tile.prototype.tileUnitSize * 2);
+   
+   
+                this.ctx.fillStyle = "Red";
+                var fontStr = "bold PSpx Verdana";
+                var fontPointSizeStr = (Tile.prototype.tileUnitSize * .9).toString();
+           
+                this.ctx.font = fontStr.replace(/PS/g, fontPointSizeStr); 
+                this.ctx.textAlign = "left";
+                this.ctx.fillText(this.gameState.moveCounter.toString(), (Tile.prototype.tileUnitSize * 6),  Tile.prototype.tileUnitSize );
+                this.gameState.flagMoveCounterRefresh = 0;
+ 
              }
                 
              // for each IO event handler

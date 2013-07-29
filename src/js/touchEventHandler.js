@@ -1,20 +1,13 @@
 (function() {
     "use strict";
     
-    define( ["src/js/tile", "src/js/collisionTile"], function (Tile, getCollisionTile) {   
+    define( ["src/js/tile", "src/js/collisionTile", "src/js/gameState", "src/js/ioEventHandler"], function (Tile, getCollisionTile, GameState, IOEventHandler) {   
     
         var tEH = function ( myCanvas, myTiles, gameState ) {         
                 var _this = this;
-                this.canvas = myCanvas;
-                this.myTiles = myTiles;
-                this.gameState = gameState;
-                this.pos = {
-                    x : 0, 
-                    y : 0              
-                };   
-                this.flagSnapToGrid = 0;
-                this.vol = new SAT.Circle(new SAT.Vector(0,0), 5);
-                this.selectedTile = undefined;
+                
+                IOEventHandler.call(this, myCanvas, myTiles, gameState);
+    
                           
                 this.canvas.addEventListener("touchstart", function (event) {
                     _this.onTouchStart(event);
@@ -32,42 +25,19 @@
                 document.body.addEventListener('touchmove', function(event) { event.preventDefault();}, false); 
             };
             
+            tEH.prototype = new IOEventHandler();
+  
             
-            //proto type
-            tEH.prototype.setTouchPos = function(event) {
-                var rect = this.canvas.getBoundingClientRect();
-                this.pos = { x: event.pageX - rect.left, y: event.pageY - rect.top};      
-                this.vol.pos.x =     this.pos.x;    
-                this.vol.pos.y =     this.pos.y; 
-            };
-            
-            tEH.prototype.startMovePos = {
-                    x : 0, 
-                    y : 0              
-            };
-            
-            tEH.prototype.getPos = function () { 
-                return this.pos;
-            };
-            
+            //proto type  
             tEH.prototype.onTouchStart = function(event) {
                 if (typeof this.selectedTile !== "undefined") {
                     return;
                 }
                 if (event.targetTouches.length == 1) {
                     var touch = event.targetTouches[0];                  
-                    this.setTouchPos(event); 
-                    var collisionTile = getCollisionTile(this.vol, this.myTiles);
-                    if (typeof collisionTile !== "undefined") { 
-                        if (!collisionTile.selectionLocked) {
-                            this.selectedTile = collisionTile;
-                            if (typeof this.selectedTile !== "undefined") {
-                                this.selectedTile.selectedTileOffset = { x: this.pos.x - this.selectedTile.box.pos.x,  y: this.pos.y - this.selectedTile.box.pos.y};
-                                this.startMovePos.x = this.selectedTile.box.pos.x;
-                                this.startMovePos.y = this.selectedTile.box.pos.y;
-                            }
-                        }
-                    }
+
+                    this.setPos(event.pageX, event.pageY);                  
+                    IOEventHandler.prototype.checkTouchingTile.call(this);
                 }
             };
             
@@ -75,7 +45,7 @@
                 if (event.targetTouches.length == 1) {
                     var touch = event.targetTouches[0];                  
                     if (typeof this.selectedTile !== "undefined") {
-                        this.setTouchPos(event);
+                         this.setPos(event.pageX, event.pageY);
                     }  
                 }           
             };
@@ -86,7 +56,7 @@
                     
                     // increment move counter
                     if (( this.startMovePos.x !== this.selectedTile.box.pos.x) || ( this.startMovePos.y !== this.selectedTile.box.pos.y)) {
-                        this.gameState.moveCounter += 1;
+                        this.gameState.incrementMoveCounter();
                     }
                 }
             };
