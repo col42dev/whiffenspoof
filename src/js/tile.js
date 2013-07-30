@@ -103,11 +103,20 @@
                 }
                 yUnit += 1;
             };
-
  
             //document.getElementById("moveCounter").innerHTML = "< " + Math.floor(this.box.pos.y).toString() + " % " + Math.floor(this.tileUnitSize).toString() + " = " + Math.floor(this.box.pos.y % this.tileUnitSize).toString();
- 
         };
+        
+        tile.prototype.testWinCondition = function() {
+            if (this.wUnit===2 && this.hUnit===2) {
+                if (this.box.pos.y >= 8*this.tileUnitSize) {
+                    if (this.box.pos.x >= 3*this.tileUnitSize) {
+                        return 1;
+                    }   
+                }
+            }
+            return 0;
+        }
       
         // true if sat collides with a Tile
         tile.prototype.collisionCheck = function (sat, tiles) {              

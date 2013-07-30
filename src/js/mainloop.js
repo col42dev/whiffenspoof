@@ -11,7 +11,7 @@
             this.myCanvas = document.getElementById("myCanvas");
             
             this.myCanvas.height = window.innerHeight; //document.body.clientHeight ; 
-            this.myCanvas.width = (this.myCanvas.height / 11)  * (6 + 2); //document.width is obsolete
+            this.myCanvas.width = window.innerWidth; //(this.myCanvas.height / 11)  * (6 + 2); //document.width is obsolete
             this.ctx = this.myCanvas.getContext("2d");
              
             // user-select: none; -webkit-user-select: none; -moz-user-select: none
@@ -101,7 +101,7 @@
         mainloop.prototype.onResize = function () {
             this.myCanvas = document.getElementById("myCanvas");
             this.myCanvas.height = window.innerHeight; //document.body.clientHeight ; 
-            this.myCanvas.width = (this.myCanvas.height / 11)  * (6 + 2); 
+            this.myCanvas.width = window.innerWidth; //(this.myCanvas.height / 11)  * (6 + 2); 
             var oldTileUnitSize = Tile.prototype.tileUnitSize;
 
             Tile.prototype.tileUnitSize = this.myCanvas.height / 11;
@@ -138,7 +138,17 @@
         };
                       
         mainloop.prototype.mainTimer = function( ) {
-        
+            
+             // Test win condition
+             if ( this.gameState.hasWon() ) {
+                if ( this.mainTimerCallback != undefined ) {
+                    alert("Congratulations. You took " + this.gameState.moves() + " moves.");
+                    this.mainTimerCallback = undefined;
+                    location.reload();
+                    return;
+                }
+             }  
+             
              // reorientate/resize view
              if ( this.flagResize) {
                  this.onResize();
@@ -147,53 +157,59 @@
              }
              
              if ( this.gameState.flagMoveCounterRefresh ) {
-                 
-                this.ctx.fillStyle = this.clearStyle;
-                this.ctx.fillRect(Tile.prototype.tileUnitSize * 6, 0, Tile.prototype.tileUnitSize * 2, Tile.prototype.tileUnitSize * 2);
-   
-   
-                this.ctx.fillStyle = "Red";
-                var fontStr = "bold PSpx Verdana";
-                var fontPointSizeStr = (Tile.prototype.tileUnitSize * .9).toString();
-           
-                this.ctx.font = fontStr.replace(/PS/g, fontPointSizeStr); 
-                this.ctx.textAlign = "left";
-                this.ctx.fillText(this.gameState.moveCounter.toString(), (Tile.prototype.tileUnitSize * 6),  Tile.prototype.tileUnitSize );
-                this.gameState.flagMoveCounterRefresh = 0;
- 
+                
+                if ( this.gameState.moveCounter > 0) {
+                    this.ctx.fillStyle = this.clearStyle;
+                    this.ctx.fillRect(Tile.prototype.tileUnitSize * 6, 0, window.innerWidth - (Tile.prototype.tileUnitSize * 6), Tile.prototype.tileUnitSize * 2);
+       
+       
+                    this.ctx.fillStyle = "Red";
+                    var fontStr = "bold PSpx Verdana";
+                    var fontPointSizeStr = (Tile.prototype.tileUnitSize * .9).toString();
+               
+                    this.ctx.font = fontStr.replace(/PS/g, fontPointSizeStr); 
+                    this.ctx.textAlign = "right";
+                    this.ctx.fillText(this.gameState.moveCounter.toString(), window.innerWidth - Tile.prototype.tileUnitSize/5,  Tile.prototype.tileUnitSize * 0.86 );
+                    this.gameState.flagMoveCounterRefresh = 0;
+                }
              }
                 
              // for each IO event handler
              for ( var ioHandlerIndex=0; ioHandlerIndex<this.ioEventHandlers.length; ioHandlerIndex+=1) {
-                 if (typeof this.ioEventHandlers[ioHandlerIndex] !== "undefined") {   
+                 var handler = this.ioEventHandlers[ioHandlerIndex];
+                 if (typeof handler !== "undefined") {   
             
-                   var touchPos = this.ioEventHandlers[ioHandlerIndex].pos;
+                   var touchPos = handler.pos;
                   
-                   if (typeof this.ioEventHandlers[ioHandlerIndex].selectedTile !== "undefined") {
+                   if (typeof handler.selectedTile !== "undefined") {
                        if (!this.wasTileSelectedOnLastUpdate) {  // set dirtyRect to tile inital selection 
-                           this.dirtyRect = this.ioEventHandlers[ioHandlerIndex].selectedTile.getDirtyRect(); 
+                           this.dirtyRect = handler.selectedTile.getDirtyRect(); 
                        }
+                       
                        // clear old tile render
                        this.ctx.fillStyle = this.clearStyle;
                        this.ctx.fillRect(this.dirtyRect.x, this.dirtyRect.y, this.dirtyRect.w, this.dirtyRect.h);
              
                        // move tile positon
-                       if ( this.ioEventHandlers[ioHandlerIndex].flagSnapToGrid ) {
-                           this.ioEventHandlers[ioHandlerIndex].selectedTile.snapToGrid();               
+                       if ( handler.flagSnapToGrid ) {
+                           handler.selectedTile.snapToGrid();
+                           if( handler.selectedTile.testWinCondition()) {
+                                this.gameState.win();
+                           }
                        } else {
-                           this.ioEventHandlers[ioHandlerIndex].selectedTile.slideTo(touchPos, this.tiles); 
+                           handler.selectedTile.slideTo(touchPos, this.tiles); 
                        }
                        
                        // draw tile in new position
-                       this.ioEventHandlers[ioHandlerIndex].selectedTile.draw(this.ctx);  
+                       handler.selectedTile.draw(this.ctx);  
                        
                        // set dirty rect ready for next update
-                       this.dirtyRect = this.ioEventHandlers[ioHandlerIndex].selectedTile.getDirtyRect();   
+                       this.dirtyRect = handler.selectedTile.getDirtyRect();   
                        
                        // handle deselected tile state
-                       if ( this.ioEventHandlers[ioHandlerIndex].flagSnapToGrid ) {
-                            this.ioEventHandlers[ioHandlerIndex].flagSnapToGrid = 0;
-                            this.ioEventHandlers[ioHandlerIndex].selectedTile = undefined;
+                       if ( handler.flagSnapToGrid ) {
+                            handler.flagSnapToGrid = 0;
+                            handler.selectedTile = undefined;
                        } 
                        this.wasTileSelectedOnLastUpdate = 1;
                    } else {
@@ -202,6 +218,7 @@
                  }
              } // forloop
             
+
          }; // myTimer()  
 
          return mainloop;
