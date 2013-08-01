@@ -40,7 +40,13 @@
                 headTag += "<meta name='apple-mobile-web-app-capable' content='yes' />";
                 headTag += "<meta name='apple-mobile-web-app-status-bar-style' content='black' />";
                 headTag += "<link rel='stylesheet' type='text/css' href='./src/css/ipad.css' media='screen' />";
-                headTag += "<link rel='stylesheet' type='text/css' href='./src/css/menu.css' />";      
+                headTag += "<link rel='stylesheet' type='text/css' href='./src/css/menu.css' />";   
+                
+                headTag += "<script type='text/javascript' src='src/js/sat-js/SAT.js'></script>"
+                headTag += "<script type='text/javascript' src='src/js/require.js'></script>"
+                headTag += "<script type='text/javascript' src='vendor/js/angular.js'></script>" 
+                headTag += "<script type='text/javascript' src='src/js/main.js'></script>"
+           
                 return headTag;
         };
             

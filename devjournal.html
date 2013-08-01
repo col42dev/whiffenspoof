@@ -34,8 +34,6 @@
            Once I had some core game functionality in place I adopted <a href="http://requirejs.org/">http://requirejs.org/</a> to modularize and refactor it out. 
            This made it clear how a javascript project could pratically be extended to a larger scale and using object orientation.
            
-           Front-end<br/>
-           I 
            
            The canvas render size was initially fixed, I generalized this to fit to the device view size to make the most of the available screen space.
            At this point the performance differences between iPad and desktop browsers became more apparrent, iPad Safari has low framerate when sliding the tiles.
@@ -45,7 +43,13 @@
            The rectangular layout of the tiles made this straight forward. Initially i tried moving the render and refresh calls in to the IO event handler callbacks.
            This almost worked but it tied the rendering to these callbacks which broke the model-view pattern. So i moved render back in to a cebtralized update loop
            and implemented the dirty rectangle refresh here. This made a very noticeable improvement to the framerate on iOS. 
-          
+        
+           Front-end<br/>
+           I went through several learning iterations with the front-end and screen state implementation. Initially I implmented the screen state as seperate html files
+           but discoved that this does not fit well with a standard browser. The refresh would simple refresh the existing screen rather than return you to the front-end
+           for example. To maintain more control over this I switched to use of a single html page and dynamically control the html to switch screen states. This did the 
+           trick but resulted in an cumbersome implementation. The quantum leap was to then switch to using the <a href="http://angularjs.org/">http://angularjs.org/</a>
+           MVC framework.   
         </p>
 
     </body>

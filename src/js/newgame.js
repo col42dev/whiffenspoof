@@ -20,21 +20,21 @@
             headTag += "<link rel='stylesheet' href='./src/css/docs.css'>";
             headTag += "<meta name='apple-mobile-web-app-capable' content='yes' />";
             headTag += "<meta name='apple-mobile-web-app-status-bar-style' content='black' />";
+            
+            headTag += "<script type='text/javascript' src='src/js/sat-js/SAT.js'></script>"
+            headTag += "<script type='text/javascript' src='src/js/require.js'></script>"
+            headTag += "<script type='text/javascript' src='vendor/js/angular.js'></script>" 
+            headTag += "<script type='text/javascript' src='src/js/main.js'></script>"
+ 
+ 
             return headTag;
         };
             
         NewGame.prototype.markupCanvasTable = function () {
             var canvasTable = "";
-            //canvasTable  += "<table>";
-            //canvasTable  += "   <tr>";
-            //canvasTable  += "       <td>";
+
             canvasTable  += "           <canvas id='myCanvas' style='border:1px solid #d3d3d3;'>Your browser does not support the HTML5 canvas tag.</canvas>";
-            //canvasTable  += "       </td>";
-            //canvasTable  += "       <td align='top'>";
-            //canvasTable  += "           <h4 id='moveCounter'>---</h4>";
-            //canvasTable  += "       </td>";
-            //canvasTable  += "   </tr>";
-            //canvasTable  += "</table>";
+
             return canvasTable;
         };
 

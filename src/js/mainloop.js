@@ -3,9 +3,11 @@
         
      define(["src/js/tile", "src/js/touchEventHandler", "src/js/mouseEventHandler", "src/js/gameState"], function(Tile, TouchEventHandler, MouseEventHandler, GameState) {   
 
-        var mainloop = function ( ) {   
+        var mainloop = function ( gameControllerScope ) {   
                    
             var _this = this;
+            
+            this.gameControllerScope = gameControllerScope;
      
             //TODO: modularise this initlization 
             this.myCanvas = document.getElementById("myCanvas");
@@ -30,30 +32,30 @@
             var rgbBlk = "rgb(30, 30, 30)";
             this.tiles = [];       
             this.tiles.push(new Tile(1, 1, 2, 2, rgbRed));
-            this.tiles.push(new Tile(3, 1, 2, 1, rgbGre));   
-            this.tiles.push(new Tile(3, 2, 2, 1, rgbGre));
+            //this.tiles.push(new Tile(3, 1, 2, 1, rgbGre));   
+            //this.tiles.push(new Tile(3, 2, 2, 1, rgbGre));
                 
-            this.tiles.push(new Tile(1, 3, 1, 1, rgbYel));
+            //this.tiles.push(new Tile(1, 3, 1, 1, rgbYel));
             this.tiles.push(new Tile(2, 3, 1, 1, rgbBlk));
             this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(3, 3, 2, 1, rgbGre));
+            //this.tiles.push(new Tile(3, 3, 2, 1, rgbGre));
                  
-            this.tiles.push(new Tile(1, 4, 1, 1, rgbYel));
-            this.tiles.push(new Tile(2, 4, 1, 1, rgbYel));
-            this.tiles.push(new Tile(3, 4, 2, 1, rgbGre));
+            //this.tiles.push(new Tile(1, 4, 1, 1, rgbYel));
+            //this.tiles.push(new Tile(2, 4, 1, 1, rgbYel));
+            //this.tiles.push(new Tile(3, 4, 2, 1, rgbGre));
             
-            this.tiles.push(new Tile(1, 5, 2, 1, rgbGre));
-            this.tiles.push(new Tile(3, 5, 2, 1, rgbGre));
+            //this.tiles.push(new Tile(1, 5, 2, 1, rgbGre));
+            //this.tiles.push(new Tile(3, 5, 2, 1, rgbGre));
             
-            this.tiles.push(new Tile(1, 6, 1, 2, rgbBlu));
-            this.tiles.push(new Tile(2, 6, 1, 2, rgbBlu));
-            this.tiles.push(new Tile(3, 6, 2, 1, rgbGre));
+            //this.tiles.push(new Tile(1, 6, 1, 2, rgbBlu));
+            //this.tiles.push(new Tile(2, 6, 1, 2, rgbBlu));
+            //this.tiles.push(new Tile(3, 6, 2, 1, rgbGre));
             this.tiles.push(new Tile(3, 7, 1, 1, rgbBlk));
             this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(4, 7, 1, 1, rgbYel));
+            //this.tiles.push(new Tile(4, 7, 1, 1, rgbYel));
             
-            this.tiles.push(new Tile(1, 8, 1, 2, rgbBlu));
-            this.tiles.push(new Tile(2, 8, 1, 2, rgbBlu));
+            //this.tiles.push(new Tile(1, 8, 1, 2, rgbBlu));
+            //this.tiles.push(new Tile(2, 8, 1, 2, rgbBlu));
             
             this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
             this.tiles[this.tiles.length-1].selectionLocked = 1;
@@ -144,7 +146,8 @@
                 if ( this.mainTimerCallback != undefined ) {
                     alert("Congratulations. You took " + this.gameState.moves() + " moves.");
                     this.mainTimerCallback = undefined;
-                    location.reload();
+                    //location.reload();
+                    this.gameControllerScope.exitgame(); 
                     return;
                 }
              }  
