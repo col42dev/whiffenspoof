@@ -13,9 +13,6 @@
             
             mEH.prototype = new IOEventHandler();
             
-
-
-
             
             mEH.prototype.doMouseDown = function (event) {
                 if (typeof this.selectedTile !== "undefined") {

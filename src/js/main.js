@@ -14,11 +14,22 @@
                 controller: 'GameController'     
             });
             
-            $routeProvider.otherwise( { redirectTo: '/menu'} );
+            $routeProvider.otherwise( { 
+               // redirectTo: '/menu'
+                templateUrl: 'menu.html',
+                controller: 'MenuController' 
+            });
         });
         
+        
         main.controller('MenuController', ['$scope', '$location', function($scope, $location) {
+                
+            // prevent scrolling
+            $scope.el = window.addEventListener('touchmove', function(event) { event.preventDefault();}, true); 
+     
             $scope.newgame = function() {
+                window.removeEventListener("touchmove", $scope.el, false);
+ 
                 $location.path('/game');
             };
         }]);
@@ -26,20 +37,14 @@
         
         main.controller('GameController', ['$scope', '$location', function($scope, $location) {
 
-            $scope.title = "Senetors";
-            $scope.message = "Mouse over images to see a directive at work";
-
-            
-            require(["src/js/mainmenu", "src/js/newgame", "src/js/mainloop", "src/js/gameState", "src/js/mouseEventHandler", "src/js/touchEventHandler", "src/js/tile"], function(MainMenu, NewGame, MainLoop, GameState, MouseEventHandler, TouchEventHandler, Tile) {   
-                var ml = new MainLoop($scope); 
+            require([ "src/js/mainloop"], function(MainLoop) {   
+                $scope.ml = new MainLoop($scope); 
             });
             
             $scope.exitgame = function() {
-                //alert("called exit");
                 $location.path('/menu');
                 $scope.$apply();
             };
-  
         }]);
         
 

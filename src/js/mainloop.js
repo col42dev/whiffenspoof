@@ -85,11 +85,15 @@
             };
             this.clearStyle = "rgb(200, 200, 200)";
             
-            setInterval(this.mainTimerCallback, 20);  
+            this.mainloopInterval = setInterval(this.mainTimerCallback, 20);  
+            
+            this.onResizeWindow = function onResize() {
+                _this.flagResize = 1; 
+            };
                             
-            window.addEventListener("resize", function() {
-                  _this.flagResize = 1;
-                  }, false);   
+            window.addEventListener("resize", _this.onResizeWindow, false);
+            
+
         };
         
         mainloop.prototype.redraw = function () {
@@ -138,14 +142,18 @@
             this.ctx.shadowColor="rgba(255,255,255,0.0)";
             this.ctx.fillStyle="White";
         };
+        
                       
         mainloop.prototype.mainTimer = function( ) {
             
              // Test win condition
              if ( this.gameState.hasWon() ) {
                 if ( this.mainTimerCallback != undefined ) {
-                    alert("Congratulations. You took " + this.gameState.moves() + " moves.");
+                    alert("Congratulations. RedShift in " + this.gameState.moves() + " moves.");
+                    clearInterval(this.mainloopInterval);
                     this.mainTimerCallback = undefined;
+                    window.removeEventListener("resize", this.onResizeWindow, false);
+ 
                     //location.reload();
                     this.gameControllerScope.exitgame(); 
                     return;
