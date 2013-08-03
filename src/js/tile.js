@@ -15,6 +15,7 @@
             };
             this.rgb = rgb;
             this.selectionLocked = 0; 
+            this.red = 0;
         };
         
         tile.prototype.resize = function( oldTileUnitSize ) { 

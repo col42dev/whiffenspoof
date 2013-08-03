@@ -10,8 +10,11 @@
         };
         
         gameState.prototype.incrementMoveCounter = function () {
-            this.moveCounter += 1;
-            this.flagMoveCounterRefresh = 1;
+            
+            if (!this.hasWon()) {
+                this.moveCounter += 1;
+                this.flagMoveCounterRefresh = 1;
+            }
         };
         
         gameState.prototype.moves = function() {

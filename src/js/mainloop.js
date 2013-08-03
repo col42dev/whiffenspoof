@@ -25,47 +25,8 @@
             // fit 11 tiles to device height
             Tile.prototype.tileUnitSize = this.myCanvas.height / 11;
                     
-            var rgbRed = "rgb(200, 0, 0)";
-            var rgbGre = "rgb(0, 200, 0)";
-            var rgbBlu = "rgb(0, 0, 200)";
-            var rgbYel = "rgb(220, 220, 0)";
-            var rgbBlk = "rgb(30, 30, 30)";
-            this.tiles = [];       
-            this.tiles.push(new Tile(1, 1, 2, 2, rgbRed));
-            //this.tiles.push(new Tile(3, 1, 2, 1, rgbGre));   
-            //this.tiles.push(new Tile(3, 2, 2, 1, rgbGre));
-                
-            //this.tiles.push(new Tile(1, 3, 1, 1, rgbYel));
-            this.tiles.push(new Tile(2, 3, 1, 1, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            //this.tiles.push(new Tile(3, 3, 2, 1, rgbGre));
-                 
-            //this.tiles.push(new Tile(1, 4, 1, 1, rgbYel));
-            //this.tiles.push(new Tile(2, 4, 1, 1, rgbYel));
-            //this.tiles.push(new Tile(3, 4, 2, 1, rgbGre));
-            
-            //this.tiles.push(new Tile(1, 5, 2, 1, rgbGre));
-            //this.tiles.push(new Tile(3, 5, 2, 1, rgbGre));
-            
-            //this.tiles.push(new Tile(1, 6, 1, 2, rgbBlu));
-            //this.tiles.push(new Tile(2, 6, 1, 2, rgbBlu));
-            //this.tiles.push(new Tile(3, 6, 2, 1, rgbGre));
-            this.tiles.push(new Tile(3, 7, 1, 1, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            //this.tiles.push(new Tile(4, 7, 1, 1, rgbYel));
-            
-            //this.tiles.push(new Tile(1, 8, 1, 2, rgbBlu));
-            //this.tiles.push(new Tile(2, 8, 1, 2, rgbBlu));
-            
-            this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(0, 0, 1, 11, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(0, 10, 6, 1, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(5, 0, 1, 11, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            
+            this.createTiles();
+        
             this.gameState = new GameState();
    
             if (typeof(window.ontouchstart) != 'undefined') {
@@ -92,9 +53,95 @@
             };
                             
             window.addEventListener("resize", _this.onResizeWindow, false);
-            
-
         };
+        
+        mainloop.prototype.onDestroy = function () {
+
+            if ( this.mainTimerCallback != undefined ) {
+                clearInterval(this.mainloopInterval);
+            }
+            this.mainTimerCallback = undefined;
+            window.removeEventListener("resize", this.onResizeWindow, false);
+        };
+        
+       mainloop.prototype.createTilesDev = function () {
+            
+            var rgbRed = "rgb(200, 0, 0)";
+            var rgbGre = "rgb(0, 200, 0)";
+            var rgbBlu = "rgb(0, 0, 200)";
+            var rgbYel = "rgb(220, 220, 0)";
+            var rgbBlk = "rgb(30, 30, 30)";
+            this.tiles = [];       
+            this.tiles.push(new Tile(1, 1, 2, 2, rgbRed));
+            this.tiles[this.tiles.length-1].red = 1;
+
+            this.tiles.push(new Tile(2, 3, 1, 1, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+     
+
+            this.tiles.push(new Tile(1, 4, 1, 1, rgbYel));
+            this.tiles.push(new Tile(2, 4, 1, 1, rgbYel));
+            this.tiles.push(new Tile(3, 4, 2, 1, rgbGre));
+ 
+ 
+            this.tiles.push(new Tile(3, 7, 1, 1, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            
+            this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            this.tiles.push(new Tile(0, 0, 1, 11, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            this.tiles.push(new Tile(0, 10, 6, 1, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            this.tiles.push(new Tile(5, 0, 1, 11, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+        };
+ 
+        mainloop.prototype.createTiles = function () {
+            
+            var rgbRed = "rgb(200, 0, 0)";
+            var rgbGre = "rgb(0, 200, 0)";
+            var rgbBlu = "rgb(0, 0, 200)";
+            var rgbYel = "rgb(220, 220, 0)";
+            var rgbBlk = "rgb(30, 30, 30)";
+            this.tiles = [];       
+            this.tiles.push(new Tile(1, 1, 2, 2, rgbRed));
+            this.tiles[this.tiles.length-1].red = 1;
+            this.tiles.push(new Tile(3, 1, 2, 1, rgbGre));   
+            this.tiles.push(new Tile(3, 2, 2, 1, rgbGre));
+                
+            this.tiles.push(new Tile(1, 3, 1, 1, rgbYel));
+            this.tiles.push(new Tile(2, 3, 1, 1, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            this.tiles.push(new Tile(3, 3, 2, 1, rgbGre));
+                 
+            this.tiles.push(new Tile(1, 4, 1, 1, rgbYel));
+            this.tiles.push(new Tile(2, 4, 1, 1, rgbYel));
+            this.tiles.push(new Tile(3, 4, 2, 1, rgbGre));
+            
+            this.tiles.push(new Tile(1, 5, 2, 1, rgbGre));
+            this.tiles.push(new Tile(3, 5, 2, 1, rgbGre));
+            
+            this.tiles.push(new Tile(1, 6, 1, 2, rgbBlu));
+            this.tiles.push(new Tile(2, 6, 1, 2, rgbBlu));
+            this.tiles.push(new Tile(3, 6, 2, 1, rgbGre));
+            this.tiles.push(new Tile(3, 7, 1, 1, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            this.tiles.push(new Tile(4, 7, 1, 1, rgbYel));
+            
+            this.tiles.push(new Tile(1, 8, 1, 2, rgbBlu));
+            this.tiles.push(new Tile(2, 8, 1, 2, rgbBlu));
+            
+            this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            this.tiles.push(new Tile(0, 0, 1, 11, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            this.tiles.push(new Tile(0, 10, 6, 1, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            this.tiles.push(new Tile(5, 0, 1, 11, rgbBlk));
+            this.tiles[this.tiles.length-1].selectionLocked = 1;
+        };
+ 
         
         mainloop.prototype.redraw = function () {
              this.ctx.fillStyle = this.clearStyle;  
@@ -143,21 +190,31 @@
             this.ctx.fillStyle="White";
         };
         
+        mainloop.prototype.onWin = function( ) {
+            
+            var resplice = 1;
+            
+            while (resplice) {
+                resplice = 0;
+                for (var tileIdx = 0;  tileIdx < this.tiles.length; tileIdx = tileIdx + 1) {
+                    if ( !this.tiles[tileIdx].selectionLocked ) {
+                        if (!this.tiles[tileIdx].red) {
+                            this.tiles.splice( tileIdx, 1 );
+                            resplice = 1;
+                            break;
+                        }
+                    
+                    }
+                } 
+            }
+            
+        }
                       
         mainloop.prototype.mainTimer = function( ) {
             
              // Test win condition
              if ( this.gameState.hasWon() ) {
-                if ( this.mainTimerCallback != undefined ) {
-                    alert("Congratulations. RedShift in " + this.gameState.moves() + " moves.");
-                    clearInterval(this.mainloopInterval);
-                    this.mainTimerCallback = undefined;
-                    window.removeEventListener("resize", this.onResizeWindow, false);
- 
-                    //location.reload();
-                    this.gameControllerScope.exitgame(); 
-                    return;
-                }
+                 this.onWin();
              }  
              
              // reorientate/resize view
