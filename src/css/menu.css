@@ -19,3 +19,8 @@ table.center {
 html, body    {
   height: 100%;
 }
+
+.done-true {
+  text-decoration: line-through;
+  color: grey;
+}

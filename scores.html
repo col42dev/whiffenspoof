@@ -10,7 +10,23 @@
                 <button ng-click='back()'>back</button>
            </td>
         </tr>
-
     </table>
+    
+    
+
+        <span>{{remaining()}} of {{scoreTable.length}} remaining</span>
+            <table>
+                <tr ng-repeat="score in scoreTable">
+                    <td>{{score.moves}}</td>
+                    <td>{{score.tag}}</td>
+                    <td>{{score.date}}</td>
+                </tr>
+            </table>
+            <form ng-submit="addScore()">
+                <input type="text" ng-model="tag"  size="30" placeholder="add new score here">
+                <input class="btn-primary" type="submit" value="add">
+            </form>
+
+    
 </div>
 
