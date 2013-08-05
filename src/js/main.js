@@ -28,11 +28,12 @@
             });
         });
         
-        main.config(function($httpProvider){
+
+        main.config(['$httpProvider', function($httpProvider) {
             $httpProvider.defaults.useXDomain = true;
             delete $httpProvider.defaults.headers.common['X-Requested-With'];
-        });
-
+            }
+        ]);
         
         
         main.controller('MenuController', ['$scope', '$location', function($scope, $location) {
@@ -66,11 +67,10 @@
                 
             //delete $http.defaults.headers.common['X-Requested-With'];
             $http.defaults.useXDomain = true;
-
-            $scope.scoreTableURL = "ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080";
+              
                 
-                
-            $scope.scoreinfo = $http({method: 'GET', url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com\:8080"}).
+            $scope.getInfo = function() {
+                $http({method: 'GET', url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080"}).
                     success(function(data, status, headers, config) {    
                         // this callback will be called asynchronously
                         // when the response is available
@@ -83,27 +83,34 @@
                         alert("scores not available");
                         alert(data + ":" + status + ":" + headers + ":" + config);
                     });
-  /*
-            $.ajax({
-                url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080",
-                type: 'GET',
-                dataType: 'json',
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader("x-some-header", "some-value");
-                }
-            }).done(function(data) { 
-                $rootScope.$apply(function() {d.resolve(data); });
-                alert("OK");
-            }).fail(function(data) {
-                $rootScope.$apply(function() {d.reject(data); });
-                alert("fail");
-            });
-            */
+            };
+            
+            $scope.getInfo();
+            
+            
+            // curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"tag":"noob","score":43,"date":"now"}' http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score
+            $scope.postInfo = function() {   
+                $http.defaults.useXDomain = true;  
+                delete $http.defaults.headers.common['X-Requested-With'];          
+                $http({
+                    url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score",
+                    method: "POST",
+                    data: {tag:'new', moves:42, date:Date()},
+                    headers: {'Content-Type': 'application/json'}
+                }).success(function (data, status, headers, config) {
+                    //$scope.users = data.users; 
+                }).error(function (data, status, headers, config) {
+                    //$scope.status = status + ' ' + headers;
+                    alert("post error:" + status);
+                });
+            };
+            
 
  
             $scope.addScore = function() {
-                $scope.scoreTable.push({tag:$scope.tag, moves:0, date:Date()});
-                $scope.tag = '';
+                //$scope.scoreTable.push({tag:$scope.tag, moves:0, date:Date()});
+                $scope.tag = '';   
+                $scope.postInfo();         
             };
  
             $scope.remaining = function() {
