@@ -89,13 +89,17 @@
             
             
             // curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"tag":"noob","score":43,"date":"now"}' http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score
-            $scope.postInfo = function() {   
+            $scope.postInfo = function(newScore) {   
+                console.log("tv"+newScore.tag);
+                console.log("mv"+newScore.moves);
+                console.log("dv"+newScore.date);
+                
                 $http.defaults.useXDomain = true;  
                 delete $http.defaults.headers.common['X-Requested-With'];          
                 $http({
                     url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score",
                     method: "POST",
-                    data: {tag:'new', moves:42, date:Date()},
+                    data: newScore,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function (data, status, headers, config) {
                     //$scope.users = data.users; 
@@ -109,8 +113,10 @@
  
             $scope.addScore = function() {
                 //$scope.scoreTable.push({tag:$scope.tag, moves:0, date:Date()});
-                $scope.tag = '';   
-                $scope.postInfo();         
+                //$scope.tag = '';   
+                var newScore = {tag:$scope.tag, moves:Math.floor((Math.random()*500)+1), date:Date()};
+                //$scope.scoreTable.push();
+                $scope.postInfo(newScore);         
             };
  
             $scope.remaining = function() {

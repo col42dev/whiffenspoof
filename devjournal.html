@@ -50,6 +50,36 @@
            for example. To maintain more control over this I switched to use of a single html page and dynamically control the html to switch screen states. This did the 
            trick but resulted in an cumbersome implementation. The quantum leap was to then switch to using the <a href="http://angularjs.org/">http://angularjs.org/</a>
            MVC framework.   
+           
+           Server-side architecture<br/>
+           NodeJS + Express.
+           Run the express app from the console and end command with & to signify hat it should run in tha backgound. The task id
+           can be located using 'ps -A | grep Node'
+           Start with storing JSON data within the NodeJS app before moving it in to a database. This allows for the client-server
+           communication to be implmentented with no database dependancy. In Angular the http REST API provides the GET,PUT to transfer 
+           the JSON score table data. Starting with the GET it was necessary to configure the client for CORS(cross-origin resource sharing)
+           so that the XHR would succeed.
+           
+           
+           npm install mongojs
+           mongodb/bin/mongod&
+           nginx/html/mongodb/bin/mongod --fork --logpath /var/log/mongodb.log
+           mongodb/bin/mongod --fork --logpath /data/db/mongodb.log
+           
+           /whiffenspoof
+           mongodb/bin/mongod --fork --logpath /data/db/mongodb.log
+
+            /whiffenspoof
+           node scoretableApp.js& will terminate when you logout of a session.
+           
+            nohup node scoretableApp.js >/dev/null 2>&1 &
+
+            sudo nano /etc/nginx/nginx.conf
+            sudo service nginx restart
+            
+
+
+             
         </p>
 
     </body>
