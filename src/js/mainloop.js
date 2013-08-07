@@ -3,11 +3,13 @@
         
      define(["src/js/tile", "src/js/touchEventHandler", "src/js/mouseEventHandler", "src/js/gameState"], function(Tile, TouchEventHandler, MouseEventHandler, GameState) {   
 
-        var mainloop = function ( gameControllerScope ) {   
+        var mainloop = function ( $scope ) {   
                    
             var _this = this;
             
-            this.gameControllerScope = gameControllerScope;
+            this.winState = 0;
+            this.$scope = $scope;
+           
      
             //TODO: modularise this initlization 
             this.myCanvas = document.getElementById("myCanvas");
@@ -21,7 +23,7 @@
             this.myCanvas.style.webkitUserSelect = "none";
             this.myCanvas.style.MozUserSelect = "none";
             this.myCanvas.setAttribute("unselectable", "on"); // For IE and Opera
-            
+                      
             // fit 11 tiles to device height
             Tile.prototype.tileUnitSize = this.myCanvas.height / 11;
                     
@@ -192,6 +194,8 @@
         
         mainloop.prototype.onWin = function( ) {
             
+            this.$scope.onShowTagEntry( this.gameState.moves() );
+    
             var resplice = 1;
             
             while (resplice) {
@@ -207,6 +211,7 @@
                     }
                 } 
             }
+            this.winState = 1;
             
         }
                       
@@ -214,7 +219,9 @@
             
              // Test win condition
              if ( this.gameState.hasWon() ) {
-                 this.onWin();
+                 if ( this.winState == 0) {
+                    this.onWin();
+                 }
              }  
              
              // reorientate/resize view

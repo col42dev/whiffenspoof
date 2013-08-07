@@ -65,6 +65,8 @@
                 {tag:'Bill', moves:0, date:Date()},
                 {tag:'Ben', moves:42, date:Date()}];
                 
+            $scope.sortOrder = 'moves';
+                
             //delete $http.defaults.headers.common['X-Requested-With'];
             $http.defaults.useXDomain = true;
               
@@ -131,11 +133,17 @@
         }]);
         
         
-        main.controller('GameController', ['$scope', '$location', function($scope, $location) {
+        main.controller('GameController', ['$scope', '$location', '$http', function($scope, $location, $http) {
 
-            require([ "src/js/mainloop"], function(MainLoop) {  
-                $scope.ml = new MainLoop($scope);            
-            });
+           
+            $scope.moveCount = 0;
+            $scope.showTagEntry = "0";
+            $scope.onShowTagEntry = function( moveCount) {
+                $scope.showTagEntry = "1";
+                $scope.moveCount = moveCount;
+                $scope.$apply();
+            };
+            
            
             $scope.exitgame = function() {
                 $location.path('/menu');
@@ -146,6 +154,41 @@
                 $scope.ml.onDestroy();
             });
             
+            $scope.addScore = function() {
+                console.log("ADD SCORE");
+                var newScore = {tag:$scope.tagname, moves:$scope.moveCount, date:Date()};
+                $scope.postInfo(newScore);      
+                $location.path('/scores');   
+            };
+            
+            // curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"tag":"noob","score":43,"date":"now"}' http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score
+            $scope.postInfo = function(newScore) {   
+                console.log("tv"+newScore.tag);
+                console.log("mv"+newScore.moves);
+                console.log("dv"+newScore.date);
+                
+                $http.defaults.useXDomain = true;  
+                delete $http.defaults.headers.common['X-Requested-With'];          
+                $http({
+                    url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score",
+                    method: "POST",
+                    data: newScore,
+                    headers: {'Content-Type': 'application/json'}
+                }).success(function (data, status, headers, config) {
+                    //$scope.users = data.users; 
+                }).error(function (data, status, headers, config) {
+                    //$scope.status = status + ' ' + headers;
+                    alert("post error:" + status);
+                });
+            };
+            
+            
+            require([ "src/js/mainloop"], function(MainLoop) {  
+                $scope.ml = new MainLoop($scope);            
+            });
+            
+            //$scope.onShowTagEntry();
+  
 
         }]);
         
