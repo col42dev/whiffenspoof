@@ -1,18 +1,21 @@
-<div id='game' style='position:relative;' main-loop>
-    <canvas id='myCanvas' >Your browser does not support the HTML5 canvas tag.</canvas>
-       <div id='myTagEntry' style="position: absolute; z-index: 1; left: 50px; top: 20px; width:100px; height:20px;">
-         <form ng-submit="addScore()" ng-show="showTagEntry">
-                <table>
-                    <tr>
-                        <td>
-                            <input type="text" ng-model="tagname"  size="30" placeholder="whome">
-                        </td>
-                        <td>
-                            <input class="btn-primary" type="submit" value="add">
-                        </td>
-                    </tr>
-                </table>
+<div id='myMoveCounterDiv' ng-style="moveCounterStyleDiv" >{{moveCounter}}</div>
+
+<div id='game' >
+
+    <canvas id='myCanvas' >    </canvas>
+       
+    <div id='myTagEntry' ng-style="tagEntryStyleDiv" >
+        <form ng-submit="addScore()" ng-show="showTagEntry">
+            <table width="100%">
+                <tr align="center">
+                    <td>
+                        <br>
+                        <input type="text" ng-model="tagname"  width=100px  placeholder="enter your name" maxlength="16">
+                        <input class="btn-primary" type="submit" value="add">
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
-     <!--input id='nameEntry' type="text" style="position:absolute; z-index: 1;  left=100; top=100;">Enter Name</input-->
+  
 </div>

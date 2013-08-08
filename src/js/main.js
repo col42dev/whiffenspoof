@@ -2,7 +2,7 @@
 	"use strict";
            
          
-        var main = angular.module("main", ['ngResource']).config(function($routeProvider, $httpProvider) {
+        var main = angular.module("main", []).config(function($routeProvider, $httpProvider) {
             
             $httpProvider.defaults.useXDomain = true;
                         
@@ -52,6 +52,8 @@
                 $location.path('/scores');
             };
             $scope.testng = "curl http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/";
+            
+
         }]);
         
         main.controller('ScoreController', ['$scope', '$location', '$http', function($scope, $location, $http) {
@@ -128,6 +130,8 @@
                 });
                 return count;
             };
+            
+  
  
 
         }]);
@@ -135,12 +139,30 @@
         
         main.controller('GameController', ['$scope', '$location', '$http', function($scope, $location, $http) {
 
-           
-            $scope.moveCount = 0;
+            $scope.moveCounter = "";
+            $scope.moveCounterStyleDiv = {};
+            $scope.moveCounterStyleDiv["z-index"] = 1;
+            $scope.moveCounterStyleDiv["position"] = "absolute";
+            $scope.moveCounterStyleDiv["vertical-align"] = "text-top";
+            $scope.moveCounterStyleDiv["text-align"] = "right";        
+            $scope.moveCounterStyleDiv["color"]  = "rgb(200,0,0)";
+            $scope.moveCounterStyleDiv["font-family"] = "Verdana";
+            $scope.moveCounterStyleDiv["font-style"] = "bold"; 
+
+
+            $scope.tagEntryStyleDiv = {};
+            $scope.tagEntryStyleDiv["position"] = "absolute";
+            $scope.tagEntryStyleDiv["z-index"] = 1;
+            $scope.tagEntryStyleDiv["left"] = "0px";
+            $scope.tagEntryStyleDiv["top"] = "0px";
+            $scope.tagEntryStyleDiv["align"] = "center";
+            $scope.tagEntryStyleDiv["width"] = "100%";
+
+            
+
             $scope.showTagEntry = "0";
-            $scope.onShowTagEntry = function( moveCount) {
+            $scope.onShowTagEntry = function() {
                 $scope.showTagEntry = "1";
-                $scope.moveCount = moveCount;
                 $scope.$apply();
             };
             
@@ -156,7 +178,7 @@
             
             $scope.addScore = function() {
                 console.log("ADD SCORE");
-                var newScore = {tag:$scope.tagname, moves:$scope.moveCount, date:Date()};
+                var newScore = {tag:$scope.tagname, moves:$scope.moveCounter, date:Date()};
                 $scope.postInfo(newScore);      
                 $location.path('/scores');   
             };
@@ -187,21 +209,10 @@
                 $scope.ml = new MainLoop($scope);            
             });
             
-            //$scope.onShowTagEntry();
-  
 
         }]);
         
         
-        main.directive("mainLoop", function() {
-            return {
-                restrict: "A",
-                link: function(scope, element, attributes) {
- 
-
-                }
-            };
-        })
 
 
 

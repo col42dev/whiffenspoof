@@ -3,17 +3,18 @@
     
     define( function () {     
            
-        var gameState = function() {
+        var gameState = function($scope) {
             this.moveCounter = 0;
-            this.flagMoveCounterRefresh = 1;
             this.won=0;
+            this.$scope = $scope;
         };
         
         gameState.prototype.incrementMoveCounter = function () {
             
             if (!this.hasWon()) {
                 this.moveCounter += 1;
-                this.flagMoveCounterRefresh = 1;
+                this.$scope.moveCounter = this.moveCounter;
+                this.$scope.$apply();
             }
         };
         

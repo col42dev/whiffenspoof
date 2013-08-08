@@ -27,9 +27,9 @@
             // fit 11 tiles to device height
             Tile.prototype.tileUnitSize = this.myCanvas.height / 11;
                     
-            this.createTiles();
+            this.createTilesDev();
         
-            this.gameState = new GameState();
+            this.gameState = new GameState($scope);
    
             if (typeof(window.ontouchstart) != 'undefined') {
                 //console.log("touch");
@@ -190,11 +190,17 @@
             this.ctx.shadowOffsetX=0;
             this.ctx.shadowColor="rgba(255,255,255,0.0)";
             this.ctx.fillStyle="White";
+            
+            // move counter display resize
+             this.$scope.moveCounterStyleDiv["font-size"] = (Tile.prototype.tileUnitSize * 0.8) + "px";
+             this.$scope.moveCounterStyleDiv["width"] = (Tile.prototype.tileUnitSize * 5.9) + "px";
+             this.$scope.$apply();
+            
         };
         
         mainloop.prototype.onWin = function( ) {
             
-            this.$scope.onShowTagEntry( this.gameState.moves() );
+            this.$scope.onShowTagEntry( );
     
             var resplice = 1;
             
@@ -228,26 +234,9 @@
              if ( this.flagResize) {
                  this.onResize();
                  this.flagResize = 0; 
-                 this.gameState.flagMoveCounterRefresh = 1;
              }
              
-             if ( this.gameState.flagMoveCounterRefresh ) {
-                
-                if ( this.gameState.moveCounter > 0) {
-                    this.ctx.fillStyle = this.clearStyle;
-                    this.ctx.fillRect(Tile.prototype.tileUnitSize * 6, 0, window.innerWidth - (Tile.prototype.tileUnitSize * 6), Tile.prototype.tileUnitSize * 2);
-       
-       
-                    this.ctx.fillStyle = "Red";
-                    var fontStr = "bold PSpx Verdana";
-                    var fontPointSizeStr = (Tile.prototype.tileUnitSize * .9).toString();
-               
-                    this.ctx.font = fontStr.replace(/PS/g, fontPointSizeStr); 
-                    this.ctx.textAlign = "right";
-                    this.ctx.fillText(this.gameState.moveCounter.toString(), window.innerWidth - Tile.prototype.tileUnitSize/5,  Tile.prototype.tileUnitSize * 0.86 );
-                    this.gameState.flagMoveCounterRefresh = 0;
-                }
-             }
+
                 
              // for each IO event handler
              for ( var ioHandlerIndex=0; ioHandlerIndex<this.ioEventHandlers.length; ioHandlerIndex+=1) {
