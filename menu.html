@@ -1,25 +1,34 @@
 <div id='menu'>
-    <table class="center">
+    
+    <h1 class='red' style ="top: -5%; left: 5%; position: absolute;" ng-style="titleStyle">Red</h1>
+    <table style="vertical-align:middle; height: 100%; width: 100%; position: absolute;">
         <tr>
-            <td align="center">
-                <h1 class='red'>Red&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1> <h1 class='shift'>&nbsp;Shift</h1>
-           </td>
-        </tr>
-        <tr>
-           <td align="center">
-                <button data-ng-click='newgame()'>start</button>
-           </td>
-        </tr>
-        <tr>
-           <td align="center">
-                <button data-ng-click='scores()'>score table</button>
-           </td>
-        </tr>
-        <tr>
-           <td align="center">
-                <h2 ng-model="testng">about</h2>
-           </td>
+            <td>
+                <table class="center">
+   
+                    <tr>
+                       <td align="center">
+                            <button class="menu" data-ng-click='newgame()' ng-style="menuButtonStyle">start</button>
+                       </td>
+                    </tr>
+                    <tr><td><br></td></tr>
+                    <tr>
+                       <td align="center">
+                            <button class="menu" data-ng-click='scores()' ng-style="menuButtonStyle">score table</button>
+                       </td>
+                    </tr>
+                    <tr><td><br></td></tr>
+                    <tr>
+                       <td align="center">
+                            <button class="menu" data-ng-click='about()' ng-style="menuButtonStyle">about</button>
+                       </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
+    <h1 class='shift' style ="bottom: -5%; right: 5%; position: absolute;" ng-style="titleStyle">Shift</h1>
+    
 </div>
+
 

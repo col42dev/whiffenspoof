@@ -27,7 +27,7 @@
             // fit 11 tiles to device height
             Tile.prototype.tileUnitSize = this.myCanvas.height / 11;
                     
-            this.createTilesDev();
+            this.createTiles();
         
             this.gameState = new GameState($scope);
    
@@ -191,11 +191,21 @@
             this.ctx.shadowColor="rgba(255,255,255,0.0)";
             this.ctx.fillStyle="White";
             
+            // Buttons
+            this.$scope.menuButtonStyle = {};
+            this.$scope.menuButtonStyle["font-size"] = window.innerHeight/20 + "px";
+                
             // move counter display resize
-             this.$scope.moveCounterStyleDiv["font-size"] = (Tile.prototype.tileUnitSize * 0.8) + "px";
-             this.$scope.moveCounterStyleDiv["width"] = (Tile.prototype.tileUnitSize * 5.9) + "px";
-             this.$scope.$apply();
+            this.$scope.moveCounterStyleDiv["font-size"] = (Tile.prototype.tileUnitSize * 0.8) + "px";
+            this.$scope.moveCounterStyleDiv["width"] = (Tile.prototype.tileUnitSize * 5.9) + "px";
             
+            //tagEntry pos
+            this.$scope.tagEntryStyleDiv["top"] = window.innerHeight*0.475  + "px";
+            this.$scope.tagEntryStyle["font-size"] = window.innerHeight*0.05 + "px";
+    
+            
+            //Apply controller scope
+            this.$scope.$apply();   
         };
         
         mainloop.prototype.onWin = function( ) {

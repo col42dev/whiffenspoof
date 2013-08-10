@@ -1,22 +1,44 @@
 h1.red {
-    font-size:40px;
+    font-size:80px;
     color:red;
     font-family:verdana;
     font-weight:bold;
+    
+    background: linear-gradient(to right, rgb(250,0,0), rgb(100,0,0));
+    /*background: -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgb(250,0,0)), to(rgb(0,0,250)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    */
+
 }
 
 h1.shift {
-    font-size:50px;
-    color:black;
-    font-style:italic
+    font-size:80px;
+    color:red;
+    font-family:verdana;
+    font-style:italic;
+    font-weight:bold;
+    /*text-shadow: -10px 0px 10px rgba(250,0,0,0.8);*/
+    
+        background: linear-gradient(to right, rgba(100,0,0,1), rgba(250,0,0,1));
+    /*background: -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgb(250,0,0)), to(rgb(0,0,250)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    */
 }
 
 table.center {
     margin-left:auto; 
     margin-right:auto;
 }
+table.left {
+
+}
 
 html, body    {
     height: 100%;
 }
 
+button.menu {
+       font-size:50px;
+}

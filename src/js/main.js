@@ -1,6 +1,36 @@
 (function() {
 	"use strict";
-           
+        
+        function initMenuScreen($scope) {
+            
+            // prevent scrolling
+            $scope.touchmoveEventListener = function(event) {
+                event.preventDefault(); 
+            };
+            $scope.el = window.addEventListener('touchmove', $scope.touchmoveEventListener, true); 
+            
+            //onResize
+            $scope.onResize = function() {
+                $scope.menuButtonStyle = {};
+                $scope.menuButtonStyle["font-size"] = window.innerHeight/20 + "px";
+                
+                $scope.titleStyle = {};
+                $scope.titleStyle["font-size"] = window.innerHeight/8 + "px";
+            };
+            $scope.resizeEventListener = function() {
+                $scope.onResize();
+                $scope.$apply();
+            };
+            $scope.onResizeEventListener = window.addEventListener("resize", $scope.resizeEventListener, false);
+            $scope.onResize();
+            
+            // on Destroy
+            $scope.$on("$destroy", function() {
+                window.removeEventListener("resize", $scope.onResizeEventListener, false);
+                window.removeEventListener("touchmove", $scope.touchmoveEventListener, false);
+            });   
+        };
+
          
         var main = angular.module("main", []).config(function($routeProvider, $httpProvider) {
             
@@ -21,6 +51,11 @@
                 controller: 'ScoreController'     
             });
             
+            $routeProvider.when('/about', {
+                templateUrl: 'about.html',
+                controller: 'AboutController'     
+            });
+            
             $routeProvider.otherwise( { 
                // redirectTo: '/menu'
                 templateUrl: 'menu.html',
@@ -37,41 +72,49 @@
         
         
         main.controller('MenuController', ['$scope', '$location', function($scope, $location) {
-                
-            // prevent scrolling
-
-            $scope.el = window.addEventListener('touchmove', function(event) { event.preventDefault();}, true); 
-     
+                        
+            initMenuScreen($scope);      
+ 
+            // on click callbacks
             $scope.newgame = function() {
                 window.removeEventListener("touchmove", $scope.el, false);
- 
                 $location.path('/game');
             };
             
             $scope.scores = function() { 
                 $location.path('/scores');
             };
-            $scope.testng = "curl http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/";
-            
+                 
+            $scope.about = function() { 
+                $location.path('/about');
+            };     
+
+        }]);
+        
+       main.controller('AboutController', ['$scope', '$location', function($scope, $location) {
+                
+            initMenuScreen($scope);
+           
+            $scope.back = function() {
+                $location.path('/menu');
+            };
 
         }]);
         
         main.controller('ScoreController', ['$scope', '$location', '$http', function($scope, $location, $http) {
-                        
-            $scope.back = function() {
-                $location.path('/menu');
-            };
-            
-   
-            $scope.scoreTable = [
-                {tag:'Bill', moves:0, date:Date()},
-                {tag:'Ben', moves:42, date:Date()}];
+
+            initMenuScreen($scope);   
+                   
+            $scope.scoreTable = [];
+               // {tag:'Bill', moves:0, date:Date()},
+               // {tag:'Ben', moves:42, date:Date()}];
                 
             $scope.sortOrder = 'moves';
                 
             //delete $http.defaults.headers.common['X-Requested-With'];
             $http.defaults.useXDomain = true;
-              
+            
+            $scope.showTable = 0;
                 
             $scope.getInfo = function() {
                 $http({method: 'GET', url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080"}).
@@ -79,6 +122,7 @@
                         // this callback will be called asynchronously
                         // when the response is available
                         $scope.scoreTable = data;
+                        $scope.showTable = 1;
                         //alert("success");
                         //alert(data);
                     }).error(function(data, status, headers, config) {
@@ -89,14 +133,11 @@
                     });
             };
             
+            // populate table
             $scope.getInfo();
-            
-            
+   
             // curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"tag":"noob","score":43,"date":"now"}' http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score
             $scope.postInfo = function(newScore) {   
-                console.log("tv"+newScore.tag);
-                console.log("mv"+newScore.moves);
-                console.log("dv"+newScore.date);
                 
                 $http.defaults.useXDomain = true;  
                 delete $http.defaults.headers.common['X-Requested-With'];          
@@ -113,8 +154,6 @@
                 });
             };
             
-
- 
             $scope.addScore = function() {
                 //$scope.scoreTable.push({tag:$scope.tag, moves:0, date:Date()});
                 //$scope.tag = '';   
@@ -123,41 +162,19 @@
                 $scope.postInfo(newScore);         
             };
  
-            $scope.remaining = function() {
-                var count = 0;
-                angular.forEach($scope.scoreTable, function(score) {
-                    count += score.done ? 0 : 1;
-                });
-                return count;
+            $scope.back = function() {
+                $location.path('/menu');
             };
-            
-  
- 
-
         }]);
         
         
-        main.controller('GameController', ['$scope', '$location', '$http', function($scope, $location, $http) {
+        main.controller('GameController', ['$scope', '$rootScope','$location', '$http', function($scope, $rootScope, $location, $http) {
 
             $scope.moveCounter = "";
+            
             $scope.moveCounterStyleDiv = {};
-            $scope.moveCounterStyleDiv["z-index"] = 1;
-            $scope.moveCounterStyleDiv["position"] = "absolute";
-            $scope.moveCounterStyleDiv["vertical-align"] = "text-top";
-            $scope.moveCounterStyleDiv["text-align"] = "right";        
-            $scope.moveCounterStyleDiv["color"]  = "rgb(200,0,0)";
-            $scope.moveCounterStyleDiv["font-family"] = "Verdana";
-            $scope.moveCounterStyleDiv["font-style"] = "bold"; 
-
-
             $scope.tagEntryStyleDiv = {};
-            $scope.tagEntryStyleDiv["position"] = "absolute";
-            $scope.tagEntryStyleDiv["z-index"] = 1;
-            $scope.tagEntryStyleDiv["left"] = "0px";
-            $scope.tagEntryStyleDiv["top"] = "0px";
-            $scope.tagEntryStyleDiv["align"] = "center";
-            $scope.tagEntryStyleDiv["width"] = "100%";
-
+            $scope.tagEntryStyle = {};
             
 
             $scope.showTagEntry = "0";
@@ -177,17 +194,19 @@
             });
             
             $scope.addScore = function() {
-                console.log("ADD SCORE");
-                var newScore = {tag:$scope.tagname, moves:$scope.moveCounter, date:Date()};
-                $scope.postInfo(newScore);      
-                $location.path('/scores');   
+                //console.log("ADD SCORE");
+                if ($scope.tagname != undefined)
+                {
+                    var newScore = {tag:$scope.tagname, moves:$scope.moveCounter, date:Date()};
+                    $scope.postInfo(newScore);      
+                }
             };
             
             // curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"tag":"noob","score":43,"date":"now"}' http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score
             $scope.postInfo = function(newScore) {   
-                console.log("tv"+newScore.tag);
-                console.log("mv"+newScore.moves);
-                console.log("dv"+newScore.date);
+                //console.log("tv"+newScore.tag);
+                //console.log("mv"+newScore.moves);
+                //console.log("dv"+newScore.date);
                 
                 $http.defaults.useXDomain = true;  
                 delete $http.defaults.headers.common['X-Requested-With'];          
@@ -198,12 +217,16 @@
                     headers: {'Content-Type': 'application/json'}
                 }).success(function (data, status, headers, config) {
                     //$scope.users = data.users; 
+                    $location.path('/scores'); 
                 }).error(function (data, status, headers, config) {
                     //$scope.status = status + ' ' + headers;
                     alert("post error:" + status);
                 });
             };
             
+            $scope.back = function() {
+                $location.path('/menu');
+            };
             
             require([ "src/js/mainloop"], function(MainLoop) {  
                 $scope.ml = new MainLoop($scope);            
