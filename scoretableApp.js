@@ -63,14 +63,12 @@ db.scores.find(function(err, scores) {
   } );
 });
 
-
 var scores = [
-  { tag : 'Audrey Hepburn', moves : 750, date: Date()},
-  { tag : 'Walt Disney', moves : 666, date: Date()},
-  { tag : 'Unknown', moves : 490, date: Date()},
-  { tag : 'Neale Donald Walsch', moves : 950, date: Date()}
+  { tag : 'Audrey Hepburn', moves : 750, date: Date(), gameLevel:0},
+  { tag : 'Walt Disney', moves : 666, date: Date(), gameLevel:0},
+  { tag : 'Unknown', moves : 490, date: Date(), gameLevel:0},
+  { tag : 'Neale Donald Walsch', moves : 950, date: Date(), gameLevel:0}
 ];
-
 
 console.log("app.all");
 app.all('/*', function(req, res, next) {
@@ -95,6 +93,7 @@ app.post('/score', function(req, res) {
     
   if(!req.body.hasOwnProperty('tag') ||
      !req.body.hasOwnProperty('moves') ||
+     !req.body.hasOwnProperty('gameLevel') ||
      !req.body.hasOwnProperty('date')) {
     res.statusCode = 400;
     return res.send('Error 400: Post syntax incorrect.');
@@ -102,7 +101,7 @@ app.post('/score', function(req, res) {
 
   console.log("new score");
 
-    db.scores.save({tag : req.body.tag, moves : req.body.moves, date: req.body.date}, function(err, saved) {
+    db.scores.save({tag : req.body.tag, moves : req.body.moves, date: req.body.date, gameLevel: req.body.gameLevel}, function(err, saved) {
         if( err || !saved ) console.log("Score not saved");
         else console.log("Score saved");
     });
@@ -110,7 +109,8 @@ app.post('/score', function(req, res) {
   var newScore = {
     tag : req.body.tag,
     moves : req.body.moves,
-    date: req.body.date
+    date: req.body.date,
+    gameLevel: req.body.gameLevel
   };
 
   //scores.push(newScore);

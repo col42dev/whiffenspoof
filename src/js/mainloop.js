@@ -27,7 +27,7 @@
             // fit 11 tiles to device height
             Tile.prototype.tileUnitSize = this.myCanvas.height / 11;
                     
-            this.createTiles();
+            this.createTiles(this.$scope.gameLevel);
         
             this.gameState = new GameState($scope);
    
@@ -66,7 +66,7 @@
             window.removeEventListener("resize", this.onResizeWindow, false);
         };
         
-       mainloop.prototype.createTilesDev = function () {
+       mainloop.prototype.createTilesDev = function ( gameLevel) {
             
             var rgbRed = "rgb(200, 0, 0)";
             var rgbGre = "rgb(0, 200, 0)";
@@ -99,49 +99,84 @@
             this.tiles[this.tiles.length-1].selectionLocked = 1;
         };
  
-        mainloop.prototype.createTiles = function () {
+        mainloop.prototype.createTiles = function ( gameLevel) {
             
             var rgbRed = "rgb(200, 0, 0)";
             var rgbGre = "rgb(0, 200, 0)";
             var rgbBlu = "rgb(0, 0, 200)";
             var rgbYel = "rgb(220, 220, 0)";
             var rgbBlk = "rgb(30, 30, 30)";
+            var rgbBrw = "rgb(188, 143, 143)";
+ 
             this.tiles = [];       
-            this.tiles.push(new Tile(1, 1, 2, 2, rgbRed));
-            this.tiles[this.tiles.length-1].red = 1;
-            this.tiles.push(new Tile(3, 1, 2, 1, rgbGre));   
-            this.tiles.push(new Tile(3, 2, 2, 1, rgbGre));
+            
+            if (gameLevel === 1) {
+                this.tileBoardSize = {width:6, height:11};
+
+                this.tiles.push(new Tile(1, 1, 2, 2, rgbRed));
+                this.tiles[this.tiles.length-1].red = 1;
+                this.tiles.push(new Tile(3, 1, 2, 1, rgbGre));   
+                this.tiles.push(new Tile(3, 2, 2, 1, rgbGre));
+                    
+                this.tiles.push(new Tile(1, 3, 1, 1, rgbYel));
+                this.tiles.push(new Tile(2, 3, 1, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(3, 3, 2, 1, rgbGre));
+                     
+                this.tiles.push(new Tile(1, 4, 1, 1, rgbYel));
+                this.tiles.push(new Tile(2, 4, 1, 1, rgbYel));
+                this.tiles.push(new Tile(3, 4, 2, 1, rgbGre));
                 
-            this.tiles.push(new Tile(1, 3, 1, 1, rgbYel));
-            this.tiles.push(new Tile(2, 3, 1, 1, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(3, 3, 2, 1, rgbGre));
-                 
-            this.tiles.push(new Tile(1, 4, 1, 1, rgbYel));
-            this.tiles.push(new Tile(2, 4, 1, 1, rgbYel));
-            this.tiles.push(new Tile(3, 4, 2, 1, rgbGre));
+                this.tiles.push(new Tile(1, 5, 2, 1, rgbGre));
+                this.tiles.push(new Tile(3, 5, 2, 1, rgbGre));
+                
+                this.tiles.push(new Tile(1, 6, 1, 2, rgbBlu));
+                this.tiles.push(new Tile(2, 6, 1, 2, rgbBlu));
+                this.tiles.push(new Tile(3, 6, 2, 1, rgbGre));
+                this.tiles.push(new Tile(3, 7, 1, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(4, 7, 1, 1, rgbYel));
+                
+                this.tiles.push(new Tile(1, 8, 1, 2, rgbBlu));
+                this.tiles.push(new Tile(2, 8, 1, 2, rgbBlu));
+                
+                this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(0, 0, 1, 11, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(0, 10, 6, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(5, 0, 1, 11, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+            }
             
-            this.tiles.push(new Tile(1, 5, 2, 1, rgbGre));
-            this.tiles.push(new Tile(3, 5, 2, 1, rgbGre));
-            
-            this.tiles.push(new Tile(1, 6, 1, 2, rgbBlu));
-            this.tiles.push(new Tile(2, 6, 1, 2, rgbBlu));
-            this.tiles.push(new Tile(3, 6, 2, 1, rgbGre));
-            this.tiles.push(new Tile(3, 7, 1, 1, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(4, 7, 1, 1, rgbYel));
-            
-            this.tiles.push(new Tile(1, 8, 1, 2, rgbBlu));
-            this.tiles.push(new Tile(2, 8, 1, 2, rgbBlu));
-            
-            this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(0, 0, 1, 11, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(0, 10, 6, 1, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
-            this.tiles.push(new Tile(5, 0, 1, 11, rgbBlk));
-            this.tiles[this.tiles.length-1].selectionLocked = 1;
+            if (gameLevel === 0) {
+                this.tileBoardSize = {width:5, height:10};
+                
+                this.tiles.push(new Tile(1, 1, 1, 4, rgbRed));
+                this.tiles[this.tiles.length-1].red = 1;
+                this.tiles.push(new Tile(3, 1, 1, 2, rgbYel));   
+                this.tiles.push(new Tile(3, 3, 1, 2, rgbYel));
+                    
+                this.tiles.push(new Tile(1, 5, 1, 2, rgbYel));
+                this.tiles.push(new Tile(2, 5, 2, 2, rgbBrw));
+                this.tiles.push(new Tile(1, 7, 2, 2, rgbBrw));
+                     
+                this.tiles.push(new Tile(3, 7, 1, 2, rgbYel));
+                
+                
+
+                
+                this.tiles.push(new Tile(0, 0, 5, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(0, 0, 1, 10, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(0, 9, 5, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(4, 0, 1, 10, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+            }
+
         };
  
         
@@ -159,7 +194,7 @@
             this.myCanvas.width = window.innerWidth; //(this.myCanvas.height / 11)  * (6 + 2); 
             var oldTileUnitSize = Tile.prototype.tileUnitSize;
 
-            Tile.prototype.tileUnitSize = this.myCanvas.height / 11;
+            Tile.prototype.tileUnitSize = this.myCanvas.height / this.tileBoardSize.height;
             
             Tile.prototype.slideIncrement = Math.floor(Tile.prototype.tileUnitSize / 3);
             for (var tileIdx = 0;  tileIdx < this.tiles.length; tileIdx = tileIdx + 1) {
@@ -185,7 +220,7 @@
             this.ctx.shadowColor="rgb(220,0,0)";
             this.ctx.shadowOffsetX=-7;
             this.ctx.shadowBlur=10;
-            this.ctx.fillText("SHIFT", (Tile.prototype.tileUnitSize * 6)-10,  (Tile.prototype.tileUnitSize * 10) + Tile.prototype.tileUnitSize * 0.86);
+            this.ctx.fillText("SHIFT", (Tile.prototype.tileUnitSize * this.tileBoardSize.width)-10,  (Tile.prototype.tileUnitSize * (this.tileBoardSize.height - 1)) + Tile.prototype.tileUnitSize * 0.86);
             this.ctx.shadowBlur=0;
             this.ctx.shadowOffsetX=0;
             this.ctx.shadowColor="rgba(255,255,255,0.0)";
@@ -197,7 +232,7 @@
                 
             // move counter display resize
             this.$scope.moveCounterStyleDiv["font-size"] = (Tile.prototype.tileUnitSize * 0.8) + "px";
-            this.$scope.moveCounterStyleDiv.width = (Tile.prototype.tileUnitSize * 5.9) + "px";
+            this.$scope.moveCounterStyleDiv.width = (Tile.prototype.tileUnitSize * (this.tileBoardSize.width - 0.1)) + "px";
             
             //tagEntry pos
             this.$scope.tagEntryStyleDiv.top = window.innerHeight*0.475  + "px";
@@ -266,7 +301,7 @@
                        // move tile positon
                        if ( handler.flagSnapToGrid ) {
                            handler.selectedTile.snapToGrid();
-                           if( handler.selectedTile.testWinCondition()) {
+                           if( handler.selectedTile.testWinCondition(this.tileBoardSize, this.$scope)) {
                                 this.gameState.win();
                            }
                        } else {

@@ -13,6 +13,9 @@
             $scope.onResize = function() {
                 $scope.menuButtonStyle = {};
                 $scope.menuButtonStyle["font-size"] = window.innerHeight/20 + "px";
+
+                $scope.menuSmallButtonStyle = {};
+                $scope.menuSmallButtonStyle["font-size"] = window.innerHeight/30 + "px";
                 
                 $scope.titleStyle = {};
                 $scope.titleStyle["font-size"] = window.innerHeight/8 + "px";
@@ -30,54 +33,68 @@
                 window.removeEventListener("touchmove", $scope.touchmoveEventListener, false);
             });   
         }
-
-         
-        var main = angular.module("main", []).config(function($routeProvider, $httpProvider) {
-            
-            $httpProvider.defaults.useXDomain = true;
-                        
-            $routeProvider.when('/menu', {
-                templateUrl: 'menu.html',
-                controller: 'MenuController'     
-            });
-            
-            $routeProvider.when('/game', {
-                templateUrl: 'game.html',
-                controller: 'GameController'     
-            });
-            
-            $routeProvider.when('/scores', {
-                templateUrl: 'scores.html',
-                controller: 'ScoreController'     
-            });
-            
-            $routeProvider.when('/about', {
-                templateUrl: 'about.html',
-                controller: 'AboutController'     
-            });
-            
-            $routeProvider.otherwise( { 
-                templateUrl: 'menu.html',
-                controller: 'MenuController' 
-            });
-        });
         
-
-        main.config(['$httpProvider', function($httpProvider) {
-            $httpProvider.defaults.useXDomain = true;
-            delete $httpProvider.defaults.headers.common['X-Requested-With'];
+         
+        var main = angular.module("main", []).config( ['$routeProvider', '$httpProvider',  function($routeProvider, $httpProvider) {
+    
+                $httpProvider.defaults.useXDomain = true;
+                            
+                $routeProvider.when('/menu', {
+                    templateUrl: 'menu.html',
+                    controller: 'MenuController'     
+                });
+                
+                $routeProvider.when('/game', {
+                    templateUrl: 'game.html',
+                    controller: 'GameController'     
+                });
+                
+                $routeProvider.when('/scores', {
+                    templateUrl: 'scores.html',
+                    controller: 'ScoreController'     
+                });
+                
+                $routeProvider.when('/about', {
+                    templateUrl: 'about.html',
+                    controller: 'AboutController'     
+                });
+                
+                $routeProvider.when('/difficulty', {
+                    templateUrl: 'difficultyMenu.html',
+                    controller: 'DifficultyMenuController'     
+                });
+                
+                $routeProvider.when('/instructions', {
+                    templateUrl: 'instructionsMenu.html',
+                    controller: 'InstructionsMenuController'     
+                });
+                
+                $routeProvider.otherwise( { 
+                    templateUrl: 'menu.html',
+                    controller: 'MenuController' 
+                });
             }
         ]);
         
+        main.config(['$httpProvider', function($httpProvider) {
+                $httpProvider.defaults.useXDomain = true;
+                delete $httpProvider.defaults.headers.common['X-Requested-With'];
+            }
+        ]);
         
+
+        main.run(['$rootScope',function($rootScope) {
+                $rootScope.gameLevel = 0;
+            }
+        ]);
+             
         main.controller('MenuController', ['$scope', '$location', function($scope, $location) {
                         
             initMenuScreen($scope);     
  
             // on click callbacks
             $scope.newgame = function() {
-                window.removeEventListener("touchmove", $scope.el, false);
-                $location.path('/game');
+                $location.path('/difficulty');
             };
             
             $scope.scores = function() { 
@@ -86,6 +103,44 @@
                  
             $scope.about = function() { 
                 $location.path('/about');
+            };     
+
+        }]);
+        
+        
+        main.controller('DifficultyMenuController', ['$scope', '$rootScope', '$location', function($scope, $rootScope, $location) {
+                        
+            initMenuScreen($scope);     
+ 
+            // on click callbacks
+            $scope.normal = function() {
+                $rootScope.gameLevel = 0;
+                $location.path('/instructions');
+            };
+            
+            $scope.difficult = function() {
+                $rootScope.gameLevel = 1;
+                $location.path('/instructions');
+            };
+            
+                 
+            $scope.back = function() { 
+                $location.path('/menu');
+            };     
+
+        }]);
+        
+        main.controller('InstructionsMenuController', ['$scope', '$location', function($scope, $location) {
+                        
+            initMenuScreen($scope);     
+ 
+            // on click callbacks
+            $scope.start = function() {
+                $location.path('/game');
+            };
+                 
+            $scope.back = function() { 
+                $location.path('/difficulty');
             };     
 
         }]);
@@ -109,10 +164,11 @@
                // {tag:'Ben', moves:42, date:Date()}];
                 
             $scope.sortOrder = 'moves';
-                
+            $scope.menuGameLevel = 0;
+            $scope.menuGameLevelName = "Normal"; 
             $http.defaults.useXDomain = true;
             
-            $scope.showTable = 0;
+            $scope.showTable = 0; // hide until populated from server
                 
             $scope.getInfo = function() {
                 $http({method: 'GET', url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080"}).
@@ -127,6 +183,34 @@
             
             // populate table
             $scope.getInfo();
+            
+            // click button callback
+            $scope.toggleMenuGameLevel = function() {
+                if ( $scope.menuGameLevel == 0) {
+                    $scope.menuGameLevel = 1;
+                    $scope.menuGameLevelName = "Difficult";
+                } else if ( $scope.menuGameLevel == 1) {
+                    $scope.menuGameLevel = 0;
+                    $scope.menuGameLevelName = "Normal";
+                }     
+            };
+            
+            // Filter table by game Level and max entries
+            $scope.getFilteredScoreTable = function() {
+                $scope.filteredScoreTable = [];
+                $scope.filteredCount = 0;
+                
+                angular.forEach( $scope.scoreTable, function( value, key) {
+                    if ( $scope.filteredCount < 10) { // max of 10 entries
+                        if ( value.gameLevel === $scope.menuGameLevel) {
+                           $scope.filteredScoreTable.push(value);
+                           $scope.filteredCount += 1;
+                        }
+                    }
+                 }, $scope);
+                
+                return $scope.filteredScoreTable;
+            };
  
             $scope.back = function() {
                 $location.path('/menu');
@@ -161,7 +245,7 @@
                 //console.log("ADD SCORE");
                 if ($scope.tagname !== undefined)
                 {
-                    var newScore = {tag:$scope.tagname, moves:$scope.moveCounter, date:Date()};
+                    var newScore = {tag:$scope.tagname, moves:$scope.moveCounter, date:Date(), gameLevel:$scope.gameLevel};
                     $scope.postInfo(newScore);      
                 }
             };
@@ -171,6 +255,7 @@
                 //console.log("tv"+newScore.tag);
                 //console.log("mv"+newScore.moves);
                 //console.log("dv"+newScore.date);
+                //console.log("dv"+newScore.gameLevel);
                 
                 $http.defaults.useXDomain = true;  
                 delete $http.defaults.headers.common['X-Requested-With'];          
@@ -192,7 +277,8 @@
                 $location.path('/menu');
             };
             
-            require([ "src/js/mainloop"], function(MainLoop) {  
+            require([ "src/js/mainloop"], function(MainLoop) { 
+                $scope.gameLevel = $rootScope.gameLevel; 
                 $scope.ml = new MainLoop($scope);            
             });
         }]);

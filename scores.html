@@ -7,6 +7,7 @@
                 <div style="text-align:center;">
                     <button  class="menu" ng-click='back()' ng-style="menuButtonStyle">back</button>
                 </div><br>
+                <button  class="menu" ng-click='toggleMenuGameLevel()' ng-style="menuSmallButtonStyle">{{menuGameLevelName}}</button><br>
                 <table ng-show="showTable"  class="left">
                      <thead>
                         <tr>
@@ -16,7 +17,7 @@
                         </tr>
                      </thead>
                      <tbody>
-                        <tr ng-repeat="score in scoreTable | orderBy:sortOrder">
+                        <tr ng-repeat="score in getFilteredScoreTable() | orderBy:sortOrder ">
                             <td align="left">{{score.moves}}</td>
                             <td align="left">{{score.tag}}</td>
                             <td align="left">{{score.date}}</td>
