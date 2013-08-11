@@ -87,7 +87,7 @@
                     xSnapped = 1;
                 }
                 xUnit += 1;
-            };       
+            }
             
             var yUnit = 0;
             var ySnapped = 0;
@@ -101,7 +101,7 @@
                     ySnapped = 1;
                 }
                 yUnit += 1;
-            };
+            }
  
             //document.getElementById("moveCounter").innerHTML = "< " + Math.floor(this.box.pos.y).toString() + " % " + Math.floor(this.tileUnitSize).toString() + " = " + Math.floor(this.box.pos.y % this.tileUnitSize).toString();
         };
@@ -115,7 +115,7 @@
                 }
             }
             return 0;
-        }
+        };
       
         // true if sat collides with a Tile
         tile.prototype.collisionCheck = function (sat, tiles) {              
@@ -150,4 +150,4 @@
         
     }); //define
 
-}()); //IFFY
+}()); //IFFE

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>dev journal</title>
+        <title>Redshift dev journal</title>
         <link rel="stylesheet" href="./src/css/bootstrap.css">
         <link rel="stylesheet" href="./src/css/docs.css">
      
@@ -12,46 +12,148 @@
         <div>
 
         </div>
-        <p>whiffenspoof arose from a task set for me by professor Pittaway at Brunel university. I've used this previously as hello-world type app for 
-           learning new platforms, in this case javascript. Its a simple slider puzzle which requires the basic I/O and rendering with some state storage 
-           and box collsion handling. I had used javascript previously but had never taken the time to <em>learn</em> it, 
-           I had been able to patch together simple programs but it seemed too foriegn for use in anything larger scale. 
-           As a starting point I read <a href="http://effectivejs.com/">http://effectivejs.com/</a> and listened to <a href="http://javascriptjabber.com/">http://javascriptjabber.com/</a>.
+        <h1>starting out</h1>
+        <p>The motivation for this project was as a learning exercise in javascript, like many I had used it without taking the 
+            trouble to <em>learn</em> it in detail.   My background is mainly using class based
+            languages with matures IDEs where many of the structural descisions are well established. Javascript web development is still
+            changing rapidly so to build on this starting point I would not need to learn the language features and also the 
+            frameworks to structures a project of this scale.</p>
+            
+           <h1>redshift</h1>
+           <p>Redshift is a slide puzzle game I have previously implemented in other languages, it is of small enough scope for introducion
+             to a new environment but will also cover the core components of a javascript web app. There is some front-end
+            screen flow, input handling, game state, cross platform support (mobile and desktop compatiable) and an optional server-side implementation.</p>
+            
+           <h1>Aptana Studio</h1>
+           <p>For a development environment I selected <a href="http://www.aptana.com/products/studio3">Aptana Studio 3</a>. This creates 
+           a local web-server when launching so you can for the most part work locally and only need to publish to a live 
+           web server during development for specific test cases. </p>
+  
+  
+           <h1>AWS EC2</h1>
+           <p>Where to host the application? I created an Amazon Web Services account using the <a href=""http://aws.amazon.com/free/>free tier</a> offer. This gives you access to an
+           elastic compute instance of your choice. I selected a Linux AMI server and used <a href="https://itunes.apple.com/us/app/vssh/id583272886?mt=12">vSSH</a> to 
+           access it from the command line. I started by installing <a href="https://npmjs.org/">node package manager</a> on it and then used that 
+           to install an <a href="http://wiki.nginx.org/Main">NGINX</a> web server instance. With this up and running I set up a command line batch
+           to publish my app files from within the Aptana terminal view.</p>
            
-           I wanted to include some shared libraries in this project as a learning exercise. The collision detection for whiffenspoof is straight forward
-           aligned box collision and is a good candidate for using shared libraries. I selected <a href="https://github.com/jriecken/sat-js">https://github.com/jriecken/sat-js</a> for this.
-           The rendering component is also simple but I wanted to see if I could use a shared library here to. For this I found <a href="http://fabricjs.com/">http://fabricjs.com/</a>, the 
-           many examples on this site show that it can combine canvas support with mouse handling and some collision detection. At this point I 
-           decided I could switch to fabricjs for providing these components in whiffenspoof. I tried to mock up a test case doing this but found 
-           that I could not get control of the collision detection without fully understanding the libraries implmentation, which wasn't an 
-           original objective of the project. So I switched back to sat-js and proceeded to implement the canvas and input handling from basics.
+           <h1>javascript</h1>
+           <p>My initial source for learning the langauge features was <a href="http://effectivejs.com/">http://effectivejs.com/</a>.
+           To get an idea of the javascript frameworks and associated technolgies I used <a href="http://javascriptjabber.com/">http://javascriptjabber.com/</a>.
+           </p>
            
-           I intentionally avoided JQuery so as to get a better understanding of the core javascript API. 
-           Effective JS mentoned <a href="http://www.jslint.com/">http://www.jslint.com/</a> gor code analysisi. Looking for a command line alternative  
-           I installed <a href="http://www.jshint.com">http://www.jshint.com</a> and set it up for use in my editors console window.
+           <h1>IIFE</h1>
+           <p>From EffectiveJS I adopted the  <a href="http://en.wikipedia.org/wiki/Immediately-invoked_function_expression">IIFE</a> for 
+           scoping modules and to avoid polluting the global namespace. </p>
            
-           Starting with a single JS file I wrapped this in a an <a href="http://en.wikipedia.org/wiki/Immediately-invoked_function_expression">IFFY</a>. 
-           Once I had some core game functionality in place I adopted <a href="http://requirejs.org/">http://requirejs.org/</a> to modularize and refactor it out. 
-           This made it clear how a javascript project could pratically be extended to a larger scale and using object orientation.
-           
-           
-           The canvas render size was initially fixed, I generalized this to fit to the device view size to make the most of the available screen space.
-           At this point the performance differences between iPad and desktop browsers became more apparrent, iPad Safari has low framerate when sliding the tiles.
-           I didn't have any system support for profiling or any of my own profiling so I took a guess that this must be due to the canvas redrawing. Now that the 
-           canvas resized on device specs it was apparent that the landscape mode which used a smaller canvas was faster than portrait. The initial implementation 
-           of the canvas render was to clear the full canvas on every update loop and redraw it. So i looked at implemenating a dirty rectangle refresh in place of this.
-           The rectangular layout of the tiles made this straight forward. Initially i tried moving the render and refresh calls in to the IO event handler callbacks.
-           This almost worked but it tied the rendering to these callbacks which broke the model-view pattern. So i moved render back in to a cebtralized update loop
-           and implemented the dirty rectangle refresh here. This made a very noticeable improvement to the framerate on iOS. 
+           <h1>requirejs</h1>
+           <p> Once I had some core game functionality in place I wanted to find a solid way of modularlizing, the requirejs 
+           <a href="http://requirejs.org/">http://requirejs.org/</a> framework does this along with <a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a>.
+           By hunting around I was able to establish how to integrate this framework with 
+           the implementation I already had and was still able to keep the IFFE wrapped modules I had, although requirejs may already 
+           be providing that scoping. It became clear now how a javascript project could pratically be extended to a larger scale 
+           and using the object orientation with which I'm familar.</p>      
         
-           Front-end<br/>
-           I went through several learning iterations with the front-end and screen state implementation. Initially I implmented the screen state as seperate html files
-           but discoved that this does not fit well with a standard browser. The refresh would simple refresh the existing screen rather than return you to the front-end
-           for example. To maintain more control over this I switched to use of a single html page and dynamically control the html to switch screen states. This did the 
-           trick but resulted in an cumbersome implementation. The quantum leap was to then switch to using the <a href="http://angularjs.org/">http://angularjs.org/</a>
-           MVC framework.   
+           <h1>JQuery</h1>
+           <p>This was the only javscript framework I had previously been aware of and had used. I chose to intentionally avoid it this time
+           so that I could get a better understanding of the lower level core javsscript API which JQuery wraps and abstracts.</p>
            
-           Server-side architecture<br/>
+           <h1>lint</h1>
+           <p>Effective JS mentoned <a href="http://www.jslint.com/">http://www.jslint.com/</a> for code analysis. I started by pasting code
+           snippits in to the site which provided a tremendous level of detail in it warnings helping to give confidence to proceed. 
+           It was however a non scalable working pratice to use the website manually, looking for a command line alternative  
+           I installed <a href="http://www.jshint.com">http://www.jshint.com</a> and set up a batch for it in Aptana's terminal view. This
+           also can be configured to ignore specific warnings.</p>
+           
+           <h1>collision handling</h1>
+           <p>The collision detection for Redshift is straight forward box alligned tiles. It would have been quick to implement this from basics
+           but it seemed like a good candidate for using a shared module solution. For this I selected <a href="https://github.com/jriecken/sat-js">https://github.com/jriecken/sat-js</a>.
+           </p>
+                    
+           <h1>rendering</h1>
+           <p>Nothing too complicated here, since the geometry is all rectangular alligned I could have created it using HTML DOM components,
+           however that would be restrictive if I later required primitives which could not be modeled easily using the DOM. So I 
+           selected the HTML canvas to represent the board and tiles. The canvas is straight forward to use from basics but again I wanted 
+           to see if there was already a shared technology solution which could jump-start me here and I selected <a href="http://fabricjs.com/">http://fabricjs.com/</a>.
+           Some examples on this site show that it can combine canvas support with mouse input handling and some collision detection. At this stage I 
+           decided I could switch to fabricjs to provide all these components in one module. I tried to mock up a test case doing this but found 
+           that I could not get the control of the collision detection without first fully understanding the substantial fabricjs implementation. So to get the level
+           of control I required I decided to switch back to sat-js for collision and use input event handling and the HTML canvas from basics.
+           </p>
+           
+           <h1>input handling</h1>
+           <p>The intent here was to provide both mouse input handing for desktop browsers and touch input for mobile. The implementation for this
+           was a first opportunity to use javascript <a href="http://javascript.crockford.com/prototypal.html">prototypal inheritence</a>. 
+           To test touch input handling I had setup a batch publish process to the NGINX server and had my iPad pointed out the site. 
+           This provided a quick means of iterating development of components like this which needed to be tested in-situ.</p>
+           
+           <h1>mobile</h1>
+           <p>HTML includes some <a href ="http://developer.apple.com/library/safari/documentation/appleapplications/reference/SafariHTMLRef/Articles/MetaTags.html">metatags</a> 
+               for helping to make web apps appear more like native apps. The browser can be made full screen 
+               and guestures can be disabled. The app can then be book marked to make it appear as any other nativly installed app.</p>
+           
+           
+           <h1>dirty rectangle</h1>
+           <p>The canvas render size was initially fixed, I generalized this to fit to the device view size so that it would be compatiable with mobile platforms.
+           At this point the performance differences between iPad and desktop browsers became more apparrant, the framerate for Safari on iPad made the tile drag
+           experience too slow. Although I didn't use any system tech for profiling or add any of my own profiling, I took a guess that this was due to the
+            <a href="http://stackoverflow.com/questions/5064132/html5-canvas-performs-too-slow-on-lower-end-computers">canvas redrawing</a>.
+           Now that the canvas resized on device specs it was apparent that the landscape mode which used a smaller canvas was faster than portrait. My initial implementation 
+           of the canvas render was to clear the full canvas on every update loop and redraw it, I switched this to a dirty rectangle refresh to improve performance.
+           The rectangular layout of the tiles made this straight forward. Initially I tried moving the render and refresh calls in to the IO event handler callbacks
+           as this seemed the most direct location for it. This almost worked but it tied the rendering to these callbacks which broke the model-view pattern. So I moved 
+           render back in to a centralized update timer main loop and implemented the dirty rectangle refresh there. This made a hugh improvement to the framerate on mobile.</p>
+        
+           <h1>screen state control</h1>
+           <p> I went through several iterations with the front-end and screen state implementation. Initially I implemented the screen state as seperate html files
+           but I wasn't happy with how this interacted with browser navigation. I wanted to have programtic control of the screen state so 
+           I switched to use of a single html page and dynamically set the html to switch screen states. This worked as required but it didn't seem right to be writing 
+           html directly with javascript. The quantum leap was to then switch to using the <a href="http://angularjs.org/">http://angularjs.org/</a>
+           framework, one of the components this provides is <a href="http://stackoverflow.com/questions/14336450/javascript-spa-frameworks-single-page-application">Single-Page Application</a> 
+           archictecture through the use of java-script <a href="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_controller">controllers</a>. I integrated
+           Angular and switched my existing screen state implmentation over to controllers. The mainloop game object could then be wrapped and scoped
+           by a controller. Use of Angular made the programming much more like a familar event driven experience that I am familar with in
+           <a href="http://en.wikipedia.org/wiki/Windows_Presentation_Foundation">WPF</a> for example. It abstacts away the DOM manipulation from javascript which JQuery tends to promote. I created HTML templates for each of the 
+           screens which mapped to the corresponding angular controllers.</p> 
+           
+           <h1>canvas</h1>
+           <p> One more revelation was the ability to overlay DOM objects on to the game canvas as seperate render layers. Initially I had implemented text
+           rendering using the canvas API. This does allow for fine grained control but complicates the dirty rectangle implementation. So I switched
+           text and button controls to be DOM objects which overlayed the canvas. These could be created and layed out using the angular
+           screen templates. By using binding of the style attribute to js these DOM ojects could be dynamically positioned and scaled in javascript
+           when the view changes.</p> 
+           
+           
+           <h1>score table</h1>
+           <p>Mainly as an opportunity to add a server side component to the app, I created a score table page showing the moves taken to solve the puzzle.
+           To make the scores visible to all players, this would require some client to server communication and a server side score table implementation 
+           along with a means of storing the scores. </p>
+           
+           <h1>server-side architecture</h1>
+           <p>I used nodejs to create a web server app on the same EC2 instance as the NGINX server. Angular provides a HTTP API for making 
+           REST calls which I used to POST scores with. A webserver instance can be created in nodejs with just a few line of code but to create a REST
+           server I added the <a href="http://expressjs.com/">expressjs</a> framework to set up an listen for POST events. So both the client and
+           server are javascript implemented and JSON objects are passed between them.</p>
+           
+           <p>Initially I created some sample static score objects instance in the nodejs server app so that the client to use GET calls
+               to populate the score table. At this point I had my first encounter with <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>, I 
+               needed to set up some configuration within the angular client implementation to tell it to allow cross domain exchanges. This
+               allows it to GET resource from another domain than that which it is hosted on. Although the nodejs server is running under the
+               same domain instance as the NGINX server, it is listening on a different port and with regard to browsers this counts as cross domain.
+               Next I implemented POST events to send new scores to the server. For this, the expressjs server needed to be configured seperatly
+               to accept cross-domain events. The nodejs server could have been configured to listen on the same port as the NGINX server but 
+               that would have necessitated giving it root access.</p>  
+              
+            <h1>mongodb</h1> 
+            <p>With the nodejs server setup to run as a <a href="http://en.wikipedia.org/wiki/Nohup">NOHUP</a> background task I now had a persistant
+               score table. The next step was to write this state to a database so that it would persistent over a system interruption. <a href="http://www.mongodb.org/">mongodb</a> is
+               a NOSQL database which stores objects in JSON format. AWS provides seperate EC2 instances with mongodb imaged servers but these are no longer
+               covered by the free tier but you can still manually install to an AMI EC2 instance. It is then just a case of adding the <a href="https://github.com/gett/mongojs">mongojs</a>
+               framework so that the nodjs server can connect to the mongod instance. For the mongod instance to run in the background 
+               you can --fork it. 
+               
+           
+           <!--
            NodeJS + Express.
            Run the express app from the console and end command with & to signify hat it should run in tha backgound. The task id
            can be located using 'ps -A | grep Node'
@@ -62,7 +164,10 @@
            
            
            npm install mongojs
-           mongodb/bin/mongod&
+  
+           
+           mongodb/bin/mongo
+           
            nginx/html/mongodb/bin/mongod --fork --logpath /var/log/mongodb.log
            mongodb/bin/mongod --fork --logpath /data/db/mongodb.log
            
@@ -80,7 +185,7 @@
             http://howtonode.org/node-js-and-mongodb-getting-started-with-mongojs
             http://blog.ijasoneverett.com/2013/03/a-sample-app-with-node-js-express-and-mongodb-part-1/
             http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com/whiffenspoof/redshift.html#/scores
-            
+            -->
             
 
 

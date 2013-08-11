@@ -59,7 +59,7 @@
         
         mainloop.prototype.onDestroy = function () {
 
-            if ( this.mainTimerCallback != undefined ) {
+            if ( this.mainTimerCallback !== undefined ) {
                 clearInterval(this.mainloopInterval);
             }
             this.mainTimerCallback = undefined;
@@ -197,10 +197,10 @@
                 
             // move counter display resize
             this.$scope.moveCounterStyleDiv["font-size"] = (Tile.prototype.tileUnitSize * 0.8) + "px";
-            this.$scope.moveCounterStyleDiv["width"] = (Tile.prototype.tileUnitSize * 5.9) + "px";
+            this.$scope.moveCounterStyleDiv.width = (Tile.prototype.tileUnitSize * 5.9) + "px";
             
             //tagEntry pos
-            this.$scope.tagEntryStyleDiv["top"] = window.innerHeight*0.475  + "px";
+            this.$scope.tagEntryStyleDiv.top = window.innerHeight*0.475  + "px";
             this.$scope.tagEntryStyle["font-size"] = window.innerHeight*0.05 + "px";
     
             
@@ -227,15 +227,14 @@
                     }
                 } 
             }
-            this.winState = 1;
-            
-        }
+            this.winState = 1;     
+        };
                       
         mainloop.prototype.mainTimer = function( ) {
             
              // Test win condition
              if ( this.gameState.hasWon() ) {
-                 if ( this.winState == 0) {
+                 if ( this.winState === 0) {
                     this.onWin();
                  }
              }  
@@ -296,4 +295,4 @@
          }; // myTimer()  
 
          return mainloop;
-                      }); //define      }()); //IFFY
+                      }); //define      }()); //IFFE

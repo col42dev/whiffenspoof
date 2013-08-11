@@ -39,11 +39,10 @@
                     }
                 }
             };
-                
 
             return mEH;
         
         }); //define
 
-}()); //IFFY
+}()); //IFFE
         

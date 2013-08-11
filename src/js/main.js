@@ -29,7 +29,7 @@
                 window.removeEventListener("resize", $scope.onResizeEventListener, false);
                 window.removeEventListener("touchmove", $scope.touchmoveEventListener, false);
             });   
-        };
+        }
 
          
         var main = angular.module("main", []).config(function($routeProvider, $httpProvider) {
@@ -57,7 +57,6 @@
             });
             
             $routeProvider.otherwise( { 
-               // redirectTo: '/menu'
                 templateUrl: 'menu.html',
                 controller: 'MenuController' 
             });
@@ -73,7 +72,7 @@
         
         main.controller('MenuController', ['$scope', '$location', function($scope, $location) {
                         
-            initMenuScreen($scope);      
+            initMenuScreen($scope);     
  
             // on click callbacks
             $scope.newgame = function() {
@@ -111,7 +110,6 @@
                 
             $scope.sortOrder = 'moves';
                 
-            //delete $http.defaults.headers.common['X-Requested-With'];
             $http.defaults.useXDomain = true;
             
             $scope.showTable = 0;
@@ -119,15 +117,9 @@
             $scope.getInfo = function() {
                 $http({method: 'GET', url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080"}).
                     success(function(data, status, headers, config) {    
-                        // this callback will be called asynchronously
-                        // when the response is available
                         $scope.scoreTable = data;
                         $scope.showTable = 1;
-                        //alert("success");
-                        //alert(data);
                     }).error(function(data, status, headers, config) {
-                        // called asynchronously if an error occurs
-                        // or server returns response with an error status.
                         alert("scores not available");
                         alert(data + ":" + status + ":" + headers + ":" + config);
                     });
@@ -135,32 +127,6 @@
             
             // populate table
             $scope.getInfo();
-   
-            // curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"tag":"noob","score":43,"date":"now"}' http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score
-            $scope.postInfo = function(newScore) {   
-                
-                $http.defaults.useXDomain = true;  
-                delete $http.defaults.headers.common['X-Requested-With'];          
-                $http({
-                    url: "http://ec2-54-213-75-45.us-west-2.compute.amazonaws.com:8080/score",
-                    method: "POST",
-                    data: newScore,
-                    headers: {'Content-Type': 'application/json'}
-                }).success(function (data, status, headers, config) {
-                    //$scope.users = data.users; 
-                }).error(function (data, status, headers, config) {
-                    //$scope.status = status + ' ' + headers;
-                    alert("post error:" + status);
-                });
-            };
-            
-            $scope.addScore = function() {
-                //$scope.scoreTable.push({tag:$scope.tag, moves:0, date:Date()});
-                //$scope.tag = '';   
-                var newScore = {tag:$scope.tag, moves:Math.floor((Math.random()*500)+1), date:Date()};
-                //$scope.scoreTable.push();
-                $scope.postInfo(newScore);         
-            };
  
             $scope.back = function() {
                 $location.path('/menu');
@@ -174,8 +140,7 @@
             
             $scope.moveCounterStyleDiv = {};
             $scope.tagEntryStyleDiv = {};
-            $scope.tagEntryStyle = {};
-            
+            $scope.tagEntryStyle = {};        
 
             $scope.showTagEntry = "0";
             $scope.onShowTagEntry = function() {
@@ -183,7 +148,6 @@
                 $scope.$apply();
             };
             
-           
             $scope.exitgame = function() {
                 $location.path('/menu');
                 $scope.$apply();
@@ -195,7 +159,7 @@
             
             $scope.addScore = function() {
                 //console.log("ADD SCORE");
-                if ($scope.tagname != undefined)
+                if ($scope.tagname !== undefined)
                 {
                     var newScore = {tag:$scope.tagname, moves:$scope.moveCounter, date:Date()};
                     $scope.postInfo(newScore);      
@@ -231,12 +195,7 @@
             require([ "src/js/mainloop"], function(MainLoop) {  
                 $scope.ml = new MainLoop($scope);            
             });
-            
-
         }]);
         
-        
 
-
-
-}()); //IFFY
+}()); //IFFE
