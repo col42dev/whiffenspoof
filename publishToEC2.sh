@@ -20,6 +20,13 @@ scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffensp
 scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/difficultyMenu.html ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.
 scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/instructionsMenu.html ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.
 scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/scores.html ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.
+scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/icon.html ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.
+
+#scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/touch-icon-ipad.png ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.
+#scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/touch-icon-ipad-retina.png ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.
+#scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/touch-icon-iphone.png ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.
+#scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/touch-icon-iphone-retina.png ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.
+
 
 scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/scoretable.js ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.
 scp -i /Users/colinmoore/cmoore2.pem /Users/colinmoore/dev/ASWorkspace/whiffenspoof/scoretableApp.js ec2-user@ec2-54-213-75-45.us-west-2.compute.amazonaws.com:~/nginx/html/whiffenspoof/.

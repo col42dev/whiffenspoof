@@ -13,11 +13,11 @@
 
         </div>
         <h1>starting out</h1>
-        <p>The motivation for this project was as a learning exercise in javascript, like many I had used it without taking the 
-            trouble to <em>learn</em> it in detail.   My background is mainly using class based
-            languages with matures IDEs where many of the structural descisions are well established. Javascript web development is still
-            changing rapidly so to build on this starting point I would not need to learn the language features and also the 
-            frameworks to structures a project of this scale.</p>
+        <p>One motivation for this project was as a learning exercise in javascript, like many I had used it without taking the 
+            trouble to <em>learn</em> it in detail.   My background is mainly in class based
+            languages with mature IDEs where many of the structural descisions are well established. Javascript web development is still
+            changing rapidly so to build on this starting point I will need to learn both the language features and  the available 
+            frameworks to structure a project of this scale.</p>
             
            <h1>redshift</h1>
            <p>Redshift is a slide puzzle game I have previously implemented in other languages, it is of small enough scope for introducion
@@ -31,7 +31,7 @@
   
   
            <h1>AWS EC2</h1>
-           <p>Where to host the application? I created an Amazon Web Services account using the <a href=""http://aws.amazon.com/free/>free tier</a> offer. This gives you access to an
+           <p>Where to host the application? I created an Amazon Web Services account using the <a href="http://aws.amazon.com/free/">free tier</a> offer. This gives you access to an
            elastic compute instance of your choice. I selected a Linux AMI server and used <a href="https://itunes.apple.com/us/app/vssh/id583272886?mt=12">vSSH</a> to 
            access it from the command line. I started by installing <a href="https://npmjs.org/">node package manager</a> on it and then used that 
            to install an <a href="http://wiki.nginx.org/Main">NGINX</a> web server instance. With this up and running I set up a command line batch
@@ -145,12 +145,16 @@
                that would have necessitated giving it root access.</p>  
               
             <h1>mongodb</h1> 
-            <p>With the nodejs server setup to run as a <a href="http://en.wikipedia.org/wiki/Nohup">NOHUP</a> background task I now had a persistant
-               score table. The next step was to write this state to a database so that it would persistent over a system interruption. <a href="http://www.mongodb.org/">mongodb</a> is
+            <p>With the nodejs server setup to run as a <a href="http://en.wikipedia.org/wiki/Nohup">NOHUP</a> background task there is now a persistant
+               score table. The next step was to write this state to a database so that it would persist over a system interruption. <a href="http://www.mongodb.org/">mongodb</a> is
                a NOSQL database which stores objects in JSON format. AWS provides seperate EC2 instances with mongodb imaged servers but these are no longer
                covered by the free tier but you can still manually install to an AMI EC2 instance. It is then just a case of adding the <a href="https://github.com/gett/mongojs">mongojs</a>
                framework so that the nodjs server can connect to the mongod instance. For the mongod instance to run in the background 
                you can --fork it. 
+               
+           <h1>The MEAN stack</h1>
+           <p>The suite of technologies used for this app is described here as the javascript <a href="http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and">MEAN stack</a>.
+               </p>
                
            
            <!--

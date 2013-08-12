@@ -16,6 +16,7 @@
             this.rgb = rgb;
             this.selectionLocked = 0; 
             this.red = 0;
+            this.rounded = 0;
         };
         
         tile.prototype.resize = function( oldTileUnitSize ) { 
@@ -33,11 +34,37 @@
         
         tile.prototype.draw = function (ctx) {
             ctx.fillStyle = this.rgb;  
-            ctx.fillRect(this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2); 
-            //console.log( ">>>" + this.box.pos.x+ this.box.pos.y+ this.box.w+ this.box.h);
-            //ctx.fillStyle = "grey";
-            //ctx.font = "bold 16px Arial";
-            //ctx.fillText(Math.ceil(this.box.pos.y).toString(), this.box.pos.x, this.box.pos.y);
+            if (this.rounded) {
+                this.drawRounded(ctx, this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2, 5, true); 
+            } else {
+                ctx.fillRect(this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2); 
+            }
+        };
+        
+        tile.prototype.drawRounded = function(ctx, x, y, width, height, radius, fill, stroke) {
+              if (typeof stroke == "undefined" ) {
+                stroke = true;
+              }
+              if (typeof radius === "undefined") {
+                radius = 5;
+              }
+              ctx.beginPath();
+              ctx.moveTo(x + radius, y);
+              ctx.lineTo(x + width - radius, y);
+              ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+              ctx.lineTo(x + width, y + height - radius);
+              ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+              ctx.lineTo(x + radius, y + height);
+              ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+              ctx.lineTo(x, y + radius);
+              ctx.quadraticCurveTo(x, y, x + radius, y);
+              ctx.closePath();
+              if (stroke) {
+                ctx.stroke();
+              }
+              if (fill) {
+                ctx.fill();
+              }        
         };
             
         tile.prototype.setPos = function (pos) {

@@ -69,6 +69,11 @@
                     controller: 'InstructionsMenuController'     
                 });
                 
+                $routeProvider.when( { 
+                    templateUrl: 'devjournal.html',
+                    controller: 'DevJournal' 
+                });
+                
                 $routeProvider.otherwise( { 
                     templateUrl: 'menu.html',
                     controller: 'MenuController' 

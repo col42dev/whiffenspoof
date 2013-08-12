@@ -101,12 +101,13 @@
  
         mainloop.prototype.createTiles = function ( gameLevel) {
             
-            var rgbRed = "rgb(200, 0, 0)";
-            var rgbGre = "rgb(0, 200, 0)";
-            var rgbBlu = "rgb(0, 0, 200)";
-            var rgbYel = "rgb(220, 220, 0)";
+            var rgbRed = "rgb(180, 20, 20)";
+            var rgbGre = "rgb(0, 180, 20)";
+            var rgbBlu = "rgb(10, 10, 180)";
+            var rgbYel = "rgb(190, 190, 0)";
             var rgbBlk = "rgb(30, 30, 30)";
             var rgbBrw = "rgb(188, 143, 143)";
+            var rgbTransparent = "rgba(0, 0, 0, 0)";
  
             this.tiles = [];       
             
@@ -121,6 +122,7 @@
                 this.tiles.push(new Tile(1, 3, 1, 1, rgbYel));
                 this.tiles.push(new Tile(2, 3, 1, 1, rgbBlk));
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles[this.tiles.length-1].rounded = 1;
                 this.tiles.push(new Tile(3, 3, 2, 1, rgbGre));
                      
                 this.tiles.push(new Tile(1, 4, 1, 1, rgbYel));
@@ -135,18 +137,19 @@
                 this.tiles.push(new Tile(3, 6, 2, 1, rgbGre));
                 this.tiles.push(new Tile(3, 7, 1, 1, rgbBlk));
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles[this.tiles.length-1].rounded = 1;
                 this.tiles.push(new Tile(4, 7, 1, 1, rgbYel));
                 
                 this.tiles.push(new Tile(1, 8, 1, 2, rgbBlu));
                 this.tiles.push(new Tile(2, 8, 1, 2, rgbBlu));
                 
-                this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
+                this.tiles.push(new Tile(0, 0, 6, 1, rgbTransparent));
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
-                this.tiles.push(new Tile(0, 0, 1, 11, rgbBlk));
+                this.tiles.push(new Tile(0, 0, 1, 11, rgbTransparent));
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
-                this.tiles.push(new Tile(0, 10, 6, 1, rgbBlk));
+                this.tiles.push(new Tile(0, 10, 6, 1, rgbTransparent));
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
-                this.tiles.push(new Tile(5, 0, 1, 11, rgbBlk));
+                this.tiles.push(new Tile(5, 0, 1, 11, rgbTransparent));
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
             }
             
@@ -183,6 +186,15 @@
         mainloop.prototype.redraw = function () {
              this.ctx.fillStyle = this.clearStyle;  
              this.ctx.fillRect(0, 0, this.myCanvas.width, this.myCanvas.height);
+             
+             var rgbBlk = "rgb(30, 30, 30)";
+             this.ctx.fillStyle = rgbBlk;
+             this.drawRounded( this.ctx, 0, 0, Tile.prototype.tileUnitSize * this.tileBoardSize.width, Tile.prototype.tileUnitSize * this.tileBoardSize.height, 10, true );
+             this.ctx.fillStyle = this.clearStyle;
+             var width = Tile.prototype.tileUnitSize * (this.tileBoardSize.width -2) + Tile.prototype.tileUnitSize *.08;
+             var height = Tile.prototype.tileUnitSize * (this.tileBoardSize.height-2) + Tile.prototype.tileUnitSize *.08;
+             this.drawRounded( this.ctx,Tile.prototype.tileUnitSize *.96, Tile.prototype.tileUnitSize *.96, width, height, 5, true );
+     
              for (var tileIdx = 0;  tileIdx < this.tiles.length; tileIdx = tileIdx + 1) {
                  this.tiles[tileIdx].draw(this.ctx);
              }         
@@ -190,11 +202,12 @@
               
         mainloop.prototype.onResize = function () {
             this.myCanvas = document.getElementById("myCanvas");
-            this.myCanvas.height = window.innerHeight; //document.body.clientHeight ; 
+            this.myCanvas.height = window.innerHeight *.98; //document.body.clientHeight ; 
             this.myCanvas.width = window.innerWidth; //(this.myCanvas.height / 11)  * (6 + 2); 
             var oldTileUnitSize = Tile.prototype.tileUnitSize;
 
             Tile.prototype.tileUnitSize = this.myCanvas.height / this.tileBoardSize.height;
+            
             
             Tile.prototype.slideIncrement = Math.floor(Tile.prototype.tileUnitSize / 3);
             for (var tileIdx = 0;  tileIdx < this.tiles.length; tileIdx = tileIdx + 1) {
@@ -241,6 +254,33 @@
             
             //Apply controller scope
             this.$scope.$apply();   
+        };
+        
+        //http://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-on-html-canvas
+        mainloop.prototype.drawRounded = function(ctx, x, y, width, height, radius, fill, stroke) {
+              if (typeof stroke == "undefined" ) {
+                stroke = true;
+              }
+              if (typeof radius === "undefined") {
+                radius = 5;
+              }
+              ctx.beginPath();
+              ctx.moveTo(x + radius, y);
+              ctx.lineTo(x + width - radius, y);
+              ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+              ctx.lineTo(x + width, y + height - radius);
+              ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+              ctx.lineTo(x + radius, y + height);
+              ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+              ctx.lineTo(x, y + radius);
+              ctx.quadraticCurveTo(x, y, x + radius, y);
+              ctx.closePath();
+              if (stroke) {
+                ctx.stroke();
+              }
+              if (fill) {
+                ctx.fill();
+              }        
         };
         
         mainloop.prototype.onWin = function( ) {
