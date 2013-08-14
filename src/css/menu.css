@@ -42,3 +42,9 @@ html, body    {
 button.menu {
        font-size:50px;
 }
+
+button.menuLink {
+       font-size:20px;
+       color: rgba(0,0,0,1);
+       background: rgba(0, 0, 0, 0); 
+}

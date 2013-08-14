@@ -179,6 +179,37 @@
                 this.tiles.push(new Tile(4, 0, 1, 10, rgbBlk));
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
             }
+            
+            if (gameLevel === 2) { //Ushi
+                this.tileBoardSize = {width:6, height:7};
+                
+                this.tiles.push(new Tile(1, 1, 1, 2, rgbBlu));
+                this.tiles.push(new Tile(2, 1, 2, 2, rgbRed));
+                this.tiles[this.tiles.length-1].red = 1;
+                this.tiles.push(new Tile(4, 1, 1, 2, rgbBlu));
+                
+                this.tiles.push(new Tile(1, 3, 2, 1, rgbBlu));   
+                this.tiles.push(new Tile(3, 3, 2, 1, rgbBlu));
+                    
+                this.tiles.push(new Tile(1, 4, 1, 1, rgbYel));
+                this.tiles.push(new Tile(2, 4, 2, 1, rgbBlu));
+                this.tiles.push(new Tile(4, 4, 1, 1, rgbYel));
+                     
+                this.tiles.push(new Tile(1, 5, 1, 1, rgbYel));
+                this.tiles.push(new Tile(4, 5, 1, 1, rgbYel));
+                
+                
+                this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(0, 0, 1, 7, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(5, 0, 1, 7, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(0, 6, 6, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+          
+            }
+ 
 
         };
  

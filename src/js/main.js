@@ -3,11 +3,11 @@
         
         function initMenuScreen($scope) {
             
-            // prevent scrolling
+            //onTouchmove
             $scope.touchmoveEventListener = function(event) {
-                event.preventDefault(); 
+                event.preventDefault();  // prevent scrolling
             };
-            $scope.el = window.addEventListener('touchmove', $scope.touchmoveEventListener, true); 
+            $scope.onTouchMoveEventListener = window.addEventListener('touchmove', $scope.touchmoveEventListener, true); 
             
             //onResize
             $scope.onResize = function() {
@@ -30,7 +30,7 @@
             // on Destroy
             $scope.$on("$destroy", function() {
                 window.removeEventListener("resize", $scope.onResizeEventListener, false);
-                window.removeEventListener("touchmove", $scope.touchmoveEventListener, false);
+                window.removeEventListener("touchmove", $scope.onTouchMoveEventListener, false);
             });   
         }
         
@@ -86,7 +86,6 @@
                 delete $httpProvider.defaults.headers.common['X-Requested-With'];
             }
         ]);
-        
 
         main.run(['$rootScope',function($rootScope) {
                 $rootScope.gameLevel = 0;
@@ -112,19 +111,23 @@
 
         }]);
         
-        
         main.controller('DifficultyMenuController', ['$scope', '$rootScope', '$location', function($scope, $rootScope, $location) {
                         
             initMenuScreen($scope);     
  
             // on click callbacks
-            $scope.normal = function() {
+            $scope.Hughes = function() {
                 $rootScope.gameLevel = 0;
                 $location.path('/instructions');
             };
             
-            $scope.difficult = function() {
+            $scope.Whiffen = function() {
                 $rootScope.gameLevel = 1;
+                $location.path('/instructions');
+            };
+            
+            $scope.Ushi = function() {
+                $rootScope.gameLevel = 2;
                 $location.path('/instructions');
             };
             
@@ -147,13 +150,32 @@
             $scope.back = function() { 
                 $location.path('/difficulty');
             };     
-
+            
+            if ( $scope.gameLevel == 0) {
+                console.log("0");
+                $scope.instructions = "To complete the puzzle, slide the red tile in the top left corner down to the bottom right corner.";
+            } else if ( $scope.gameLevel == 1) {
+                 console.log("1");
+                $scope.instructions = "To complete the puzzle, slide the red tile in the top left corner down to the bottom right corner. Black tiles are fixed in position.";
+            }  else if ( $scope.gameLevel == 2) {
+                 console.log("2");
+                $scope.instructions = "To complete the puzzle, slide the red tile in the top-middle down to the bottom-middle.";
+            }  
+ 
         }]);
         
-       main.controller('AboutController', ['$scope', '$location', function($scope, $location) {
+        main.controller('AboutController', ['$scope', '$location', function($scope, $location) {
                 
             initMenuScreen($scope);
            
+            $scope.linkDirtyRect = function() {
+                window.open("http://twitter.com/dirtyrect" );
+            };
+            
+            $scope.linkCol42dev = function() {
+                window.open("http://github.com/col42dev/whiffenspoof");
+            };
+        
             $scope.back = function() {
                 $location.path('/menu');
             };
@@ -170,7 +192,6 @@
                 
             $scope.sortOrder = 'moves';
             $scope.menuGameLevel = 0;
-            $scope.menuGameLevelName = "Normal"; 
             $http.defaults.useXDomain = true;
             
             $scope.showTable = 0; // hide until populated from server
@@ -189,15 +210,24 @@
             // populate table
             $scope.getInfo();
             
+            $scope.setLevelName = function () {
+                if ( $scope.menuGameLevel == 0) {
+                    $scope.menuGameLevelName = "Hughes";
+                } else if ( $scope.menuGameLevel == 1) {
+                    $scope.menuGameLevelName = "Whiffen-Spoof";
+                }  else if ( $scope.menuGameLevel == 2) {
+                    $scope.menuGameLevelName = "Ushi";
+                }                 
+            };
+            
+            $scope.setLevelName();
+            
             // click button callback
             $scope.toggleMenuGameLevel = function() {
-                if ( $scope.menuGameLevel == 0) {
-                    $scope.menuGameLevel = 1;
-                    $scope.menuGameLevelName = "Difficult";
-                } else if ( $scope.menuGameLevel == 1) {
-                    $scope.menuGameLevel = 0;
-                    $scope.menuGameLevelName = "Normal";
-                }     
+                $scope.menuGameLevel += 1;
+                $scope.menuGameLevel %= 3;
+                
+                $scope.setLevelName();
             };
             
             // Filter table by game Level and max entries
