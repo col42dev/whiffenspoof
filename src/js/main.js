@@ -241,8 +241,16 @@
                 $scope.filteredScoreTable = [];
                 $scope.filteredCount = 0;
                 
-                angular.forEach( $scope.scoreTable, function( value, key) {
-                    if ( $scope.filteredCount < 10) { // max of 10 entries
+                function compare(a,b) {
+                    if (a.moves < b.moves)
+                        return -1;
+                    if (a.moves > b.moves)
+                        return 1;
+                    return 0;
+                };
+                
+                angular.forEach( $scope.scoreTable.sort(compare), function( value, key) {
+                    if ( $scope.filteredCount < 8) { // max of 10 entries
                         if ( value.gameLevel === $scope.menuGameLevel) {
                            $scope.filteredScoreTable.push(value);
                            $scope.filteredCount += 1;
