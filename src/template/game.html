@@ -1,0 +1,22 @@
+ <div id='game' >
+   
+    <canvas id='myCanvas' style="position: absolute" >    </canvas>
+            
+    <div id='myMoveCounterDiv' ng-style="moveCounterStyleDiv" style="position:absolute; vertical-align:text-top; text-align:right; color:rgb(200,0,0); font-family:Verdana; font-style:bold"  >{{moveCounter}}</div>
+
+    <div id='myTagEntry' ng-style="tagEntryStyleDiv" style ="position:relative; width=100%" >
+         <form ng-submit="addScore()" ng-show="showTagEntry" style="text-align:center">
+
+            <input type="text" ng-model="tagname"  ng-style="tagEntryStyle" placeholder="enter name" maxlength="16"><br>
+            <input type="submit" value="add"  ng-style="tagEntryStyle">
+
+         </form>
+     </div>
+    
+     <div style ="bottom: 12px; right: 5px; position: absolute;">
+        <button  ng-click='back()' ng-style="menuButtonStyle" style="text-align:right">Exit</button>
+     </div>
+                
+     <!--h1 class='shift' style ="bottom: -5%; right: 5%; position: absolute;" ng-style="titleStyle">Shift</h1-->
+  
+</div>

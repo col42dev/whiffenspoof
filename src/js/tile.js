@@ -164,6 +164,16 @@
                 }
             }
             
+            if ($scope.gameLevel === 3) {
+                if (this.wUnit===2 && this.hUnit===2) {
+                    if (this.box.pos.y >= 4*this.tileUnitSize) {
+                        if (this.box.pos.x <= 1.0 * this.tileUnitSize ) {
+                            return 1;
+                        }   
+                    }
+                }
+            }
+            
             return 0;
         };
       

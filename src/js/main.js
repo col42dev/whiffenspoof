@@ -40,32 +40,32 @@
                 $httpProvider.defaults.useXDomain = true;
                             
                 $routeProvider.when('/menu', {
-                    templateUrl: 'menu.html',
+                    templateUrl: 'src/template/menu.html',
                     controller: 'MenuController'     
                 });
                 
                 $routeProvider.when('/game', {
-                    templateUrl: 'game.html',
+                    templateUrl: 'src/template/game.html',
                     controller: 'GameController'     
                 });
                 
                 $routeProvider.when('/scores', {
-                    templateUrl: 'scores.html',
+                    templateUrl: 'src/template/scores.html',
                     controller: 'ScoreController'     
                 });
                 
                 $routeProvider.when('/about', {
-                    templateUrl: 'about.html',
+                    templateUrl: 'src/template/about.html',
                     controller: 'AboutController'     
                 });
                 
                 $routeProvider.when('/difficulty', {
-                    templateUrl: 'difficultyMenu.html',
+                    templateUrl: 'src/template/difficultyMenu.html',
                     controller: 'DifficultyMenuController'     
                 });
                 
                 $routeProvider.when('/instructions', {
-                    templateUrl: 'instructionsMenu.html',
+                    templateUrl: 'src/template/instructionsMenu.html',
                     controller: 'InstructionsMenuController'     
                 });
                 
@@ -75,7 +75,7 @@
                 });
                 
                 $routeProvider.otherwise( { 
-                    templateUrl: 'menu.html',
+                    templateUrl: 'src/template/menu.html',
                     controller: 'MenuController' 
                 });
             }
@@ -131,6 +131,11 @@
                 $location.path('/instructions');
             };
             
+            $scope.Dads = function() {
+                $rootScope.gameLevel = 3;
+                $location.path('/instructions');
+            };
+            
                  
             $scope.back = function() { 
                 $location.path('/menu');
@@ -152,15 +157,14 @@
             };     
             
             if ( $scope.gameLevel == 0) {
-                console.log("0");
                 $scope.instructions = "To complete the puzzle, slide the red tile in the top left corner down to the bottom right corner.";
             } else if ( $scope.gameLevel == 1) {
-                 console.log("1");
                 $scope.instructions = "To complete the puzzle, slide the red tile in the top left corner down to the bottom right corner. Black tiles are fixed in position.";
             }  else if ( $scope.gameLevel == 2) {
-                 console.log("2");
                 $scope.instructions = "To complete the puzzle, slide the red tile in the top-middle down to the bottom-middle.";
-            }  
+            } else if ( $scope.gameLevel == 3) {
+                $scope.instructions = "Few solve it, it can be done. Move the red tile from the top-left to the bottom-left.";
+            }   
  
         }]);
         
@@ -217,6 +221,8 @@
                     $scope.menuGameLevelName = "Whiffen-Spoof";
                 }  else if ( $scope.menuGameLevel == 2) {
                     $scope.menuGameLevelName = "Ushi";
+                }  else if ( $scope.menuGameLevel == 3) {
+                    $scope.menuGameLevelName = "Dad's Puzzler";
                 }                 
             };
             
@@ -225,7 +231,7 @@
             // click button callback
             $scope.toggleMenuGameLevel = function() {
                 $scope.menuGameLevel += 1;
-                $scope.menuGameLevel %= 3;
+                $scope.menuGameLevel %= 4;
                 
                 $scope.setLevelName();
             };

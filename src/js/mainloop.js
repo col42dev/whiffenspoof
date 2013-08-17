@@ -210,6 +210,37 @@
           
             }
  
+           if (gameLevel === 3) { //dad's Puzzle
+                this.tileBoardSize = {width:6, height:7};
+                
+                this.tiles.push(new Tile(1, 1, 2, 2, rgbRed));
+;
+                this.tiles[this.tiles.length-1].red = 1;
+                this.tiles.push(new Tile(3, 1, 2, 1, rgbYel))
+                this.tiles.push(new Tile(3, 2, 2, 1, rgbYel));
+                
+                this.tiles.push(new Tile(1, 3, 1, 1, rgbBlu));   
+                this.tiles.push(new Tile(2, 3, 1, 1, rgbBlu));
+                    
+                this.tiles.push(new Tile(1, 4, 1, 2, rgbYel));
+                this.tiles.push(new Tile(2, 4, 1, 2, rgbYel));
+                this.tiles.push(new Tile(3, 4, 2, 1, rgbYel));
+                     
+                this.tiles.push(new Tile(3, 5, 2, 1, rgbYel));
+
+                
+                
+                this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(0, 0, 1, 7, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(5, 0, 1, 7, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+                this.tiles.push(new Tile(0, 6, 6, 1, rgbBlk));
+                this.tiles[this.tiles.length-1].selectionLocked = 1;
+          
+            }
+ 
 
         };
  
@@ -253,7 +284,7 @@
             
             this.ctx.textAlign = 'left';
             this.ctx.font = fontStr.replace(/PS/g, fontPointSizeStr);
-            this.ctx.fillText("Red", 2,  Tile.prototype.tileUnitSize * 0.86);
+            this.ctx.fillText("RED", 2,  Tile.prototype.tileUnitSize * 0.86);
             
             
             fontStr = "italic bold PSpx Verdana";

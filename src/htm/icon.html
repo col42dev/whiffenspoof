@@ -9,7 +9,7 @@
          
     </head>
     <body>
-          <canvas id='myCanvas' style="position: absolute; width:129px; height:129px" >    </canvas>
+          <canvas id='myCanvas' style="position: absolute; " width="500" height="500">    </canvas>
          
                 <script type="text/javascript">
                 
@@ -40,22 +40,36 @@
                           }        
                     };
                     
+                    
         
                     var c=document.getElementById("myCanvas");
                     var ctx=c.getContext("2d");
+                    
+                    var width = 64.0;
+                    c.width = width;
+                    c.height = width;
+                    
+                    ctx.fillStyle="rgb(0,0,0)";
+                    ctx.fillRect(0, 0, c.width, c.width); 
+ 
 
-                    var grd=ctx.createLinearGradient(0,0,129,0);
+                    var grd=ctx.createLinearGradient(0,0,width,0);
                     grd.addColorStop(0,"yellow");
                     grd.addColorStop(0.5,"orange");
                      grd.addColorStop(1.0,"red");
                     
  
                     ctx.fillStyle=grd;
-                 ctx.fillRect(0,0,129,129);
-                 
+                    
+                    //link rel="apple-touch-icon" sizes="57x57"                href="touch-icon-iphone.png" />
+                    //link rel="apple-touch-icon" sizes="72x72"   href="touch-icon-ipad.png" />
+                    //link rel="apple-touch-icon" sizes="114x114" href="touch-icon-iphone-retina.png" />
+                    //link rel="apple-touch-icon" sizes="144x144" href="touch-icon-ipad-retina.png" />
+
+                 ctx.fillRect(0,0,width,width);   
                  ctx.fillStyle="black";
-                 ctx.fillRect(15,0, 10,129);
-                 ctx.fillRect(30,0, 20,129);
+                 ctx.fillRect(width*15.0/129.0,0, width*10.0/129.0,width);
+                 ctx.fillRect(width*35.0/129.9,0, width*15.0/129.0,width);
 
                 </script>
  
