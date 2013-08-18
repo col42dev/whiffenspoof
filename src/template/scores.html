@@ -1,7 +1,10 @@
-<div id='scores'>  
-    <h1 class='red' style ="top: -5%; left: 5%; position: absolute;" ng-style="titleStyle">RED</h1>
+<div id='scores'  >
     
-    <table style="vertical-align:middle; height: 100%; width: 100%; position: absolute;">
+    <canvas id='redshiftCanvas' style="position: absolute"  >    </canvas>
+
+    <h1 class='red' style ="top: -5%; left: 5%; position: absolute;" ng-style="titleStyle"></h1>
+    
+    <table class="menu" style="top: 10%; width: 100%; position: absolute;">
         <tr>
             <td>
                 <div style="text-align:center;">
@@ -17,10 +20,10 @@
                         </tr>
                      </thead>
                      <tbody>
-                        <tr ng-repeat="score in getFilteredScoreTable() | orderBy:sortOrder ">
-                            <td align="left">{{score.moves}}</td>
-                            <td align="left">{{score.tag}}</td>
-                            <td align="left">{{score.date}}</td>
+                        <tr ng-show="1" ng-repeat="score in getFilteredScoreTable() | orderBy:sortOrder ">
+                                <td align="left">{{score.moves}}</td>
+                                <td align="left">{{score.tag}}</td>
+                                <td nowrap align="left">{{score.date}}</td>
                         </tr>
                      </tbody>
                 </table>
@@ -28,6 +31,6 @@
         </tr>
     </table>
 
-    <h1 class='shift' style ="bottom: -5%; right: 5%; position: absolute;" ng-style="titleStyle">SHIFT</h1>
+    <h1 class='shift' style ="bottom: -5%; right: 5%; position: absolute;" ng-style="titleStyle"></h1>
 </div>
 

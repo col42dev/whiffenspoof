@@ -9,8 +9,6 @@
             
             this.winState = 0;
             this.$scope = $scope;
-            
-            console.log("mainloop");
            
      
             //TODO: modularise this initlization 
@@ -216,7 +214,7 @@
                 this.tileBoardSize = {width:6, height:7};
                 
                 this.tiles.push(new Tile(1, 1, 2, 2, rgbRed));
-;
+
                 this.tiles[this.tiles.length-1].red = 1;
                 this.tiles.push(new Tile(3, 1, 2, 1, rgbYel))
                 this.tiles.push(new Tile(3, 2, 2, 1, rgbYel));
@@ -240,10 +238,7 @@
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
                 this.tiles.push(new Tile(0, 6, 6, 1, rgbBlk));
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
-          
             }
- 
-
         };
  
         
@@ -268,27 +263,19 @@
             
             this.myCanvas = document.getElementById("myCanvas");
             
-            if (window.innerHeight/this.tileBoardSize.height < window.innerWidth/this.tileBoardSize.width)
-            {
-                this.myCanvas.height = window.innerHeight *.98; //document.body.clientHeight ; 
+            if (window.innerHeight/this.tileBoardSize.height < window.innerWidth/this.tileBoardSize.width){
+                this.myCanvas.height = window.innerHeight * 1.0; //document.body.clientHeight ;
                 this.myCanvas.width = window.innerWidth; //(this.myCanvas.height / 11)  * (6 + 2); 
                 var oldTileUnitSize = Tile.prototype.tileUnitSize;
 
                 Tile.prototype.tileUnitSize = this.myCanvas.height / this.tileBoardSize.height;
             } else {
-                console.log("use width");
-            
                 this.myCanvas.height = window.innerHeight; //document.body.clientHeight ;
-                this.myCanvas.width = window.innerWidth *.98; //(this.myCanvas.height / 11)  * (6 + 2);
+                this.myCanvas.width = window.innerWidth * 1.0; //(this.myCanvas.height / 11)  * (6 + 2);
                 var oldTileUnitSize = Tile.prototype.tileUnitSize;
             
                 Tile.prototype.tileUnitSize = this.myCanvas.width / this.tileBoardSize.width;
-
-            
-            }
-            
-
-            
+            } 
             
             Tile.prototype.slideIncrement = Math.floor(Tile.prototype.tileUnitSize / 3);
             for (var tileIdx = 0;  tileIdx < this.tiles.length; tileIdx = tileIdx + 1) {

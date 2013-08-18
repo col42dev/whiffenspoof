@@ -1,13 +1,13 @@
  <div id='game' >
    
-    <canvas id='myCanvas' style="position: absolute" >    </canvas>
+    <canvas id='myCanvas' style="position:absolute" >    </canvas>
             
     <div id='myMoveCounterDiv' ng-style="moveCounterStyleDiv" style="position:absolute; vertical-align:text-top; text-align:right; color:rgb(200,0,0); font-family:Verdana; font-style:bold"  >{{moveCounter}}</div>
 
     <div id='myTagEntry' ng-style="tagEntryStyleDiv" style ="position:relative; width=100%" >
          <form ng-submit="addScore()" ng-show="showTagEntry" style="text-align:center">
 
-            <input type="text" ng-model="tagname"  ng-style="tagEntryStyle" placeholder="enter name" maxlength="16"><br>
+            <input type="text" ng-model="tagname"  ng-style="tagEntryStyle" placeholder="enter name" maxlength="6"><br>
             <input type="submit" value="add"  ng-style="tagEntryStyle">
 
          </form>

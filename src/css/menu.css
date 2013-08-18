@@ -27,6 +27,11 @@ h1.shift {
     */
 }
 
+table.menu {
+    color:red;
+}
+
+
 table.center {
     margin-left:auto; 
     margin-right:auto;
@@ -35,9 +40,16 @@ table.left {
 
 }
 
-html, body    {
+html, body   {
     height: 100%;
 }
+
+html, body, div, canvas    {
+    margin: 0;
+    padding: 0;
+}
+
+
 
 button.menu {
        font-size:50px;
