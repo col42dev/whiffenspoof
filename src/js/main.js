@@ -105,10 +105,23 @@
             $scope.onResizeEventListener = window.addEventListener("resize", $scope.resizeEventListener, false);
             $scope.onResize();
  
+            //onOrientationChange
+            $scope.onOrientationChange = function() {
+                $scope.orientationChangeSetTimeout = window.setTimeout($scope.resizeEventListener, 20);
+            }
+
+            $scope.orientationChangeEventListener = function() {
+                $scope.onOrientationChange();
+            };
+            $scope.onOrientationChangeEventListener = window.addEventListener("orientationchange", $scope.orientationChangeEventListener, false);
+
+ 
             // on Destroy
             $scope.$on("$destroy", function() {
                 window.removeEventListener("resize", $scope.onResizeEventListener, false);
                 window.removeEventListener("touchmove", $scope.onTouchMoveEventListener, false);
+                window.removeEventListener("orientationchange", $scope.onOrientationChangeEventListener, false);
+                window.clearTimeout($scope.orientationChangeSetTimeout);
             });   
         }
         

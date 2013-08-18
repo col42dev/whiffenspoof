@@ -55,6 +55,20 @@
             };
                             
             window.addEventListener("resize", _this.onResizeWindow, false);
+            
+            
+            // onOrientationChange - setting body:margin 0 means that resize event is not getting called after an orientation change! so we need to trigger it manually
+            this.$scope.onOrientationChange = function() {
+                _this.$scope.orientationChangeSetTimeout = window.setTimeout(_this.onResizeWindow, 40);
+            }
+            
+            this.$scope.orientationChangeEventListener = function() {
+                _this.$scope.onOrientationChange();
+            };
+            
+            this.$scope.onOrientationChangeEventListener = window.addEventListener("orientationchange", $scope.orientationChangeEventListener, false);
+            
+
         };
         
         mainloop.prototype.onDestroy = function () {
