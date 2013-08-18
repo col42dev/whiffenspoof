@@ -9,6 +9,8 @@
             
             this.winState = 0;
             this.$scope = $scope;
+            
+            console.log("mainloop");
            
      
             //TODO: modularise this initlization 
@@ -263,12 +265,29 @@
         };
               
         mainloop.prototype.onResize = function () {
+            
             this.myCanvas = document.getElementById("myCanvas");
-            this.myCanvas.height = window.innerHeight *.98; //document.body.clientHeight ; 
-            this.myCanvas.width = window.innerWidth; //(this.myCanvas.height / 11)  * (6 + 2); 
-            var oldTileUnitSize = Tile.prototype.tileUnitSize;
+            
+            if (window.innerHeight/this.tileBoardSize.height < window.innerWidth/this.tileBoardSize.width)
+            {
+                this.myCanvas.height = window.innerHeight *.98; //document.body.clientHeight ; 
+                this.myCanvas.width = window.innerWidth; //(this.myCanvas.height / 11)  * (6 + 2); 
+                var oldTileUnitSize = Tile.prototype.tileUnitSize;
 
-            Tile.prototype.tileUnitSize = this.myCanvas.height / this.tileBoardSize.height;
+                Tile.prototype.tileUnitSize = this.myCanvas.height / this.tileBoardSize.height;
+            } else {
+                console.log("use width");
+            
+                this.myCanvas.height = window.innerHeight; //document.body.clientHeight ;
+                this.myCanvas.width = window.innerWidth *.98; //(this.myCanvas.height / 11)  * (6 + 2);
+                var oldTileUnitSize = Tile.prototype.tileUnitSize;
+            
+                Tile.prototype.tileUnitSize = this.myCanvas.width / this.tileBoardSize.width;
+
+            
+            }
+            
+
             
             
             Tile.prototype.slideIncrement = Math.floor(Tile.prototype.tileUnitSize / 3);
@@ -432,4 +451,7 @@
          }; // myTimer()  
 
          return mainloop;
-                      }); //define      }()); //IFFE
+                  
+    }); //define
+      
+}()); //IFFE

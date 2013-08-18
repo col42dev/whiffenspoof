@@ -2,7 +2,8 @@
 	"use strict";
         
         function initMenuScreen($scope) {
-            
+    
+            console.log("init");
             //onTouchmove
             $scope.touchmoveEventListener = function(event) {
                 event.preventDefault();  // prevent scrolling
