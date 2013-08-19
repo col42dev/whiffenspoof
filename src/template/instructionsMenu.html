@@ -2,16 +2,26 @@
     
     <canvas id='redshiftCanvas' style="position:absolute" >    </canvas>
     
+    
+    <table style="top: 15%; left:5%; width: 100%; position: absolute;">
+        <tr>
+            <td>
+                <table class="left" style="width:60%; color:rgb(200,0,0); font-weight:bold; font-family:verdana" ng-style="instructionTextStyle">
+                    <tr>
+                       <td align="left" >
+                            <span class="instructions">{{instructions}}</span>
+                       </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    
     <table style="vertical-align:middle; height: 100%; width: 100%; position: absolute;">
         <tr>
             <td>
-                <table class="center">
-                    <tr>
-                       <td align="center">
-                            <span>{{instructions}}</span>
-                       </td>
-                    </tr>
-                    <tr><td><br></td></tr>
+                <table class="center" style="width:60%; color:rgb(200,0,0); font-weight:bold; font-family:verdana">
                     <tr>
                        <td align="center">
                             <button class="menu" data-ng-click='start()' ng-style="menuButtonStyle">start</button>

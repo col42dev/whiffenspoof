@@ -87,6 +87,9 @@
                 $scope.menuSmallButtonStyle = {};
                 $scope.menuSmallButtonStyle["font-size"] = window.innerHeight/30 + "px";
  
+                $scope.instructionTextStyle = {};
+                $scope.instructionTextStyle["font-size"] = window.innerHeight/35 + "px";
+ 
                 $scope.titleStyle = {};
                 $scope.titleStyle["font-size"] = window.innerHeight/8 + "px";
  
@@ -252,9 +255,9 @@
             } else if ( $scope.gameLevel == 1) {
                 $scope.instructions = "To complete the puzzle, slide the red tile in the top left corner down to the bottom right corner. Black tiles are fixed in position.";
             }  else if ( $scope.gameLevel == 2) {
-                $scope.instructions = "To complete the puzzle, slide the red tile in the top-middle down to the bottom-middle.";
+                $scope.instructions = "To complete the puzzle, slide the red tile in the top middle down to the bottom middle.";
             } else if ( $scope.gameLevel == 3) {
-                $scope.instructions = "Few solve it, it can be done. Move the red tile from the top-left to the bottom-left.";
+                $scope.instructions = "Few solve it, it can be done. Move the red tile from the top left to the bottom left.";
             }   
  
         }]);
@@ -341,7 +344,7 @@
                 };
                 
                 angular.forEach( $scope.scoreTable.sort(compare), function( value, key) {
-                    if ( $scope.filteredCount < 8) { // max of 10 entries
+                    if ( $scope.filteredCount < 32) { // max of 32 entries
                         if ( value.gameLevel === $scope.menuGameLevel) {
                            $scope.filteredScoreTable.push(value);
                            $scope.filteredCount += 1;
@@ -351,6 +354,22 @@
                 
                 return $scope.filteredScoreTable;
             };
+                                            
+            // limit max row dynamically based on window height
+            $scope.maxRows = function() {
+                                            
+                for (var i=0; i <32; i ++) {
+                    var tr = document.getElementById("tr"+i);
+                    if (tr != undefined && tr) {
+                        var trRect = tr.getBoundingClientRect();
+                        if ( trRect.bottom > window.innerHeight* 0.8 ) {
+                            return i;
+                        }
+                    }
+                }
+                                             
+                return 32;
+            }
  
             $scope.back = function() {
                 $location.path('/menu');

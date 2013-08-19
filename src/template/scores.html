@@ -18,10 +18,12 @@
                         </tr>
                      </thead>
                      <tbody>
-                        <tr ng-show="1" ng-repeat="score in getFilteredScoreTable() | orderBy:sortOrder ">
-                                <td align="left">{{score.moves}}</td>
-                                <td align="left">{{score.tag}}</td>
-                                <td nowrap align="left">{{score.date}}</td>
+                        <tr  ng-repeat="score in getFilteredScoreTable() | orderBy:sortOrder | limitTo:maxRows() "  >
+                                <div >
+                                    <td  id='tr{{$index}}'  align="left">{{score.moves}}</td>
+                                    <td  align="left">{{score.tag}}</td>
+                                    <td  nowrap align="left">{{score.date}}</td>
+                                </div>
                         </tr>
                      </tbody>
                 </table>
