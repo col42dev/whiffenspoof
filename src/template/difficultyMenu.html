@@ -32,13 +32,17 @@
                     <tr><td><br></td></tr>
                     <tr>
                        <td align="center">
-                            <button class="menu" data-ng-click='back()' ng-style="menuButtonStyle">back</button>
+                            <button class="menu" data-ng-click='back()' ng-style="menuButtonStyle"></button>
                        </td>
                     </tr>
                 </table>
             </td>
         </tr>
     </table>
+
+     <div ng-style="menuButtonStyle" style ="bottom: 12px; left: 4px; position: absolute;">
+        <button  data-ng-click='back()'  ng-style="menuButtonStyle" style="background-color:transparent; text-align:left; border-width:0px">&#x2347</button>
+     </div>
     
 </div>
 

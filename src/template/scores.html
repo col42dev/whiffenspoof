@@ -6,7 +6,7 @@
         <tr>
             <td>
                 <div style="text-align:center;">
-                    <button  class="menu" ng-click='back()' ng-style="menuButtonStyle">back</button>
+                    <button  class="menu" ng-click='back()' ng-style="menuButtonStyle"></button>
                 </div><br>
                 <button  class="menu" ng-click='toggleMenuGameLevel()' ng-style="menuSmallButtonStyle">{{menuGameLevelName}}</button><br>
                 <table ng-show="showTable"  class="left">
@@ -31,6 +31,9 @@
         </tr>
     </table>
 
+     <div ng-style="menuButtonStyle" style ="bottom: 12px; left: 4px; position: absolute;">
+        <button  ng-click='back()'  ng-style="menuButtonStyle" style="background-color:transparent; text-align:left; border-width:0px">&#x2347</button>
+     </div>
 
 </div>
 

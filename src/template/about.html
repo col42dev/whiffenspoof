@@ -7,7 +7,7 @@
         <tr>
             <td>
                 <div style="text-align:center;">
-                    <button  class="menu" ng-click='back()' ng-style="menuButtonStyle">back</button>
+                    <button  class="menu" ng-click='back()' ng-style="menuButtonStyle"></button>
                 </div><br/>
                 <table class="center">
                     <tr>
@@ -26,6 +26,9 @@
         </tr>
     </table>
 
+     <div ng-style="menuButtonStyle" style ="bottom: 12px; left: 4px; position: absolute;">
+        <button  ng-click='back()'  ng-style="menuButtonStyle" style="background-color:transparent; text-align:left; border-width:0px">&#x2347</button>
+     </div>
  
 </div>
 

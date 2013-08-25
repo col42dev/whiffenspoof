@@ -33,11 +33,16 @@
         };
         
         tile.prototype.draw = function (ctx) {
+
+            //return;
+
             ctx.fillStyle = this.rgb;  
             if (this.rounded) {
                 this.drawRounded(ctx, this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2, 5, true); 
             } else {
-                ctx.fillRect(this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2); 
+                if (this.selectionLocked==0) {
+                    ctx.fillRect(this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2); 
+                }
             }
         };
         

@@ -5,6 +5,8 @@
 
         var mainloop = function ( $scope ) {   
                    
+
+
             var _this = this;
             
             this.winState = 0;
@@ -180,8 +182,6 @@
                 this.tiles.push(new Tile(1, 7, 2, 2, rgbBrw));
                      
                 this.tiles.push(new Tile(3, 7, 1, 2, rgbYel));
-                
-                
 
                 
                 this.tiles.push(new Tile(0, 0, 5, 1, rgbBlk));
@@ -240,9 +240,7 @@
                 this.tiles.push(new Tile(2, 4, 1, 2, rgbYel));
                 this.tiles.push(new Tile(3, 4, 2, 1, rgbYel));
                      
-                this.tiles.push(new Tile(3, 5, 2, 1, rgbYel));
-
-                
+                this.tiles.push(new Tile(3, 5, 2, 1, rgbYel)); 
                 
                 this.tiles.push(new Tile(0, 0, 6, 1, rgbBlk));
                 this.tiles[this.tiles.length-1].selectionLocked = 1;
@@ -257,16 +255,23 @@
  
         
         mainloop.prototype.redraw = function () {
+
+             // clear 
              this.ctx.fillStyle = this.clearStyle;  
              this.ctx.fillRect(0, 0, this.myCanvas.width, this.myCanvas.height);
              
-             var rgbBlk = "rgb(30, 30, 30)";
+             //border
+             var rgbBlk = "rgb(50, 50, 50)";
              this.ctx.fillStyle = rgbBlk;
-             this.drawRounded( this.ctx, 0, 0, Tile.prototype.tileUnitSize * this.tileBoardSize.width, Tile.prototype.tileUnitSize * this.tileBoardSize.height, 10, true );
+             var width = Tile.prototype.tileUnitSize * (this.tileBoardSize.width) - Tile.prototype.tileUnitSize *.2;
+             var height = Tile.prototype.tileUnitSize * (this.tileBoardSize.height) - Tile.prototype.tileUnitSize *.2;
+             this.drawRounded( this.ctx, Tile.prototype.tileUnitSize *.1, Tile.prototype.tileUnitSize *.1, width, height, 10, true );
+
+             // board
              this.ctx.fillStyle = this.clearStyle;
-             var width = Tile.prototype.tileUnitSize * (this.tileBoardSize.width -2) + Tile.prototype.tileUnitSize *.08;
-             var height = Tile.prototype.tileUnitSize * (this.tileBoardSize.height-2) + Tile.prototype.tileUnitSize *.08;
-             this.drawRounded( this.ctx,Tile.prototype.tileUnitSize *.96, Tile.prototype.tileUnitSize *.96, width, height, 5, true );
+             var width = Tile.prototype.tileUnitSize * (this.tileBoardSize.width -2) + Tile.prototype.tileUnitSize *.12;
+             var height = Tile.prototype.tileUnitSize * (this.tileBoardSize.height-2) + Tile.prototype.tileUnitSize *.12;
+             this.drawRounded( this.ctx, Tile.prototype.tileUnitSize *.94, Tile.prototype.tileUnitSize *.94, width, height, 10, true );
      
              for (var tileIdx = 0;  tileIdx < this.tiles.length; tileIdx = tileIdx + 1) {
                  this.tiles[tileIdx].draw(this.ctx);
@@ -300,22 +305,22 @@
 
             this.ctx.fillStyle = "Red";
             var fontStr = "bold PSpx Verdana";
-            var fontPointSizeStr = Tile.prototype.tileUnitSize.toString();
+            var fontPointSizeStr = (Tile.prototype.tileUnitSize *.95).toString();
             
             this.ctx.textAlign = 'left';
             this.ctx.font = fontStr.replace(/PS/g, fontPointSizeStr);
-            this.ctx.fillText("RED", 2,  Tile.prototype.tileUnitSize * 0.86);
+            this.ctx.fillText("RED", Tile.prototype.tileUnitSize*.2,  Tile.prototype.tileUnitSize * 0.86);
             
             
             fontStr = "italic bold PSpx Verdana";
-            fontPointSizeStr = Tile.prototype.tileUnitSize.toString();
+            fontPointSizeStr = (Tile.prototype.tileUnitSize *.95).toString();
             this.ctx.font = fontStr.replace(/PS/g, fontPointSizeStr);
             
             this.ctx.textAlign = 'right';
             this.ctx.shadowColor="rgb(220,0,0)";
             this.ctx.shadowOffsetX=-7;
             this.ctx.shadowBlur=10;
-            this.ctx.fillText("SHIFT", (Tile.prototype.tileUnitSize * this.tileBoardSize.width)-10,  (Tile.prototype.tileUnitSize * (this.tileBoardSize.height - 1)) + Tile.prototype.tileUnitSize * 0.86);
+            this.ctx.fillText("SHIFT", (Tile.prototype.tileUnitSize * this.tileBoardSize.width)-Tile.prototype.tileUnitSize*.3,  (Tile.prototype.tileUnitSize * (this.tileBoardSize.height - 1)) + Tile.prototype.tileUnitSize * 0.82);
             this.ctx.shadowBlur=0;
             this.ctx.shadowOffsetX=0;
             this.ctx.shadowColor="rgba(255,255,255,0.0)";
@@ -324,10 +329,14 @@
             // Buttons
             this.$scope.menuButtonStyle = {};
             this.$scope.menuButtonStyle["font-size"] = window.innerHeight/20 + "px";
+            //this.$scope.menuButtonStyle["background-color"] =  "rgb(0, 0, 0)"; 
+            //this.$scope.menuButtonStyle["color"] =  "rgb(220, 0, 0)"; 
+            //this.$scope.menuButtonStyle["border-width"] = "0px";
+    
                 
             // move counter display resize
             this.$scope.moveCounterStyleDiv["font-size"] = (Tile.prototype.tileUnitSize * 0.8) + "px";
-            this.$scope.moveCounterStyleDiv.width = (Tile.prototype.tileUnitSize * (this.tileBoardSize.width - 0.1)) + "px";
+            this.$scope.moveCounterStyleDiv.width = (Tile.prototype.tileUnitSize * (this.tileBoardSize.width - 0.15)) + "px";
             
             //tagEntry pos
             this.$scope.tagEntryStyleDiv.top = window.innerHeight*0.475  + "px";

@@ -1,0 +1,427 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/js/menuUtils.js",
+			"settings":
+			{
+				"buffer_size": 7929,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n\"http://www.w3.org/TR/html4/loose.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" data-ng-app=\"main\">\n    <head>\n\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n        <title>Red Shift</title>\n        \n        <!--meta name='viewport' content='width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=no'/-->\n         <meta name='viewport' content='initial-scale=1.0, user-scalable = no, '/>\n        <meta name='apple-mobile-web-app-capable' content='yes' />\n        <meta name='apple-mobile-web-app-status-bar-style' content='black' />           \n        <link rel='stylesheet' type='text/css' href='./src/css/menu.css' />\n        <link rel='apple-touch-icon-precomposed' href='./apple-touch-icon-precomposed.png' />\n        <link rel=\"icon\" type=\"image/jpg\" href=\"./src/img/favicon.jpg\"> \n        <link rel=\"apple-touch-icon\"                 href=\"./src/img/touch-icon-iphone.png\" />\n        <link rel=\"apple-touch-icon\" sizes=\"72x72\"   href=\"./src/img/touch-icon-ipad.png\" />\n        <link rel=\"apple-touch-icon\" sizes=\"114x114\" href=\"./src/img/touch-icon-iphone-retina.png\" />\n        <link rel=\"apple-touch-icon\" sizes=\"144x144\" href=\"./src/img/touch-icon-ipad-retina.png\" />\n      \n        <script type=\"text/javascript\" src=\"src/js/sat-js/SAT.js\"></script>\n        <script type=\"text/javascript\" src=\"src/js/require.js\"></script>\n        <script type=\"text/javascript\" src=\"src/js/angular.min.js\"></script> \n        <script type=\"text/javascript\" src=\"src/js/main.js\"></script>  \n        <script type=\"text/javascript\" src=\"src/js/menuUtils.js\"></script>        \n  \n        <script type=\"text/javascript\" src=\"src/js/controllers.js\"></script>   \n\n    </head>\n    <body>\n        <div id=\"view\" data-ng-view ></div>      \n    </body>\n</html>\n",
+			"file": "redshift.html",
+			"file_size": 1837,
+			"file_write_time": 130218795260000000,
+			"settings":
+			{
+				"buffer_size": 1858,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/template/menu.html",
+			"settings":
+			{
+				"buffer_size": 1182,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/template/game.html",
+			"settings":
+			{
+				"buffer_size": 1046,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\ntable.menu {\n    color:red;\n    font-family:verdana;\n}\n\n\ntable.center {\n    margin-left:auto; \n    margin-right:auto;\n}\ntable.left {\n\n}\n\nbody   {\n    margin:0 auto; /* this stop resize event from being called after device re-orientation */\n}\n\nhtml, body   {\n    height: 100%;\n}\n\n\nbutton.menu {\n    font-size:50px;\n    background: rgba(0, 0, 0, 0); \n    border-width:0px;\n}\n\nbutton.menuLink {\n    font-size:20px;\n    color: rgba(0,0,0,1);\n    background: rgba(0, 0, 0, 0); \n}\n",
+			"file": "src/css/menu.css",
+			"file_size": 476,
+			"file_write_time": 130218669060000000,
+			"settings":
+			{
+				"buffer_size": 476,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/js/mainloop.js",
+			"settings":
+			{
+				"buffer_size": 21307,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "publishToEC2.sh",
+			"settings":
+			{
+				"buffer_size": 1393,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/js/tile.js",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/template/game.html",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/js/mainloop.js",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/redshift.html",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/template/menu.html",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/css/menu.css",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/js/menuUtils.js",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/publishToEC2.sh",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/js/controllers.js",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/js/main.js",
+		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/doc/devjournal.html"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"menuButtonStyle",
+			"initMenuScreen"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/js/menuUtils.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7929,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6921,
+								6921
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 1.0,
+						"translation.y": 2290.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "redshift.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1858,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								499,
+								499
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/template/menu.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1182,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								719,
+								719
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/template/game.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1046,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								836,
+								851
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/css/menu.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 476,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								373,
+								373
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/js/mainloop.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21307,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15988,
+								15988
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 10.0,
+						"translation.y": 4621.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "publishToEC2.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1393,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								30,
+								173
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"project": "whiffenspoof.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

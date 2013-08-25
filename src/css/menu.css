@@ -24,6 +24,8 @@ html, body   {
 
 button.menu {
     font-size:50px;
+    background: rgba(0, 0, 0, 0); 
+    border-width:0px;
 }
 
 button.menuLink {
