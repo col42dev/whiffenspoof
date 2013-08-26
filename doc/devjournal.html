@@ -155,6 +155,10 @@
            <h1>The MEAN stack</h1>
            <p>The suite of technologies used for this app is described as the javascript <a href="http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and">MEAN stack</a> Mongo, ExpressJS, AngularJS and NodeJS.
                </p>
+
+            <h1>Angular modules and factory methods</h1> 
+            <p>At this point there were six Angular controllers along with the Angular app in the same source file. There was also some other fnctionality for rendering the menu backdrop. Initially I tried using RequireJS to put the menu backdrop rendering in to a seperate module. This introduced some rendering glitches probably due to the loading order. I replaced this with an Angular factory method and set up the dependencies between the Angular app, controllers and the factory. The controllers were moved to a seperate file and implemented as a module whcih the app depended on. todo:// put the controllers in to seperate file modules.
+   
                
            
            <!--

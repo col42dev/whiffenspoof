@@ -1,9 +1,13 @@
 (function() {
     "use strict";
+
+    console.log("mEH");
     
     define( ["src/js/tile", "src/js/collisionTile", "src/js/gameState", "src/js/ioEventHandler"], function (Tile, getCollisionTile, GameState, IOEventHandler) {   
     
         var mEH = function ( myCanvas, myTiles, gameState) {
+                console.log("mEH");
+
                 IOEventHandler.call(this, myCanvas, myTiles, gameState);
                 
                 this.canvas.addEventListener("mousedown", this.doMouseDown.bind(this), false);   
@@ -15,6 +19,7 @@
             
             
             mEH.prototype.doMouseDown = function (event) {
+                console.log("LLL");
                 if (typeof this.selectedTile !== "undefined") {
                     return;
                 }
@@ -23,12 +28,14 @@
             };
             
             mEH.prototype.doMouseMove = function  (event) {
+                console.log("MMM");
                 if (typeof this.selectedTile !== "undefined") {
                     this.setPos(event.clientX, event.clientY);
                 }
             };
             
             mEH.prototype.doMouseUp = function (event) {
+                 console.log("UUU");
                 this.setPos(event.clientX, event.clientY);   
                 if (typeof this.selectedTile !== "undefined") {
                     this.flagSnapToGrid = 1;
@@ -39,6 +46,8 @@
                     }
                 }
             };
+
+            console.log("ret");
 
             return mEH;
         

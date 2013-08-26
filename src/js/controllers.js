@@ -6,6 +6,7 @@ angular.module('main.controllers', []).
 	controller('MenuController', ['$scope', '$location', 'MenuUtils', function($scope, $location, MenuUtils) {
                   
 		MenuUtils.init($scope);
+        $scope.menuLoop = MenuUtils.initMainMenu($scope);
 		
 		// on click callbacks
 		$scope.newgame = function() {
@@ -65,13 +66,13 @@ angular.module('main.controllers', []).
             };     
             
             if ( $scope.gameLevel == 0) {
-                $scope.instructions = "To complete the puzzle, slide the red tile in the top left corner down to the bottom right corner.";
+                $scope.instructions = "Slide the red tile in the top left corner down to the bottom right corner.";
             } else if ( $scope.gameLevel == 1) {
-                $scope.instructions = "To complete the puzzle, slide the red tile in the top left corner down to the bottom right corner. Black tiles are fixed in position.";
+                $scope.instructions = "Slide the red tile in the top left corner down to the bottom right corner. Black tiles are fixed in position.";
             }  else if ( $scope.gameLevel == 2) {
-                $scope.instructions = "To complete the puzzle, slide the red tile in the top middle down to the bottom middle.";
+                $scope.instructions = "Slide the red tile in the top middle down to the bottom middle.";
             } else if ( $scope.gameLevel == 3) {
-                $scope.instructions = "Few solve it, it can be done. Move the red tile from the top left to the bottom left.";
+                $scope.instructions = "Slide the red tile from the top left to the bottom left.";
             }   
  
      }]).

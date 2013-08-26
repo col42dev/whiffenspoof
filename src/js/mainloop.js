@@ -328,7 +328,7 @@
             
             // Buttons
             this.$scope.menuButtonStyle = {};
-            this.$scope.menuButtonStyle["font-size"] = window.innerHeight/20 + "px";
+            this.$scope.menuButtonStyle["font-size"] = window.innerHeight/10 + "px";
             //this.$scope.menuButtonStyle["background-color"] =  "rgb(0, 0, 0)"; 
             //this.$scope.menuButtonStyle["color"] =  "rgb(220, 0, 0)"; 
             //this.$scope.menuButtonStyle["border-width"] = "0px";

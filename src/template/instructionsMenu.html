@@ -9,7 +9,7 @@
                 <table class="left" style="width:60%; color:rgb(200,0,0); font-weight:bold; font-family:verdana" ng-style="instructionTextStyle">
                     <tr>
                        <td align="left" >
-                            <span class="instructions">{{instructions}}</span>
+                            <span class="instructions" ng-bind="instructions"></span>
                        </td>
                     </tr>
                 </table>
@@ -33,11 +33,11 @@
     </table>
 
     <div ng-style="menuButtonStyle" style ="top: 12px; right: 4px; position: absolute;">
-        <button  data-ng-click='start()'  ng-style="menuButtonStyle" style="background-color:transparent; text-align:right; border-width:0px">&#x25b6;</ button>
+        <button  data-ng-click='start()'  class="button pulse" ng-style="menuButtonStyle" style="background-color:transparent; text-align:right; border-width:0px">&#x25b6;</ button>
     </div>
 
     <div ng-style="menuButtonStyle" style ="bottom: 12px; left: 4px; position: absolute;">
-        <button  ng-click='back()'  ng-style="menuButtonStyle" style="background-color:transparent; text-align:left; border-width:0px">&#x2347</button>
+        <button  data-ng-click='back()'  ng-style="menuButtonStyle" style="font-style:bold; background-color:transparent; text-align:left; border-width:0px">&#x2347</button>
     </div>
 
     

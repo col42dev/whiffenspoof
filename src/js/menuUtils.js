@@ -214,7 +214,6 @@
  
          //onOrientationChange
          $scope.onOrientationChange = function() {
-            console.log("OOC");
              $scope.orientationChangeSetTimeout = window.setTimeout($scope.resizeEventListener, 20);
          }
          $scope.orientationChangeEventListener = function() {
@@ -231,10 +230,22 @@
              window.clearTimeout($scope.orientationChangeSetTimeout);
          });   
  	};
+
+  
+
+  
  
+    //Factory methods for Menus
  	angular.module('main.menuUtils', []).factory('MenuUtils', function () {
  		return {
- 			init : myMenuUtils
+ 			init : myMenuUtils,
+            initMainMenu :  function($scope) { 
+
+                    require([ "src/js/menuloop"], function(MenuLoop) { 
+                        return  new MenuLoop($scope);            
+                    });
+
+                }
     		};
 	});
       
