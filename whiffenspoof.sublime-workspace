@@ -3,18 +3,14 @@
 	{
 		"selected_items":
 		[
+			[
+				"sel",
+				"selectedTile"
+			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "src/js/menuUtils.js",
-			"settings":
-			{
-				"buffer_size": 7929,
-				"line_ending": "Unix"
-			}
-		},
 		{
 			"contents": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n\"http://www.w3.org/TR/html4/loose.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\" data-ng-app=\"main\">\n    <head>\n\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n        <title>Red Shift</title>\n        \n        <!--meta name='viewport' content='width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=no'/-->\n         <meta name='viewport' content='initial-scale=1.0, user-scalable = no, '/>\n        <meta name='apple-mobile-web-app-capable' content='yes' />\n        <meta name='apple-mobile-web-app-status-bar-style' content='black' />           \n        <link rel='stylesheet' type='text/css' href='./src/css/menu.css' />\n        <link rel='apple-touch-icon-precomposed' href='./apple-touch-icon-precomposed.png' />\n        <link rel=\"icon\" type=\"image/jpg\" href=\"./src/img/favicon.jpg\"> \n        <link rel=\"apple-touch-icon\"                 href=\"./src/img/touch-icon-iphone.png\" />\n        <link rel=\"apple-touch-icon\" sizes=\"72x72\"   href=\"./src/img/touch-icon-ipad.png\" />\n        <link rel=\"apple-touch-icon\" sizes=\"114x114\" href=\"./src/img/touch-icon-iphone-retina.png\" />\n        <link rel=\"apple-touch-icon\" sizes=\"144x144\" href=\"./src/img/touch-icon-ipad-retina.png\" />\n      \n        <script type=\"text/javascript\" src=\"src/js/sat-js/SAT.js\"></script>\n        <script type=\"text/javascript\" src=\"src/js/require.js\"></script>\n        <script type=\"text/javascript\" src=\"src/js/angular.min.js\"></script> \n        <script type=\"text/javascript\" src=\"src/js/main.js\"></script>  \n        <script type=\"text/javascript\" src=\"src/js/menuUtils.js\"></script>        \n  \n        <script type=\"text/javascript\" src=\"src/js/controllers.js\"></script>   \n\n    </head>\n    <body>\n        <div id=\"view\" data-ng-view ></div>      \n    </body>\n</html>\n",
 			"file": "redshift.html",
@@ -30,7 +26,15 @@
 			"file": "src/template/menu.html",
 			"settings":
 			{
-				"buffer_size": 1182,
+				"buffer_size": 1186,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/js/controllers.js",
+			"settings":
+			{
+				"buffer_size": 9708,
 				"line_ending": "Unix"
 			}
 		},
@@ -38,26 +42,79 @@
 			"file": "src/template/game.html",
 			"settings":
 			{
-				"buffer_size": 1046,
+				"buffer_size": 1010,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "\ntable.menu {\n    color:red;\n    font-family:verdana;\n}\n\n\ntable.center {\n    margin-left:auto; \n    margin-right:auto;\n}\ntable.left {\n\n}\n\nbody   {\n    margin:0 auto; /* this stop resize event from being called after device re-orientation */\n}\n\nhtml, body   {\n    height: 100%;\n}\n\n\nbutton.menu {\n    font-size:50px;\n    background: rgba(0, 0, 0, 0); \n    border-width:0px;\n}\n\nbutton.menuLink {\n    font-size:20px;\n    color: rgba(0,0,0,1);\n    background: rgba(0, 0, 0, 0); \n}\n",
+			"file": "src/template/about.html",
+			"settings":
+			{
+				"buffer_size": 1366,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/template/difficultyMenu.html",
+			"settings":
+			{
+				"buffer_size": 2025,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/template/instructionsMenu.html",
+			"settings":
+			{
+				"buffer_size": 1761,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "doc/devjournal.html",
+			"settings":
+			{
+				"buffer_size": 17416,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/js/main.js",
+			"settings":
+			{
+				"buffer_size": 2316,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/template/scores.html",
+			"settings":
+			{
+				"buffer_size": 1731,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "src/css/menu.css",
-			"file_size": 476,
-			"file_write_time": 130218669060000000,
 			"settings":
 			{
-				"buffer_size": 476,
+				"buffer_size": 1083,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/js/mainloop.js",
+			"file": "src/js/mouseEventHandler.js",
 			"settings":
 			{
-				"buffer_size": 21307,
+				"buffer_size": 1953,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/js/ioEventHandler.js",
+			"settings":
+			{
+				"buffer_size": 1786,
 				"line_ending": "Unix"
 			}
 		},
@@ -66,6 +123,30 @@
 			"settings":
 			{
 				"buffer_size": 1393,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/js/menuUtils.js",
+			"settings":
+			{
+				"buffer_size": 8168,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/js/mainloop.js",
+			"settings":
+			{
+				"buffer_size": 21391,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/js/menuloop.js",
+			"settings":
+			{
+				"buffer_size": 4739,
 				"line_ending": "Unix"
 			}
 		}
@@ -97,6 +178,9 @@
 	},
 	"file_history":
 	[
+		"/Users/colinmoore/Dev/ASWorkspace/whiffenspoof/src/template/about.html",
+		"/Users/colinmoore/Dev/ASWorkspace/whiffenspoof/src/template/difficultyMenu.html",
+		"/Users/colinmoore/Dev/ASWorkspace/whiffenspoof/src/template/instructionsMenu.html",
 		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/js/tile.js",
 		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/template/game.html",
 		"/Users/colinmoore/Dev/ASWorkspace/redshift/redshift/whiffenspoof/src/js/mainloop.js",
@@ -125,6 +209,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"wasTileSelectedOnLastUpdate",
+			"enuButtonStyle",
 			"menuButtonStyle",
 			"initMenuScreen"
 		],
@@ -149,35 +235,6 @@
 			[
 				{
 					"buffer": 0,
-					"file": "src/js/menuUtils.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7929,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6921,
-								6921
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 1.0,
-						"translation.y": 2290.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "redshift.html",
 					"semi_transient": false,
 					"settings":
@@ -206,20 +263,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "src/template/menu.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1182,
+						"buffer_size": 1186,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								719,
-								719
+								854,
+								854
 							]
 						],
 						"settings":
@@ -235,20 +292,49 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "src/template/game.html",
+					"buffer": 2,
+					"file": "src/js/controllers.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1046,
+						"buffer_size": 9708,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								836,
-								851
+								231,
+								231
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 1.0,
+						"translation.y": 3198.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/template/game.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1010,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								453,
+								453
 							]
 						],
 						"settings":
@@ -265,24 +351,24 @@
 				},
 				{
 					"buffer": 4,
-					"file": "src/css/menu.css",
+					"file": "src/template/about.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 476,
+						"buffer_size": 1366,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								373,
-								373
+								1262,
+								1262
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
@@ -294,19 +380,106 @@
 				},
 				{
 					"buffer": 5,
-					"file": "src/js/mainloop.js",
+					"file": "src/template/difficultyMenu.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 21307,
+						"buffer_size": 2025,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15988,
-								15988
+								1917,
+								1917
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 73.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/template/instructionsMenu.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1761,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1318,
+								1338
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 58.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "doc/devjournal.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17416,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16512,
+								16512
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2848.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/js/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2316,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -315,14 +488,130 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 10.0,
-						"translation.y": 4621.0,
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 9,
+					"file": "src/template/scores.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1731,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1030,
+								1029
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/css/menu.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1083,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								764,
+								764
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 183.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "src/js/mouseEventHandler.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1953,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								721,
+								721
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "src/js/ioEventHandler.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1786,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1046,
+								1046
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 33.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
 					"file": "publishToEC2.sh",
 					"semi_transient": false,
 					"settings":
@@ -344,6 +633,93 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "src/js/menuUtils.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8168,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7941,
+								7941
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3153.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "src/js/mainloop.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21391,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2461,
+								2461
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 23.0,
+						"translation.y": 6083.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "src/js/menuloop.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4739,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2210,
+								2210
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 3.0,
+						"translation.y": 561.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

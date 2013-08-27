@@ -4,7 +4,6 @@
     define( ["src/js/tile", "src/js/collisionTile", "src/js/gameState"], function (Tile, getCollisionTile, GameState) {   
     
         var mEH = function ( myCanvas, myTiles, gameState) {
-            console.log("ioEH");
             this.pos = { x : 0, y : 0 };
             this.canvas = myCanvas;
             this.myTiles = myTiles;
@@ -27,7 +26,6 @@
         };
         
         mEH.prototype.checkTouchingTile = function() {  
-            console.log("IOEH");
             var collisionTile = getCollisionTile(this.vol, this.myTiles);
             if (typeof collisionTile !== "undefined") {
                 if (!collisionTile.selectionLocked) {
