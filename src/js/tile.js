@@ -17,6 +17,7 @@
             this.selectionLocked = 0; 
             this.red = 0;
             this.rounded = 0;
+            this.text = undefined;
         };
         
         tile.prototype.resize = function( oldTileUnitSize ) { 
@@ -31,10 +32,19 @@
         tile.prototype.getDirtyRect = function() { 
             return { x : this.box.pos.x+1, y: this.box.pos.y+1, w : this.w-0, h: this.h-0 };
         };
+
+        tile.prototype.clear = function (ctx) {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.0)";  
+            if (this.rounded) {
+                //this.drawRounded(ctx, this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2, 5, true); 
+            } else {
+                if (this.selectionLocked==0) {
+                    ctx.clearRect(this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2); 
+                }
+            }
+        } 
         
         tile.prototype.draw = function (ctx) {
-
-            //return;
 
             ctx.fillStyle = this.rgb;  
             if (this.rounded) {
@@ -43,6 +53,24 @@
                 if (this.selectionLocked==0) {
                     ctx.fillRect(this.box.pos.x+2, this.box.pos.y+2, this.w-2, this.h-2); 
                 }
+            }
+
+            if ( this.text !== undefined) {
+                
+                ctx.fillStyle = "rgba(30, 30, 30, 0.5)";
+
+                var fontStr = "italic bold PSpx Verdana";
+
+                var fontPointSizeStr = (this.tileUnitSize * 1.45).toString();
+                ctx.font = fontStr.replace(/PS/g, fontPointSizeStr);
+
+                ctx.textAlign="center";
+
+                var x = this.box.pos.x+2;
+                var y = this.box.pos.y+2;
+                var w = this.w-2;
+                var h = this.h-2;
+                ctx.fillText(this.text, x + (w/2), y + (h/2), w);
             }
         };
         

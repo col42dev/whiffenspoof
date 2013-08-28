@@ -3,13 +3,23 @@
 'use strict';
 
 angular.module('main.controllers', []).
-	controller('MenuController', ['$scope', '$location', 'MenuUtils', function($scope, $location, MenuUtils) {
-                  
+	controller('MenuController', ['$scope', '$location', 'MenuUtils', 'MenuTiles', function($scope, $location, MenuUtils, MenuTiles) {
+           
+
 		MenuUtils.init($scope);
-        $scope.menuLoop = MenuUtils.initMainMenu($scope);
+        $scope.menuLoop = new MenuTiles($scope);
+        //console.log("INIT " + $scope.menuLoop.ml);
+
+        $scope.$on("$destroy", function() {
+            console.log("onDestroy");
+           $scope.menuLoop.onDestroy();
+        });
 		
 		// on click callbacks
 		$scope.newgame = function() {
+            console.log("NG" + $scope.menuLoop);
+            //$scope.menuLoop.onDestroy();
+            delete $scope.menuLoop;
 		    $location.path('/difficulty');
 		};
 		

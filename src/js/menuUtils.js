@@ -223,7 +223,6 @@
 
          // on Destroy
          $scope.$on("$destroy", function() {
-         	//console.log("onDestroy");
              window.removeEventListener("resize", $scope.onResizeEventListener, false);
              window.removeEventListener("touchmove", $scope.onTouchMoveEventListener, false);
              window.removeEventListener("orientationchange", $scope.onOrientationChangeEventListener, false);
@@ -242,11 +241,39 @@
             initMainMenu :  function($scope) { 
 
                     require([ "src/js/menuloop"], function(MenuLoop) { 
-                        return  new MenuLoop($scope);            
+
+                        //var ml = new MenuLoop($scope);
+                        //console.log(ml);
+            
                     });
 
                 }
     		};
 	});
+
+
+    function MenuLoopWrapper($scope) {
+                    require([ "src/js/menuloop"], function( MenuLoop) { 
+
+                        var ml = new MenuLoop($scope);
+                        //console.log("1" + ml.dirtyRect);
+                        return ml;
+                        
+            
+                    });
+                }
+
+    //Factory methods for Menus
+    angular.module('main.menuTiles', []).factory('MenuTiles', ['$http',  function ($http) {
+        return  function($scope) { 
+                    this.mlw = undefined;
+
+                     this.mlw = new MenuLoopWrapper($scope);
+                        console.log("1" + this.mlw.dirtyRect);
+
+                    return this.mlw;
+
+                };
+     }]);
       
 }()); //IFFE

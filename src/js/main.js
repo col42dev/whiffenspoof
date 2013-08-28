@@ -2,7 +2,7 @@
 	"use strict";
 
          
-        var main = angular.module("main", ['main.controllers', 'main.menuUtils']).config( ['$routeProvider', '$httpProvider',  function($routeProvider, $httpProvider) {
+        var main = angular.module("main", ['main.controllers', 'main.menuUtils', 'main.menuTiles']).config( ['$routeProvider', '$httpProvider',  function($routeProvider, $httpProvider) {
     
                 $httpProvider.defaults.useXDomain = true;
                             
