@@ -1,0 +1,3 @@
+[submodule "src/js/sat-js"]
+        path = src/js/sat-js
+        url = https://github.com/jriecken/sat-js.git
